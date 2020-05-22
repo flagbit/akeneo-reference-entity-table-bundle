@@ -1,0 +1,47 @@
+on:
+  - "push"
+  - "pull_request"
+
+jobs:
+  build:
+    runs-on: "ubuntu-18.04"
+    strategy:
+      matrix:
+        php-versions: ['7.3']
+
+    steps:
+      - uses: "actions/checkout@v2.0.0"
+      - name: "Cache dependencies installed with composer"
+        uses: "actions/cache@v1.0.3"
+        with:
+          path: "~/.composer/cache"
+          key: "composer-${{ matrix.php-version }}-${{ hashFiles('composer.json') }}"
+          restore-keys: "composer-${{ matrix.php-version }}-"
+
+      - name: "Setup PHP Action"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-versions }}"
+          extensions: "intl, xdebug, imagick, apcu"
+      - name: "Install SSH key"
+        uses: "shimataro/ssh-key-action@v2"
+        with:
+          key: "${{ secrets.SSH_KEY_CI }}"
+          name: "id_rsa"
+          known_hosts: "${{ secrets.SSH_KNOWN_HOST_AKENEO_EE }}"
+
+      # Install / Prepare
+      - name: "Add EE Composer repository"
+        run: "composer -n config repositories.ee vcs ssh://git@distribution.akeneo.com:443/pim-enterprise-dev-flagbit-gmbh-co-kg.git"
+      - name: "Require PIM EE"
+        run: "composer require --dev --no-interaction akeneo/pim-enterprise-dev:^4.0"
+
+      # CI
+      - name: "Linting"
+        run: "vendor/bin/phplint ./src"
+      - name: "Code Sniffer"
+        run: "vendor/bin/phpcs -d memory_limit=-1 --standard=PSR2 --extensions=php ./src"
+      - name: "PHPSpec"
+        run: "vendor/bin/phpspec run"
+      - name: "Integration tests"
+        run: "vendor/bin/phpunit"
