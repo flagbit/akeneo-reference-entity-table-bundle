@@ -33,8 +33,8 @@ jobs:
       # Install / Prepare
       - name: "Add EE Composer repository"
         run: "composer -n config repositories.ee vcs ssh://git@distribution.akeneo.com:443/pim-enterprise-dev-flagbit-gmbh-co-kg.git"
-      - name: "Require PIM EE"
-        run: "composer require --dev --no-interaction akeneo/pim-enterprise-dev:^4.0"
+      - name: "Install PHP dependencies"
+        run: "composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress"
 
       # CI
       - name: "Linting"

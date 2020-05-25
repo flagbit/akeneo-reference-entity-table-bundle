@@ -16,12 +16,21 @@
     },
     "require": {
         "ext-json": "*",
-        "akeneo/pim-community-dev": "^4.0"
+        "akeneo/pim-enterprise-dev": "^4.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^6.1",
-        "phpunit/phpunit": "^9.1",
+        "phpspec/phpspec": "^6.0",
+        "phpunit/phpunit": "^8.0",
         "squizlabs/php_codesniffer": "^3.5",
-        "overtrue/phplint": "^2.0"
+        "overtrue/phplint": "^2.0",
+        "symfony/debug-bundle": "^4.4",
+        "symfony/web-profiler-bundle": "^4.4",
+        "symfony/web-server-bundle": "^4.4"
+    },
+    "repositories": {
+        "ee": {
+            "type": "vcs",
+            "url": "ssh://git@distribution.akeneo.com:443/pim-enterprise-dev-flagbit-gmbh-co-kg.git"
+        }
     }
 }
