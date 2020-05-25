@@ -3,8 +3,10 @@
 /web/uploads/
 
 # PHPUnit
-/app/phpunit.xml
 /phpunit.xml
+/tests/var
+/public
+/config
 
 # Build data
 /build/
