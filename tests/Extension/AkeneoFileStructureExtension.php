@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagbit\Bundle\ReferenceEntityTableBundle\Test\Extension;
+namespace Flagbit\Bundle\ReferenceEntityTableBundle\Tests\Extension;
 
 use PHPUnit\Runner\AfterLastTestHook;
 use PHPUnit\Runner\BeforeFirstTestHook;

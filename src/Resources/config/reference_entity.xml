@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="flagbit_table_attribute.factory.create_table_attribute_command_factory"
+                class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CommandFactory\CreateTableAttributeCommandFactory">
+            <tag name="akeneo_referenceentity.create_attribute_command_factory"/>
+        </service>
+
+        <service id="flagbit_table_attribute.factory.table_attribute_factory"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeFactory">
+            <tag name="akeneo_referenceentity.attribute_factory"/>
+        </service>
+
+        <service id="flagbit_table_attribute.persistence.hydrator.attribute.table_attribute_hydrator"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeHydrator">
+            <argument type="service" id="database_connection" />
+            <tag name="akeneo_referenceentity.attribute_hydrator"/>
+        </service>
+
+        <service id="flagbit_table_attribute.connector.api.create.table_attribute_validator"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\JsonSchema\TableAttributeCreationValidator">
+            <tag name="akeneo_referenceentity.connector.api.create.attribute_validator"/>
+        </service>
+
+        <service id="flagbit_table_attribute.connector.api.edit.table_attribute_validator"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\JsonSchema\TableAttributeEditValidator">
+            <tag name="akeneo_referenceentity.connector.api.edit.attribute_validator"/>
+        </service>
+    </services>
+</container>

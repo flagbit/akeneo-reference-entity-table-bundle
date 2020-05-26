@@ -16,7 +16,7 @@
     </testsuites>
 
     <php>
-        <env name="KERNEL_CLASS" value="Flagbit\Bundle\ReferenceEntityTableBundle\Test\TestKernel"/>
+        <env name="KERNEL_CLASS" value="Flagbit\Bundle\ReferenceEntityTableBundle\Tests\TestKernel"/>
         <env name="APP_ENV" value="test"/>
         <env name="APP_INDEX_HOSTS" value="elasticsearch:9200"/>
         <env name="APP_DATABASE_HOST" value="mysql"/>
@@ -28,7 +28,7 @@
     </php>
 
     <extensions>
-        <extension class="Flagbit\Bundle\ReferenceEntityTableBundle\Test\Extension\AkeneoFileStructureExtension"/>
+        <extension class="Flagbit\Bundle\ReferenceEntityTableBundle\Tests\Extension\AkeneoFileStructureExtension"/>
     </extensions>
 
     <filter>
