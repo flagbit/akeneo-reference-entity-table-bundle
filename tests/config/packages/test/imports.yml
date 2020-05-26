@@ -1,0 +1,6 @@
+## Imports every packages and packages/test YAML, except doctrine.yml and test/oneup_flysystem.yml
+imports:
+    - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/services/parameters.yml' }
+    - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/packages/akeneo_elasticsearch.yml' }
+    - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/services/pim_parameters.yml' }
+    - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/packages/monolog.yml' }
