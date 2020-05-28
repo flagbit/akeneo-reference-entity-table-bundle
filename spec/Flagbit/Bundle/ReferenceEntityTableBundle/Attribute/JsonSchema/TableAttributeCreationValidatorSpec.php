@@ -31,7 +31,7 @@ class TableAttributeCreationValidatorSpec extends ObjectBehavior
         $this->validate($normalizedAttribute)->shouldReturn([]);
     }
 
-    public function it_does_validate_valid_minmal_data(): void
+    public function it_does_validate_valid_minimal_data(): void
     {
         $normalizedAttribute = [
             'code' => 'code',
