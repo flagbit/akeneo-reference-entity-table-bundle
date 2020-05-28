@@ -11,7 +11,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Flagbit\\Bundle\\ReferenceEntityTableBundle\\Test\\": "tests/"
+            "Flagbit\\Bundle\\ReferenceEntityTableBundle\\Tests\\": "tests/"
         }
     },
     "require": {

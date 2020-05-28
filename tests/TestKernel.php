@@ -1,6 +1,8 @@
 <?php
 
-namespace Flagbit\Bundle\ReferenceEntityTableBundle\Test;
+namespace Flagbit\Bundle\ReferenceEntityTableBundle\Tests;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 require_once __DIR__ . '/../vendor/akeneo/pim-enterprise-dev/src/Kernel.php';
 
@@ -40,5 +42,14 @@ class TestKernel extends \Kernel
     public function getProjectDir(): string
     {
         return \dirname(__DIR__);
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        $serviceIds = [
+            'akeneo_referenceentity.infrastructure.persistence.repository.attribute',
+            'akeneo.referencentity.infrastructure.persistence.query.get_attribute_identifier'
+        ];
+        $container->addCompilerPass(new PublicServiceCompilerPass($serviceIds));
     }
 }
