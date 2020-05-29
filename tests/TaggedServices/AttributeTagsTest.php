@@ -14,7 +14,7 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeHydrator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class TagsTest extends KernelTestCase
+class AttributeTagsTest extends KernelTestCase
 {
     protected function setUp(): void
     {

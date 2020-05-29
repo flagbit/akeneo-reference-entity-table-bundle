@@ -30,5 +30,27 @@
                  class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\JsonSchema\TableAttributeEditValidator">
             <tag name="akeneo_referenceentity.connector.api.edit.attribute_validator"/>
         </service>
+
+        <!-- Record -->
+
+        <service id="flagbit_table_attribute.record.command.command_factory.edit_table_command_factory"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\Command\CommandFactory\EditTableCommandFactory">
+            <tag name="akeneo_referenceentity.edit_record_value_command_factory"/>
+        </service>
+
+        <service id="flagbit_table_attribute.record.updater.table_updater"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\Updater\TableUpdater">
+            <tag name="akeneo_referenceentity.record_value_updater"/>
+        </service>
+
+        <service id="flagbit_table_attribute.record.table_data_hydrator"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\TableDataHydrator">
+            <tag name="akeneo_referenceentity.data_hydrator"/>
+        </service>
+
+        <service id="flagbit_table_attribute.record.json_schema.table_type_validator"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\JsonSchema\TableTypeValidator">
+            <tag name="akeneo_referenceentity.connector.api.record_value_validator"/>
+        </service>
     </services>
 </container>

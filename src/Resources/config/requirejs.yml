@@ -2,7 +2,12 @@ config:
   config:
     akeneoreferenceentity/application/configuration/attribute:
       flagbit_table:
-        icon: bundles/pimui/images/attribute/icon-multiselect.svg
+        icon: 'bundles/flagbitreferenceentitytable/images/attribute/table/icon-table.svg'
         denormalize: '@flagbitreferenceentitytable/reference-entity/attribute/table/table.ts'
         reducer: '@flagbitreferenceentitytable/reference-entity/attribute/table/reducer.ts'
         view: '@flagbitreferenceentitytable/reference-entity/attribute/table/view.tsx'
+    akeneoreferenceentity/application/configuration/value:
+      flagbit_table:
+        denormalize: '@flagbitreferenceentitytable/reference-entity/record/table/table.tsx'
+        view: '@flagbitreferenceentitytable/reference-entity/record/table/view.tsx'
+        cell: '@flagbitreferenceentitytable/reference-entity/record/table/cell.tsx'
