@@ -10,6 +10,11 @@
             <tag name="akeneo_referenceentity.create_attribute_command_factory"/>
         </service>
 
+        <service id="flagbit_table_attribute.factory.edit_table_attribute_command_factory"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CommandFactory\EditTableAttributeCommandFactory">
+            <tag name="akeneo_referenceentity.edit_attribute_command_factory"/>
+        </service>
+
         <service id="flagbit_table_attribute.factory.table_attribute_factory"
                  class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeFactory">
             <tag name="akeneo_referenceentity.attribute_factory"/>
@@ -29,6 +34,11 @@
         <service id="flagbit_table_attribute.connector.api.edit.table_attribute_validator"
                  class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\JsonSchema\TableAttributeEditValidator">
             <tag name="akeneo_referenceentity.connector.api.edit.attribute_validator"/>
+        </service>
+
+        <service id="flagbit_table_attribute.attribute.updater.table_attribute_updater"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Updater\TableAttributeUpdater">
+            <tag name="akeneo_referenceentity.attribute_updater"/>
         </service>
 
         <!-- Record -->

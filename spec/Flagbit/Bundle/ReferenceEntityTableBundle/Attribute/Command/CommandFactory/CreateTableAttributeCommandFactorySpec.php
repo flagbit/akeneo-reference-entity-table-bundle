@@ -32,6 +32,7 @@ class CreateTableAttributeCommandFactorySpec extends ObjectBehavior
             'is_required' => false,
             'value_per_channel' => false,
             'value_per_locale' => false,
+            'table_property' => 'table_property',
         ];
 
         $expected = new CreateTableAttributeCommand(...array_values($normalizedCommand));
@@ -48,11 +49,12 @@ class CreateTableAttributeCommandFactorySpec extends ObjectBehavior
             'is_required' => false,
             'value_per_channel' => false,
             'value_per_locale' => false,
+            'table_property' => ''
         ];
 
         $expected = new CreateTableAttributeCommand(...array_values($normalizedCommand));
 
-        unset($normalizedCommand['labels'], $normalizedCommand['is_required']);
+        unset($normalizedCommand['labels'], $normalizedCommand['is_required'], $normalizedCommand['table_property']);
 
         $this->create($normalizedCommand)->shouldBeLike($expected);
     }

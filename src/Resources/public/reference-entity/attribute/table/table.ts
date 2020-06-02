@@ -18,17 +18,44 @@ import {
     ConcreteAttribute,
 } from 'akeneoreferenceentity/domain/model/attribute/attribute';
 
+
+export type NormalizedTableProperty = string;
+export class TableProperty {
+    public constructor(readonly tableProperty: string) {}
+
+    public normalize() {
+        return this.tableProperty;
+    }
+}
+
+/**
+ * This type is an aggregate of all the custom properties. Here we only have one so it could seems useless but
+ * here is an example with multiple properties:
+ *
+ *     export type TextAdditionalProperty = MaxLength | IsTextarea | IsRichTextEditor | ValidationRule | RegularExpression;
+ *
+ * In the example above, a additional property of a text attribute could be a Max length, is textarea, is rich text editor, ...
+ */
+export type TableAdditionalProperty = TableProperty;
+
+/**
+ * Same for the non normalized form
+ */
+export type NormalizedTableAdditionalProperty = NormalizedTableProperty;
+
 /**
  * This interface will represent your normalized attribute (usually coming from the backend but also used in the reducer)
  */
 export interface NormalizedTableAttribute extends NormalizedAttribute {
     type: 'flagbit_table';
+    table_property: NormalizedTableProperty;
 }
 
 /**
  * Here we define the interface for our concrete class (our model) extending the base attribute interface
  */
 export interface TableAttribute extends Attribute {
+    table_property: TableProperty;
     normalize(): NormalizedTableAttribute;
 }
 
@@ -49,7 +76,8 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
         valuePerLocale: boolean,
         valuePerChannel: boolean,
         order: number,
-        is_required: boolean
+        is_required: boolean,
+        readonly table_property: TableProperty
     ) {
         super(
             identifier,
@@ -62,6 +90,10 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
             order,
             is_required
         );
+
+        if (!(table_property instanceof TableProperty)) {
+            throw new Error('Attribute expect a TableProperty as tableProperty');
+        }
 
         /**
          * This will ensure that your model is not modified after it's creation (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
@@ -81,7 +113,8 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
             normalizedTableAttribute.value_per_locale,
             normalizedTableAttribute.value_per_channel,
             normalizedTableAttribute.order,
-            normalizedTableAttribute.is_required
+            normalizedTableAttribute.is_required,
+            new TableProperty(normalizedTableAttribute.table_property)
         );
     }
 
@@ -91,7 +124,8 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
     public normalize(): NormalizedTableAttribute {
         return {
             ...super.normalize(),
-            type: 'flagbit_table'
+            type: 'flagbit_table',
+            table_property: this.table_property.normalize()
         };
     }
 }

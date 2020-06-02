@@ -15,7 +15,7 @@ const tableCellView: CellView = memo(({column, value}: {column: Column, value: N
     return (
         <div className="AknGrid-bodyCellContainer" title={tableData.normalize()}>
             {tableData.normalize()}
-            <span>{tableAttribute.normalize()}</span>
+            <span>{tableAttribute.table_property.normalize()}</span>
         </div>
     );
 });

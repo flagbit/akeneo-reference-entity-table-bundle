@@ -1,6 +1,8 @@
 import {
     NormalizedTableAttribute,
-} from 'flagbitreferenceentitytable/reference-entity/attribute/table/table';
+    NormalizedTableAdditionalProperty,
+    NormalizedTableProperty
+} from './table';
 
 /**
  * Our custom attribute reducer needs to receive the normalized custom attribute as input, the code of the additional property and the value of the additional property.
@@ -8,10 +10,14 @@ import {
  */
 const tableAttributeReducer = (
     normalizedAttribute: NormalizedTableAttribute,
-    propertyCode: string
+    propertyCode: string,
+    propertyValue: NormalizedTableAdditionalProperty
 ): NormalizedTableAttribute => {
     switch (propertyCode) {
-        // Our future custom behaviour will go there
+        case 'table_property':
+            const table_property = propertyValue as NormalizedTableProperty;
+            return {...normalizedAttribute, table_property};
+
         default:
             break;
     }

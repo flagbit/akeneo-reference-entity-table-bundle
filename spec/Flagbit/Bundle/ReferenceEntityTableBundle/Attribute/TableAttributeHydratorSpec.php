@@ -14,6 +14,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttribute;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeHydrator;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty;
 use PhpSpec\ObjectBehavior;
 
 class TableAttributeHydratorSpec extends ObjectBehavior
@@ -58,7 +59,8 @@ class TableAttributeHydratorSpec extends ObjectBehavior
             AttributeOrder::fromInteger(1),
             AttributeIsRequired::fromBoolean(false),
             AttributeValuePerChannel::fromBoolean(false),
-            AttributeValuePerLocale::fromBoolean(false)
+            AttributeValuePerLocale::fromBoolean(false),
+            TableProperty::fromString('table_property')
         );
 
         $platform->convertFromBoolean(false)->willReturn(false);
@@ -73,7 +75,7 @@ class TableAttributeHydratorSpec extends ObjectBehavior
             'value_per_locale' => false,
             'value_per_channel' => false,
             'attribute_type' => 'flagbit_table',
-            'additional_properties' => '{}',
+            'additional_properties' => '{"table_property": "table_property"}',
         ];
 
         $this->hydrate($row)->shouldBeLike($expected);
