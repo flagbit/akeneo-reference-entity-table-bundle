@@ -14,6 +14,7 @@ use Akeneo\ReferenceEntity\Domain\Model\Attribute\AttributeValuePerLocale;
 use Akeneo\ReferenceEntity\Domain\Model\LabelCollection;
 use Akeneo\ReferenceEntity\Domain\Model\ReferenceEntity\ReferenceEntityIdentifier;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CreateTableAttributeCommand;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty;
 
 class TableAttributeFactory implements AttributeFactoryInterface
 {
@@ -45,7 +46,8 @@ class TableAttributeFactory implements AttributeFactoryInterface
             $order,
             AttributeIsRequired::fromBoolean($command->isRequired),
             AttributeValuePerChannel::fromBoolean($command->valuePerChannel),
-            AttributeValuePerLocale::fromBoolean($command->valuePerLocale)
+            AttributeValuePerLocale::fromBoolean($command->valuePerLocale),
+            TableProperty::fromString($command->tableProperty)
         );
     }
 }

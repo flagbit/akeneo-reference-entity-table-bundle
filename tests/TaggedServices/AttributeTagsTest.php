@@ -8,10 +8,13 @@ use Akeneo\ReferenceEntity\Domain\Model\ReferenceEntity\ReferenceEntityIdentifie
 use Akeneo\ReferenceEntity\Domain\Query\Attribute\GetAttributeIdentifierInterface;
 use Akeneo\ReferenceEntity\Domain\Repository\AttributeRepositoryInterface;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CommandFactory\CreateTableAttributeCommandFactory;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CommandFactory\EditTableAttributeCommandFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CreateTableAttributeCommand;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\EditTableAttributeCommand;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttribute;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeHydrator;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Updater\TableAttributeUpdater;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AttributeTagsTest extends KernelTestCase
@@ -28,6 +31,25 @@ class AttributeTagsTest extends KernelTestCase
         $factory = $registry->getFactory(['type' => TableAttribute::ATTRIBUTE_TYPE_NAME]);
 
         self::assertInstanceOf(CreateTableAttributeCommandFactory::class, $factory);
+    }
+
+    public function testSupportsEditCommandFactory(): void
+    {
+        $registry = self::$container->get('akeneo_referenceentity.application.registry.edit_attribute_command_factory_registry');
+
+        $factories = $registry->getFactories(['table_property' => 'table_property', 'identifier' => 'identifier']);
+
+        self::assertCount(1, $factories);
+        self::assertContainsOnlyInstancesOf(EditTableAttributeCommandFactory::class, $factories);
+    }
+
+    public function testSupportsTableUpdater(): void
+    {
+        $registry = self::$container->get('akeneo_referenceentity.application.edit_attribute.attribute_updater.attribute_updater_registry');
+
+        $updater = $registry->getUpdater($this->createMock(TableAttribute::class), $this->createMock(EditTableAttributeCommand::class));
+
+        self::assertInstanceOf(TableAttributeUpdater::class, $updater);
     }
 
     public function testSupportsTableAttributeFactory(): void

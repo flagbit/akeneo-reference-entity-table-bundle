@@ -58,7 +58,7 @@ const View = ({
                 disabled={!canEditData}
                 readOnly={!canEditData}
             />
-            <span>{value.attribute.normalize()}</span>
+            <span>{value.attribute.table_property.normalize()}</span>
         </React.Fragment>
     );
 };

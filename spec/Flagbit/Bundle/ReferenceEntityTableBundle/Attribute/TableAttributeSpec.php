@@ -12,6 +12,7 @@ use Akeneo\ReferenceEntity\Domain\Model\LabelCollection;
 use Akeneo\ReferenceEntity\Domain\Model\ReferenceEntity\ReferenceEntityIdentifier;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CreateTableAttributeCommand;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttribute;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty;
 use PhpSpec\ObjectBehavior;
 
 class TableAttributeSpec extends ObjectBehavior
@@ -29,7 +30,8 @@ class TableAttributeSpec extends ObjectBehavior
             $order,
             AttributeIsRequired::fromBoolean(false),
             AttributeValuePerChannel::fromBoolean(false),
-            AttributeValuePerLocale::fromBoolean(false)
+            AttributeValuePerLocale::fromBoolean(false),
+            TableProperty::fromString('table_property')
         ]);
     }
 
@@ -77,6 +79,7 @@ class TableAttributeSpec extends ObjectBehavior
             'value_per_channel' => false,
             'value_per_locale' => false,
             'type' => 'flagbit_table',
+            'table_property' => 'table_property',
         ]);
     }
 }

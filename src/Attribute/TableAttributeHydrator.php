@@ -13,6 +13,9 @@ use Akeneo\ReferenceEntity\Domain\Model\LabelCollection;
 use Akeneo\ReferenceEntity\Domain\Model\ReferenceEntity\ReferenceEntityIdentifier;
 use Akeneo\ReferenceEntity\Infrastructure\Persistence\Sql\Attribute\Hydrator\AbstractAttributeHydrator;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty;
 
 class TableAttributeHydrator extends AbstractAttributeHydrator
 {
@@ -28,11 +31,17 @@ class TableAttributeHydrator extends AbstractAttributeHydrator
             'value_per_locale',
             'value_per_channel',
             'attribute_type',
+            'table_property'
         ];
     }
 
     protected function convertAdditionalProperties(AbstractPlatform $platform, array $row): array
     {
+        $row['table_property'] = Type::getType(Types::STRING)->convertToPhpValue(
+            $row['additional_properties']['table_property'],
+            $platform
+        );
+
         return $row;
     }
 
@@ -46,7 +55,8 @@ class TableAttributeHydrator extends AbstractAttributeHydrator
             AttributeOrder::fromInteger($row['attribute_order']),
             AttributeIsRequired::fromBoolean($row['is_required']),
             AttributeValuePerChannel::fromBoolean($row['value_per_channel']),
-            AttributeValuePerLocale::fromBoolean($row['value_per_locale'])
+            AttributeValuePerLocale::fromBoolean($row['value_per_locale']),
+            TableProperty::fromString($row['table_property'])
         );
     }
 
