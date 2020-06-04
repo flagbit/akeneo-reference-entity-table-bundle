@@ -6,7 +6,7 @@ use Akeneo\ReferenceEntity\Application\Attribute\CreateAttribute\AbstractCreateA
 
 class CreateTableAttributeCommand extends AbstractCreateAttributeCommand
 {
-    /** @var string */
+    /** @var array */
     public $tableProperty;
 
     public function __construct(
@@ -16,7 +16,7 @@ class CreateTableAttributeCommand extends AbstractCreateAttributeCommand
         bool $isRequired,
         bool $valuePerChannel,
         bool $valuePerLocale,
-        string $tableProperty
+        array $tableProperty
     ) {
         parent::__construct(
             $referenceEntityIdentifier,

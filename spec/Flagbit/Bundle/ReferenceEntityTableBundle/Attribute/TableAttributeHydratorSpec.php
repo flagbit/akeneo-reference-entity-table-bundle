@@ -60,7 +60,7 @@ class TableAttributeHydratorSpec extends ObjectBehavior
             AttributeIsRequired::fromBoolean(false),
             AttributeValuePerChannel::fromBoolean(false),
             AttributeValuePerLocale::fromBoolean(false),
-            TableProperty::fromString('table_property')
+            TableProperty::fromArray('table_property')
         );
 
         $platform->convertFromBoolean(false)->willReturn(false);

@@ -28,7 +28,7 @@ class TableAttributeUpdater implements AttributeUpdaterInterface
             );
         }
 
-        $attribute->setTableProperty(TableProperty::fromString($command->tableProperty));
+        $attribute->setTableProperty(TableProperty::fromArray($command->tableProperty));
 
         return $attribute;
     }

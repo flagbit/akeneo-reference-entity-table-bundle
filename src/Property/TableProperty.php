@@ -4,21 +4,21 @@ namespace Flagbit\Bundle\ReferenceEntityTableBundle\Property;
 
 class TableProperty
 {
-    /** @var string */
-    private $tableButton;
+    /** @var array */
+    private $tableProperty;
 
-    private function __construct(string $tableButton)
+    private function __construct(array $tableProperty)
     {
-        $this->tableButton = $tableButton;
+        $this->tableProperty = $tableProperty;
     }
 
-    public static function fromString(string $tableButton): self
+    public static function fromArray(array $tableProperty): self
     {
-        return new self($tableButton);
+        return new self($tableProperty);
     }
 
-    public function normalize(): string
+    public function normalize(): array
     {
-        return $this->tableButton;
+        return $this->tableProperty;
     }
 }

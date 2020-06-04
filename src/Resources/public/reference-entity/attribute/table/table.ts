@@ -1,11 +1,3 @@
-// ############### MODEL ###############
-
-/**
- * ## Import section
- *
- * This is where your dependencies to external modules are, using the standard import method (see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
- * The paths are relative to the public/bundles folder (at the root of your PIM project)
- */
 import Identifier, {createIdentifier} from 'akeneoreferenceentity/domain/model/attribute/identifier';
 import ReferenceEntityIdentifier, {
     createIdentifier as createReferenceEntityIdentifier,
@@ -19,9 +11,9 @@ import {
 } from 'akeneoreferenceentity/domain/model/attribute/attribute';
 
 
-export type NormalizedTableProperty = string;
+export type NormalizedTableProperty = object;
 export class TableProperty {
-    public constructor(readonly tableProperty: string) {}
+    public constructor(readonly tableProperty: object) {}
 
     public normalize() {
         return this.tableProperty;
@@ -128,6 +120,8 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
             table_property: this.table_property.normalize()
         };
     }
+
+    // TODO Check if Getter and Setter are necessary
 }
 
 /**

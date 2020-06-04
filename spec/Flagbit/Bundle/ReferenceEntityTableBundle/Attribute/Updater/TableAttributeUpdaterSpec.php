@@ -32,7 +32,7 @@ class TableAttributeUpdaterSpec extends ObjectBehavior
     {
         $command->tableProperty = 'table_property';
 
-        $attribute->setTableProperty(TableProperty::fromString('table_property'));
+        $attribute->setTableProperty(TableProperty::fromArray('table_property'));
 
         $this->__invoke($attribute, $command)->shouldBeAnInstanceOf(TableAttribute::class);
     }

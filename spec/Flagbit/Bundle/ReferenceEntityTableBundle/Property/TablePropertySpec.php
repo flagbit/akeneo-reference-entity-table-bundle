@@ -14,7 +14,7 @@ class TablePropertySpec extends ObjectBehavior
 
     public function it_normalizes_property(): void
     {
-        $this->beConstructedThrough('fromString', ['table_property']);
+        $this->beConstructedThrough('fromArray', ['table_property']);
 
         $this->normalize()->shouldReturn('table_property');
     }
