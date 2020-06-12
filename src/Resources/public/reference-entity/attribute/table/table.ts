@@ -4,19 +4,37 @@ import ReferenceEntityIdentifier, {
 } from 'akeneoreferenceentity/domain/model/reference-entity/identifier';
 import LabelCollection, {createLabelCollection} from 'akeneoreferenceentity/domain/model/label-collection';
 import AttributeCode, {createCode} from 'akeneoreferenceentity/domain/model/attribute/code';
+import Locale from 'akeneoreferenceentity/domain/model/locale';
 import {
     NormalizedAttribute,
     Attribute,
     ConcreteAttribute,
 } from 'akeneoreferenceentity/domain/model/attribute/attribute';
 
+export type TableRow = {
+    code: string;
+    labels: {[index:string]: string};
+    type: string;
+    config: object;
+}
 
-export type NormalizedTableProperty = object;
+type LocalizedLabels = {[index:string]: string}
+
+export type NormalizedTableProperty = TableRow[];
 export class TableProperty {
-    public constructor(readonly tableProperty: object) {}
+    public constructor(readonly tableProperty: TableRow[]) {}
 
-    public normalize() {
+    public normalize(): TableRow[] {
         return this.tableProperty;
+    }
+
+    public static createEmptyRow(locales: Locale[]): TableRow {
+        const emptyLocales: LocalizedLabels = {};
+        locales.map((currentLocale: Locale) => {
+            emptyLocales[currentLocale.code] = '';
+        });
+
+        return {'code': '', 'labels': emptyLocales, 'type': 'integer', 'config': {}};
     }
 }
 
@@ -40,7 +58,7 @@ export type NormalizedTableAdditionalProperty = NormalizedTableProperty;
  */
 export interface NormalizedTableAttribute extends NormalizedAttribute {
     type: 'flagbit_table';
-    table_property: NormalizedTableProperty;
+    table_property: TableRow[];
 }
 
 /**
