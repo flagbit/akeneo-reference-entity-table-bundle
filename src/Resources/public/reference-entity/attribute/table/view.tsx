@@ -2,15 +2,12 @@ import * as React from 'react';
 import __ from 'akeneoreferenceentity/tools/translator';
 import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
-// import Key from "akeneoreferenceentity/tools/key";
 import {
-    // TableAdditionalProperty,
     TableAttribute,
-    // TableProperty,
 } from "./table";
 import TableAttributeModal from './modal';
 import {connect} from 'react-redux';
-import $ from 'jquery';
+// import $ from 'jquery';
 
 /**
  * Here we define the React Component as a function with the following props :
@@ -46,10 +43,6 @@ const TableAttributeView = ({
         };
     }
 }) => {
-    // const inputTextClassName = `AknTextField AknTextField--light ${
-    //     !rights.attribute.edit ? 'AknTextField--disabled' : ''
-    // }`;
-
     return (
         <React.Fragment>
             <div className="AknFieldContainer" data-code="table_property">
@@ -59,28 +52,6 @@ const TableAttributeView = ({
                     </button>
                 </div>
             </div>
-            {/*<div className="AknFieldContainer-header AknFieldContainer-header--light">*/}
-            {/*    <label className="AknFieldContainer-label" htmlFor="pim_reference_entity.attribute.edit.input.table_property">*/}
-            {/*        {__('pim_reference_entity.attribute.edit.input.table_property')}*/}
-            {/*    </label>*/}
-            {/*</div>*/}
-            {/*<div className="AknFieldContainer-inputContainer">*/}
-            {/*    <input*/}
-            {/*        type="text"*/}
-            {/*        autoComplete="off"*/}
-            {/*        className={inputTextClassName}*/}
-            {/*        id="pim_reference_entity.attribute.edit.input.table_property"*/}
-            {/*        name="table_property"*/}
-            {/*        readOnly={!rights.attribute.edit}*/}
-            {/*        value={attribute.table_property.normalize().toString()}*/}
-            {/*        onKeyPress={(event: React.KeyboardEvent<HTMLInputElement>) => {*/}
-            {/*            if (Key.Enter === event.key) onSubmit();*/}
-            {/*        }}*/}
-            {/*        onChange={(event: React.FormEvent<HTMLInputElement>) => {*/}
-            {/*            onAdditionalPropertyUpdated('table_property', new TableProperty([event.currentTarget.value]));*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*</div>*/}
             {getErrorsView(errors, 'table_property')}
 
             <TableAttributeModal attribute={attribute} rights={rights} />
@@ -90,10 +61,8 @@ const TableAttributeView = ({
 
 export const view = connect(
     () => ({}),
-    (dispatch: any) => ({
+    () => ({
         onTableEditionStart: () => {
-            dispatch({type: 'FLAGBIT_TABLE_EDITION_START', table_property: []});
-
             $('#table').css({'display': 'block'});
             $('#table').detach().prependTo('body .app:first');
         }

@@ -36,6 +36,31 @@
                 <source>flagbit_reference_entity_table.attribute.edit.input.configuration</source>
                 <target>Configuration</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_text_no_config">
+                <source>flagbit_reference_entity_table.attribute.column_type.text.no_config</source>
+                <target>There is no configuration options.</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_text">
+                <source>flagbit_reference_entity_table.attribute.column_type.text</source>
+                <target>Text</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_number">
+                <source>flagbit_reference_entity_table.attribute.column_type.number</source>
+                <target>Number</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_simple_select">
+                <source>flagbit_reference_entity_table.attribute.column_type.simple_select</source>
+                <target>Simple Select</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_number_label_decimal">
+                <source>flagbit_reference_entity_table.attribute.column_type.number.label.decimal</source>
+                <target>Decimal</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

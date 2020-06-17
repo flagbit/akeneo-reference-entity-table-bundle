@@ -34,7 +34,7 @@ export class TableProperty {
             emptyLocales[currentLocale.code] = '';
         });
 
-        return {'code': '', 'labels': emptyLocales, 'type': 'integer', 'config': {}};
+        return {'code': '', 'labels': emptyLocales, 'type': 'text', 'config': {}};
     }
 }
 

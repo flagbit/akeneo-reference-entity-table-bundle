@@ -5,23 +5,15 @@ import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import Key from "akeneoreferenceentity/tools/key";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
-import createStore from 'akeneoreferenceentity/infrastructure/store';
 import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
 const securityContext = require('pim/security-context');
 
 import {
     TableAttribute,
-    NormalizedTableAttribute,
     TableRow,
     TableProperty,
-    ConcreteTableAttribute
 } from "./table";
 import {tableRow} from './row'
-
-import {editTableReducer} from "./reducer";
-
-const store = createStore(true)({editTableReducer});
-
 
 type OwnProps = {
     rights: {
@@ -36,72 +28,87 @@ type OwnProps = {
     };
 };
 
-interface TableProp {
+interface TableProp extends OwnProps {
     isDirty: boolean;
     errors: ValidationError[];
     events: any;
     attribute: TableAttribute;
-    test: any;
-    store: any;
     locale: string;
     structure: {
         locales: Locale[];
     };
-    rights: {
-        locale: {
-            edit: boolean;
-        };
-        attribute: {
-            create: boolean;
-            edit: boolean;
-            delete: boolean;
-        };
-    };
 }
 
 class TableAttributeModal extends React.Component<TableProp> {
-    /**
-     * We keep track of the references of the input in order to put the user in the
-     * right input whenever he presses enter.
-     *
-     * Ex: The user has the focus on the code red, when he presses enter the focus will go in the next code input.
-     * (It works the same for the labels)
-     */
-    private labelInputReferences: React.RefObject<HTMLInputElement>[] = [];
-    private codeInputReferences: React.RefObject<HTMLInputElement>[] = [];
-
-    updateRefs(tableAttribute: NormalizedTableAttribute) {
-        this.labelInputReferences = [
-            ...tableAttribute.table_property.map(() => React.createRef<HTMLInputElement>()),
-            React.createRef<HTMLInputElement>(),
-        ];
-        this.codeInputReferences = [
-            ...tableAttribute.table_property.map(() => React.createRef<HTMLInputElement>()),
-            React.createRef<HTMLInputElement>(),
-        ];
-    }
 
     cancelManageTableAttribute() {
         const message = __('pim_enrich.confirmation.discard_changes', {entity: 'table_property'});
         if (this.props.isDirty) {
             if (confirm(message)) {
-                this.props.events.onTableEditionCancel();
+                this.closeModal();
             }
         } else {
-            this.props.events.onTableEditionCancel();
+            this.closeModal();
         }
     }
 
-    render() {
+    getInitialTableRows(): TableRow[] {
         const emptyRow: TableRow = TableProperty.createEmptyRow(this.props.structure.locales);
 
-        const tableRows: TableRow[] = [...this.props.attribute.table_property.normalize(), emptyRow];
+        return [...this.props.attribute.table_property.normalize(), emptyRow];
+    }
 
-        const normalizedAttribute = this.props.attribute.normalize();
-        normalizedAttribute.table_property = new TableProperty(tableRows).normalize();
-        const tableAttribute = ConcreteTableAttribute.createFromNormalized(normalizedAttribute);
-        this.updateRefs(tableAttribute.normalize());
+    updateTableRowsState(tableRows: TableRow[]): void {
+        this.setState({tableRows: tableRows});
+    }
 
+    closeModal(): void {
+        $('#table').css({'display': 'none'});
+
+        this.updateTableRowsState(
+            this.getInitialTableRows()
+        );
+    }
+
+    getTableRows(): TableRow[] {
+        // Initialize rows when state isn't set yet
+        if (null === this.state) {
+            return this.getInitialTableRows();
+        }
+
+        // @ts-ignore
+        return this.state.tableRows;
+    }
+
+    updateColumnType(value: string, index: number): void {
+        const tableRows: TableRow[] = this.getTableRows()
+        tableRows[index].type = value;
+
+        this.updateTableRowsState(tableRows);
+    }
+
+    updateColumnConfig(config: object, index: number): void {
+        const tableRows: TableRow[] = this.getTableRows()
+        tableRows[index].config = config;
+
+        this.updateTableRowsState(tableRows);
+    }
+
+    updateColumnCode(code: string, index: any): void {
+        const tableRows: TableRow[] = this.getTableRows();
+        tableRows[index].code = code;
+
+        this.updateTableRowsState(tableRows);
+    }
+
+    updateColumnLabel(label: string, locale: string, index: any): void {
+        const tableRows: TableRow[] = this.getTableRows();
+        tableRows[index].labels[locale] = label;
+
+        this.updateTableRowsState(tableRows);
+    }
+
+    render() {
         return (
             <React.Fragment>
                 <div className="modal in flagbitTableAttribute" id="table" aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
@@ -150,22 +157,19 @@ class TableAttributeModal extends React.Component<TableProp> {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {tableRows.map((row, index: number) => {
+                                            {this.getTableRows().map((row, index: number) => {
                                                 return tableRow({
-                                                    code: row.code,
-                                                    labels: row.labels,
+                                                    row: row,
                                                     index: index,
-                                                    isLastRow: index >= tableRows.length - 1,
-                                                    numberOfLockedRows: tableRows.length,
-                                                    locale: this.props.locale,
+                                                    isLastRow: index >= this.getTableRows().length - 1,
+                                                    numberOfLockedRows: this.getTableRows().length,
                                                     locales: this.props.structure.locales,
                                                     errors: this.props.errors,
                                                     rights: this.props.rights,
-                                                    labelInputReference: this.labelInputReferences[index],
-                                                    codeInputReference: this.codeInputReferences[index],
-                                                    onTableEditionCodeUpdated: this.props.events.onTableEditionCodeUpdated,
-                                                    onTableEditionSelected: this.props.events.onTableEditionSelected,
-                                                    onTableEditionLabelUpdated: this.props.events.onTableEditionLabelUpdated,
+                                                    onTableEditionCodeUpdated: this.updateColumnCode.bind(this),
+                                                    onTableEditionLabelUpdated: this.updateColumnLabel.bind(this),
+                                                    onTableEditionTypeUpdated: this.updateColumnType.bind(this),
+                                                    onTableEditionConfigUpdated: this.updateColumnConfig.bind(this),
                                                     onTableEditionDelete: this.props.events.onTableEditionDelete,
                                                 });
                                             })}
@@ -207,8 +211,6 @@ class TableAttributeModal extends React.Component<TableProp> {
 export default connect(
     (state: any, ownProps: OwnProps) => {
         return {
-            test: false,
-            store: store,
             locale: state.user.catalogLocale,
             structure: {
                 locales: state.structure.locales,
@@ -230,33 +232,12 @@ export default connect(
             },
         };
     },
-    (dispatch: any) => {
+    () => {
         return {
             events: {
-                onTableEditionCancel: () => {
-                    $('#table').css({'display': 'none'});
-                    dispatch({type: 'FLAGBIT_TABLE_EDITION_CLOSE'});
-                },
-                onTableSubmission: () => {
-                    // dispatch({});
-                },
-                onTableEditionCodeUpdated: () => {
-                    // dispatch({});
-                },
-                onTableEditionSelected: () => {
-                    // dispatch({});
-                },
-                onTableEditionLabelUpdated: () => {
-                    // dispatch({});
-                },
-                onLocaleChanged: () => {
-                    // dispatch({});
-                },
                 onTableEditionSubmission: () => {
-                    // dispatch({});
                 },
                 onTableEditionDelete: () => {
-                    // dispatch({});
                 },
             },
         }
