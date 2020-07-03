@@ -1,8 +1,18 @@
 import Text from "./text";
 import Number from "./number";
 
+export interface Type {
+    typeCode(): string;
+    render(renderArguments: ConfigChangeState): any;
+}
+
 type Option = {
     code: string;
+}
+
+type ConfigType = {
+    code: string;
+    classname: { new(): Type };
 }
 
 export type ConfigChangeState = {
@@ -12,44 +22,40 @@ export type ConfigChangeState = {
     config: object
 }
 
-export interface Type {
-    typeCode(): string;
-    render(renderArguments: ConfigChangeState): any;
-}
-
 class TypeRegistry {
-    public constructor(readonly types: Type[]) {}
+    public constructor(readonly types: ConfigType[]) {}
 
     public getSelectValues(): Option[] {
-        return this.types.map((type: Type) => {
-            return { code: type.typeCode() };
+        return this.types.map((configType: ConfigType) => {
+            return { code: configType.code };
         })
     }
 
-    public render(renderArguments: ConfigChangeState): string {
-        const filteredTypes: Type[] = this.types.filter(function (type: Type): boolean {
-            return type.typeCode() === renderArguments.typeCode;
+    public render(renderArguments: ConfigChangeState): any {
+        const filteredTypes: ConfigType[] = this.types.filter(function (type: ConfigType): boolean {
+            return type.code === renderArguments.typeCode;
         });
 
         if (filteredTypes.length !== 1) {
             throw Error('Unknown type code ' + renderArguments.typeCode);
         }
 
-        const selectedType: Type|undefined = filteredTypes.pop();
+        const selectedType: ConfigType|undefined = filteredTypes.pop();
 
         if (selectedType === undefined) {
             throw Error('"undefined" for type code ' + renderArguments.typeCode);
         }
 
-        return selectedType.render(renderArguments);
+        return new selectedType.classname().render(renderArguments);
     }
 }
 
+// Keep one instance across the project
 export namespace FlagbitTableTypes {
     export const typeRegistry: TypeRegistry = new TypeRegistry(
         [
-            new Text(),
-            new Number(),
+            {code: 'text', classname: Text},
+            {code: 'number', classname: Number},
         ]
     );
 }
