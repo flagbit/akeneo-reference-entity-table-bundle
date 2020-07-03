@@ -58,7 +58,23 @@ class TableAttributeModal extends React.Component<TableProp> {
         return [...this.props.attribute.table_property.normalize(), emptyRow];
     }
 
+    filter(tableRows: TableRow[]): TableRow[] {
+        const emptyRow = TableProperty.createEmptyRow(this.props.structure.locales);
+        tableRows = tableRows.filter((tableRow: TableRow): boolean => {
+            const val = Object.keys(tableRow.config).length === 0 &&
+                tableRow.type === 'text' &&
+                tableRow.code === '' &&
+                Object.values(tableRow.labels).filter((value: string): boolean => '' !== value).length === 0;
+
+            return !val;
+        });
+        tableRows.push(emptyRow);
+
+        return tableRows;
+    }
+
     updateTableRowsState(tableRows: TableRow[]): void {
+        tableRows = this.filter(tableRows);
         this.setState({tableRows: tableRows});
     }
 
@@ -104,6 +120,13 @@ class TableAttributeModal extends React.Component<TableProp> {
     updateColumnLabel(label: string, locale: string, index: any): void {
         const tableRows: TableRow[] = this.getTableRows();
         tableRows[index].labels[locale] = label;
+
+        this.updateTableRowsState(tableRows);
+    }
+
+    onTableEditionDelete(index: number): void {
+        const tableRows: TableRow[] = this.getTableRows();
+        tableRows.splice(index, 1);
 
         this.updateTableRowsState(tableRows);
     }
@@ -170,7 +193,7 @@ class TableAttributeModal extends React.Component<TableProp> {
                                                     onTableEditionLabelUpdated: this.updateColumnLabel.bind(this),
                                                     onTableEditionTypeUpdated: this.updateColumnType.bind(this),
                                                     onTableEditionConfigUpdated: this.updateColumnConfig.bind(this),
-                                                    onTableEditionDelete: this.props.events.onTableEditionDelete,
+                                                    onTableEditionDelete: this.onTableEditionDelete.bind(this),
                                                 });
                                             })}
                                             <tr>
@@ -236,8 +259,6 @@ export default connect(
         return {
             events: {
                 onTableEditionSubmission: () => {
-                },
-                onTableEditionDelete: () => {
                 },
             },
         }
