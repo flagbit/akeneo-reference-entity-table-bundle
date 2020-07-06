@@ -15,6 +15,7 @@ export type TableRow = {
     code: string;
     labels: {[index:string]: string};
     type: string;
+    validations: any
     config: object;
 }
 
@@ -34,7 +35,7 @@ export class TableProperty {
             emptyLocales[currentLocale.code] = '';
         });
 
-        return {'code': '', 'labels': emptyLocales, 'type': 'text', 'config': {}};
+        return {code: '', labels: emptyLocales, type: 'text', validations: [], config: {}};
     }
 }
 
