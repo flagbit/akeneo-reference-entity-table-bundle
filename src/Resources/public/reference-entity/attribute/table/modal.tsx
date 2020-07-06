@@ -125,10 +125,13 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     onTableEditionDelete(index: number): void {
-        const tableRows: TableRow[] = this.getTableRows();
-        tableRows.splice(index, 1);
+        const message = __('pim_enrich.confirmation.discard_changes', {entity: 'Column'});
+        if (confirm(message)) {
+            const tableRows: TableRow[] = this.getTableRows();
+            tableRows.splice(index, 1);
 
-        this.updateTableRowsState(tableRows);
+            this.updateTableRowsState(tableRows);
+        }
     }
 
     render() {

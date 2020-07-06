@@ -88,7 +88,7 @@ export const tableRow = ({
                                             autoComplete="off"
                                             placeholder={
                                                 isLastRow && canEditLabel
-                                                    ? 'label'
+                                                    ? ''
                                                     : ''
                                             }
                                             type="text"
