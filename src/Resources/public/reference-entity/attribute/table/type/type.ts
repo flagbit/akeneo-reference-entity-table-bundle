@@ -1,18 +1,28 @@
 import Text from "./text";
 import Number from "./number";
 
+// Export for custom implementations
+export interface TypeFactory {
+    typeCode: string;
+    create(): Type;
+}
+
+// Export for custom implementations
 export interface Type {
-    typeCode(): string;
+    typeCode: string;
     render(renderArguments: ConfigChangeState): any;
+}
+
+class SimpleTypeFactory implements TypeFactory{
+    constructor(readonly typeCode: string, readonly typeClass: { new(typeCode: string): Type }) {}
+
+    create(): Type {
+        return new this.typeClass(this.typeCode);
+    }
 }
 
 type Option = {
     code: string;
-}
-
-type ConfigType = {
-    code: string;
-    classname: { new(): Type };
 }
 
 export type ConfigChangeState = {
@@ -23,30 +33,34 @@ export type ConfigChangeState = {
 }
 
 class TypeRegistry {
-    public constructor(readonly types: ConfigType[]) {}
+    public constructor(readonly typeFactories: TypeFactory[]) {}
 
     public getSelectValues(): Option[] {
-        return this.types.map((configType: ConfigType) => {
-            return { code: configType.code };
+        return this.typeFactories.map((typeFactory: TypeFactory) => {
+            return { code: typeFactory.typeCode };
         })
     }
 
     public render(renderArguments: ConfigChangeState): any {
-        const filteredTypes: ConfigType[] = this.types.filter(function (type: ConfigType): boolean {
-            return type.code === renderArguments.typeCode;
+        const filteredTypes: TypeFactory[] = this.typeFactories.filter(function (typeFactory: TypeFactory): boolean {
+            return typeFactory.typeCode === renderArguments.typeCode;
         });
 
         if (filteredTypes.length !== 1) {
             throw Error('Unknown type code ' + renderArguments.typeCode);
         }
 
-        const selectedType: ConfigType|undefined = filteredTypes.pop();
+        const selectedFactory: TypeFactory|undefined = filteredTypes.pop();
 
-        if (selectedType === undefined) {
+        if (selectedFactory === undefined) {
             throw Error('"undefined" for type code ' + renderArguments.typeCode);
         }
 
-        return new selectedType.classname().render(renderArguments);
+        return selectedFactory.create().render(renderArguments);
+    }
+
+    public addFactory(typeFactory: TypeFactory): void {
+        this.typeFactories.push(typeFactory);
     }
 }
 
@@ -54,8 +68,8 @@ class TypeRegistry {
 export namespace FlagbitTableTypes {
     export const typeRegistry: TypeRegistry = new TypeRegistry(
         [
-            {code: 'text', classname: Text},
-            {code: 'number', classname: Number},
+            new SimpleTypeFactory('text', Text),
+            new SimpleTypeFactory('number', Number),
         ]
     );
 }

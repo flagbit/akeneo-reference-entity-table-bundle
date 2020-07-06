@@ -3,11 +3,9 @@ import __ from 'akeneoreferenceentity/tools/translator';
 import React from "react";
 
 export default class Text implements Type {
-    render(changeState: ConfigChangeState) {
-        return (<React.Fragment key={this.typeCode()+changeState.index}>{__('flagbit_reference_entity_table.attribute.column_type.text.no_config')}</React.Fragment>);
-    }
+    constructor(readonly typeCode: string) {}
 
-    typeCode(): string {
-        return 'text';
+    render(changeState: ConfigChangeState) {
+        return (<React.Fragment key={this.typeCode+changeState.index}>{__('flagbit_reference_entity_table.attribute.column_type.text.no_config')}</React.Fragment>);
     }
 }

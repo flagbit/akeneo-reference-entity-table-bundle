@@ -11,8 +11,10 @@ export default class Number implements Type {
         decimal: 'false'
     };
 
+    constructor(readonly typeCode: string) {}
+
     render(changeState: ConfigChangeState) {
-        const key = this.typeCode()+changeState.index;
+        const key = this.typeCode+changeState.index;
         // TODO This needs a better type/content check
         const config = Object.keys(changeState.config).length === 0 ? this.default : changeState.config as NumberConfig;
 
@@ -30,9 +32,5 @@ export default class Number implements Type {
                 <option value="false">No</option>
             </select>
         </React.Fragment>)
-    }
-
-    typeCode(): string {
-        return 'number';
     }
 }
