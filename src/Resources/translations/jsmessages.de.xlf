@@ -6,6 +6,66 @@
                 <source>pim_reference_entity.attribute.type.flagbit_table</source>
                 <target>Tabelle</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_edit_button_manage_columns_label">
+                <source>flagbit_reference_entity_table.attribute.edit_button.manage_columns.label</source>
+                <target>Tabellenspalten verwalten</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_table_config_title">
+                <source>flagbit_reference_entity_table.attribute.table.config.title</source>
+                <target>Table Attribute Einstellungen</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_edit_input_code">
+                <source>flagbit_reference_entity_table.attribute.edit.input.code</source>
+                <target>Code (erforderlich)</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_edit_input_label">
+                <source>flagbit_reference_entity_table.attribute.edit.input.label</source>
+                <target>Label</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_edit_input_type">
+                <source>flagbit_reference_entity_table.attribute.edit.input.type</source>
+                <target>Typ</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_edit_input_configuration">
+                <source>flagbit_reference_entity_table.attribute.edit.input.configuration</source>
+                <target>Einstellungen</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_text_no_config">
+                <source>flagbit_reference_entity_table.attribute.column_type.text.no_config</source>
+                <target>Es gibt keine Konfigurationsmöglichkeiten.</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_text">
+                <source>flagbit_reference_entity_table.attribute.column_type.text</source>
+                <target>Text</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_number">
+                <source>flagbit_reference_entity_table.attribute.column_type.number</source>
+                <target>Nummer</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_simple_select">
+                <source>flagbit_reference_entity_table.attribute.column_type.simple_select</source>
+                <target>Einfachauswahl</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_number_label_decimal">
+                <source>flagbit_reference_entity_table.attribute.column_type.number.label.decimal</source>
+                <target>Dezimal</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_confirm">
+                <source>flagbit_reference_entity_table.attribute.confirm</source>
+                <target>Übernehmen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

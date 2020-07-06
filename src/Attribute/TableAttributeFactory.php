@@ -37,7 +37,7 @@ class TableAttributeFactory implements AttributeFactoryInterface
                 )
             );
         }
-
+        /** @var CreateTableAttributeCommand $command */
         return TableAttribute::create(
             $identifier,
             ReferenceEntityIdentifier::fromString($command->referenceEntityIdentifier),
@@ -47,7 +47,7 @@ class TableAttributeFactory implements AttributeFactoryInterface
             AttributeIsRequired::fromBoolean($command->isRequired),
             AttributeValuePerChannel::fromBoolean($command->valuePerChannel),
             AttributeValuePerLocale::fromBoolean($command->valuePerLocale),
-            TableProperty::fromString($command->tableProperty)
+            TableProperty::fromArray($command->tableProperty)
         );
     }
 }

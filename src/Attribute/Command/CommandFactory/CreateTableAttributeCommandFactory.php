@@ -25,7 +25,7 @@ class CreateTableAttributeCommandFactory extends AbstractCreateAttributeCommandF
             $normalizedCommand['is_required'] ?? false,
             $normalizedCommand['value_per_channel'],
             $normalizedCommand['value_per_locale'],
-            $normalizedCommand['table_property'] ?? ''
+            $normalizedCommand['table_property'] ?? []
         );
     }
 }

@@ -6,10 +6,10 @@ use Akeneo\ReferenceEntity\Application\Attribute\EditAttribute\CommandFactory\Ab
 
 class EditTableAttributeCommand extends AbstractEditAttributeCommand
 {
-    /** @var string */
+    /** @var array */
     public $tableProperty;
 
-    public function __construct(string $identifier, string $tableProperty)
+    public function __construct(string $identifier, array $tableProperty)
     {
         parent::__construct($identifier);
 

@@ -1,13 +1,9 @@
 import {
     NormalizedTableAttribute,
     NormalizedTableAdditionalProperty,
-    NormalizedTableProperty
+    NormalizedTableProperty,
 } from './table';
 
-/**
- * Our custom attribute reducer needs to receive the normalized custom attribute as input, the code of the additional property and the value of the additional property.
- * It returns the normalized custom attribute.
- */
 const tableAttributeReducer = (
     normalizedAttribute: NormalizedTableAttribute,
     propertyCode: string,

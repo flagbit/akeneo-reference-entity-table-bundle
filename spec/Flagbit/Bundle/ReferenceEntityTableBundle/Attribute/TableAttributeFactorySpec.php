@@ -47,7 +47,7 @@ class TableAttributeFactorySpec extends ObjectBehavior
         $command->isRequired = false;
         $command->valuePerChannel = false;
         $command->valuePerLocale = false;
-        $command->tableProperty = 'table_property';
+        $command->tableProperty = [];
 
         $this->create($command, $identifier, $order)->shouldReturnAnInstanceOf(TableAttribute::class);
     }

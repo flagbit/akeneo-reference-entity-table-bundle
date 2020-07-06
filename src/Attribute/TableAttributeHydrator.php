@@ -56,7 +56,7 @@ class TableAttributeHydrator extends AbstractAttributeHydrator
             AttributeIsRequired::fromBoolean($row['is_required']),
             AttributeValuePerChannel::fromBoolean($row['value_per_channel']),
             AttributeValuePerLocale::fromBoolean($row['value_per_locale']),
-            TableProperty::fromString($row['table_property'])
+            TableProperty::fromArray($row['table_property'])
         );
     }
 

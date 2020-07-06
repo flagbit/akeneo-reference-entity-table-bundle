@@ -60,7 +60,7 @@ class TableAttributeHydratorSpec extends ObjectBehavior
             AttributeIsRequired::fromBoolean(false),
             AttributeValuePerChannel::fromBoolean(false),
             AttributeValuePerLocale::fromBoolean(false),
-            TableProperty::fromString('table_property')
+            TableProperty::fromArray([])
         );
 
         $platform->convertFromBoolean(false)->willReturn(false);
@@ -75,7 +75,7 @@ class TableAttributeHydratorSpec extends ObjectBehavior
             'value_per_locale' => false,
             'value_per_channel' => false,
             'attribute_type' => 'flagbit_table',
-            'additional_properties' => '{"table_property": "table_property"}',
+            'additional_properties' => '{"table_property": []}',
         ];
 
         $this->hydrate($row)->shouldBeLike($expected);

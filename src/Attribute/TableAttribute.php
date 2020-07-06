@@ -18,7 +18,7 @@ class TableAttribute extends AbstractAttribute
     public const ATTRIBUTE_TYPE_NAME = 'flagbit_table';
 
     /** @var TableProperty */
-    private $tableProperty; // define it as property
+    private $tableProperty;
 
     protected function __construct(
         AttributeIdentifier $identifier,
