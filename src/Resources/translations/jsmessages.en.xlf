@@ -66,6 +66,11 @@
                 <source>flagbit_reference_entity_table.attribute.confirm</source>
                 <target>Confirm</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_record_table_row_confirm">
+                <source>flagbit_reference_entity_table.record.table_row.confirm</source>
+                <target>Do you want to remove this row?</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

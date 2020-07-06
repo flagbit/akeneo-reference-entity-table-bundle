@@ -7,16 +7,16 @@ use Webmozart\Assert\Assert;
 
 class TableData implements ValueDataInterface
 {
-    /** @var string */
+    /** @var array */
     private $tableValue;
 
-    private function __construct(string $tableValue)
+    private function __construct(array $tableValue)
     {
         $this->tableValue = $tableValue;
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function normalize()
     {
@@ -25,12 +25,12 @@ class TableData implements ValueDataInterface
 
     public static function createFromNormalize($normalizedData): ValueDataInterface
     {
-        Assert::string($normalizedData, 'Normalized data should be a string');
+        Assert::isArray($normalizedData, 'Normalized data should be an array');
 
         return new self($normalizedData);
     }
 
-    public static function fromString(string $tableValue)
+    public static function fromArray(array $tableValue)
     {
         return new self($tableValue);
     }

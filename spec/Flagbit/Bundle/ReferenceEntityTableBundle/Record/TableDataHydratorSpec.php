@@ -27,8 +27,8 @@ class TableDataHydratorSpec extends ObjectBehavior
 
     public function it_hydrates_attribute(TableAttribute $attribute): void
     {
-        $expected = TableData::fromString('{}');
+        $expected = TableData::fromArray(['data']);
 
-        $this->hydrate('{}', $attribute)->shouldBeLike($expected);
+        $this->hydrate(['data'], $attribute)->shouldBeLike($expected);
     }
 }

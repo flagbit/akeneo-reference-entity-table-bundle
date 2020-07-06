@@ -1,64 +1,126 @@
 import * as React from 'react';
 import Value from 'akeneoreferenceentity/domain/model/record/value';
-import {ConcreteTableAttribute} from 'flagbitreferenceentitytable/reference-entity/attribute/table/table';
-import {TableData} from 'flagbitreferenceentitytable/reference-entity/record/table/table';
-import {denormalize} from 'flagbitreferenceentitytable/reference-entity/record/table/table';
-import Key from 'akeneoreferenceentity/tools/key';
+import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
+import Close from 'akeneoreferenceentity/application/component/app/icon/close';
+import __ from 'akeneoreferenceentity/tools/translator';
+import {ConcreteTableAttribute, TableRow} from '../../attribute/table/table';
+import {denormalize, TableData, TableDataRow} from './table';
+import {RecordChangeState, FlagbitTableRecordTypes} from './type/type';
 
-/**
- * Here we define the React Component as a function with the following props :
- *    - the Table Record Value
- *    - the callback function to update the Record Value
- *    - the callback for the submit
- *    - the right to edit the Record Value
- *
- * It returns the JSX View to display the field of the Table Record Value.
- */
 const View = ({
                   value,
                   onChange,
-                  onSubmit,
-                  canEditData,
+                  locale,
+                  // onSubmit,
+                  // canEditData,
               }: {
     value: Value;
     onChange: (value: Value) => void;
-    onSubmit: () => void;
-    canEditData: boolean;
+    locale: LocaleReference;
+    // onSubmit: () => void;
+    // canEditData: boolean;
 }) => {
     if (!(value.data instanceof TableData && value.attribute instanceof ConcreteTableAttribute)) {
         return null;
     }
 
-    const onValueChange = (text: string) => {
-        const newData = denormalize(text);
-        if (newData.equals(value.data)) {
+    // Remove all rows that became empty.
+    const filterEmptyRows = (tableDataRows: TableDataRow[]): TableDataRow[] => {
+        const filteredRows = tableDataRows.filter((tableDataRow: TableDataRow): boolean => {
+            const rowValues: any[] = Object.values(tableDataRow);
+
+            return ! rowValues.every((fieldValue) => {return fieldValue === null});
+        });
+
+        return filteredRows;
+    }
+
+    const attributeCode: string = value.attribute.getCode().normalize();
+    const tableRows: TableRow[] = value.attribute.table_property.normalize();
+    const normalizedTableData: TableDataRow[] = filterEmptyRows(value.data.normalize());
+
+    const createEmptyRow = (): TableDataRow => {
+        const emptyTableDataRow: TableDataRow = {};
+        tableRows.forEach((tableRow: TableRow) => {
+            emptyTableDataRow[tableRow.code] = null;
+        });
+
+        return emptyTableDataRow;
+    }
+
+    normalizedTableData.push(createEmptyRow());
+
+    const updateDataRows = (tableDataRow: TableDataRow[]) => {
+        const newTableData = denormalize(filterEmptyRows(tableDataRow));
+        if (newTableData.equals(value.data)) {
             return;
         }
 
-        const newValue = value.setData(newData);
+        const newValue = value.setData(newTableData);
 
         onChange(newValue);
+    }
+
+    const updateValue = (code: string, fieldValue: any, index: number) => {
+        normalizedTableData[index][code] = fieldValue;
+
+        updateDataRows(normalizedTableData);
+    };
+
+    const removeDataRow = (index: number) => {
+        const message = __('flagbit_reference_entity_table.record.table_row.confirm');
+        if (confirm(message)) {
+            normalizedTableData.splice(index, 1);
+            updateDataRows(normalizedTableData);
+        }
     };
 
     return (
         <React.Fragment>
-            <input
-                id={`pim_reference_entity.record.enrich.${value.attribute.getCode().stringValue()}`}
-                autoComplete="off"
-                className={`AknTextField AknTextField--narrow AknTextField--light
-          ${value.attribute.valuePerLocale ? 'AknTextField--localizable' : ''}
-          ${!canEditData ? 'AknTextField--disabled' : ''}`}
-                value={value.data.normalize()}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    onValueChange(event.currentTarget.value);
-                }}
-                onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (Key.Enter === event.key) onSubmit();
-                }}
-                disabled={!canEditData}
-                readOnly={!canEditData}
-            />
-            <span>{value.attribute.table_property.normalize()}</span>
+            <table className="AknOptionEditor-table" style={{marginTop: '20px'}}>
+                <thead>
+                <tr>
+                    {tableRows.map((tableRow: TableRow) => {
+                        return (
+                            <th className="AknOptionEditor-headCell" key={`title_${attributeCode}_${tableRow.code}`}>
+                                <label className="AknOptionEditor-headCellLabel">{tableRow.labels[locale.stringValue()]}</label>
+                            </th>
+                        );
+                    })}
+                </tr>
+                </thead>
+                <tbody>
+                {normalizedTableData.map((rowData: TableDataRow, index: number) => {
+
+                    return (<tr className="AknOptionEditor-row" key={`row_${attributeCode}_${index}`}>
+                        {tableRows.map((tableRow: TableRow) => {
+                            const recordChangeState: RecordChangeState = {
+                                index: index,
+                                rowData: rowData,
+                                tableRow: tableRow,
+                                updateValue: updateValue
+                            };
+
+                            return (
+                                <td key={`column_${attributeCode}_${tableRow.code}_${index}`}>
+                                    {FlagbitTableRecordTypes.typeRegistry.render(recordChangeState)}
+                                </td>
+                            );
+                        })}
+                        <td>
+                            {normalizedTableData.length - 1 !== index ? (
+                                <Close
+                                    onClick={() => removeDataRow(index)}
+                                    color="#67768A"
+                                    className="AknOptionEditor-remove"
+                                    tabIndex={0}
+                                />
+                            ) : null}
+                        </td>
+                    </tr>)
+                })}
+                </tbody>
+            </table>
         </React.Fragment>
     );
 };

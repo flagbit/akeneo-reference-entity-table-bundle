@@ -21,7 +21,7 @@ class RecordTagsTest extends KernelTestCase
     {
         $registry = self::$container->get('akeneo_referenceentity.application.registry.record.edit_record_value_command_factory_registry');
 
-        $factory = $registry->getFactory($this->createMock(TableAttribute::class), ['data' => 'data']);
+        $factory = $registry->getFactory($this->createMock(TableAttribute::class), ['data' => ['data']]);
 
         self::assertInstanceOf(EditTableCommandFactory::class, $factory);
     }
