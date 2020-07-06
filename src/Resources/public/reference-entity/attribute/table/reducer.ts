@@ -11,7 +11,6 @@ const tableAttributeReducer = (
 ): NormalizedTableAttribute => {
     switch (propertyCode) {
         case 'table_property':
-            console.log('reducer');
             const table_property = propertyValue as NormalizedTableProperty;
             return {...normalizedAttribute, table_property};
 

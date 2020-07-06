@@ -61,6 +61,11 @@
                 <source>flagbit_reference_entity_table.attribute.column_type.number.label.decimal</source>
                 <target>Dezimal</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_confirm">
+                <source>flagbit_reference_entity_table.attribute.confirm</source>
+                <target>Übernehmen</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

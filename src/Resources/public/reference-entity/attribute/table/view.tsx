@@ -4,32 +4,24 @@ import {getErrorsView} from 'akeneoreferenceentity/application/component/app/val
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import {
     TableAttribute,
+    TableProperty,
+    TableRow,
 } from "./table";
 import TableAttributeModal from './modal';
 import {connect} from 'react-redux';
-// import $ from 'jquery';
+import $ from 'jquery';
 
-/**
- * Here we define the React Component as a function with the following props :
- *    - the custom attribute
- *    - the callback function to update the additional property
- *    - the callback for the submit
- *    - the validation errors
- *    - the attribute rights
- *
- * It returns the JSX View to display the additional properties of your custom attribute.
- */
 const TableAttributeView = ({
                                 onTableEditionStart,
                                 attribute,
-                                // onAdditionalPropertyUpdated,
+                                onAdditionalPropertyUpdated,
                                 // onSubmit,
                                 errors,
                                 rights
                             }: {
     onTableEditionStart: () => void
     attribute: TableAttribute;
-    // onAdditionalPropertyUpdated: (property: string, value: TableAdditionalProperty) => void;
+    onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void;
     // onSubmit: () => void;
     errors: ValidationError[];
     rights: {
@@ -43,6 +35,10 @@ const TableAttributeView = ({
         };
     }
 }) => {
+    const save = (tableRows: TableRow[]) => {
+        onAdditionalPropertyUpdated('table_property', new TableProperty(tableRows));
+    }
+
     return (
         <React.Fragment>
             <div className="AknFieldContainer" data-code="table_property">
@@ -54,7 +50,7 @@ const TableAttributeView = ({
             </div>
             {getErrorsView(errors, 'table_property')}
 
-            <TableAttributeModal attribute={attribute} rights={rights} />
+            <TableAttributeModal attribute={attribute} rights={rights} saveTable={save} />
         </React.Fragment>
     );
 };

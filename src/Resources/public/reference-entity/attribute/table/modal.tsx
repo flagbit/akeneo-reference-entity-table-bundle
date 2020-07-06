@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import $ from 'jquery';
 import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
-import Key from "akeneoreferenceentity/tools/key";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
 const securityContext = require('pim/security-context');
@@ -31,7 +30,7 @@ type OwnProps = {
 interface TableProp extends OwnProps {
     isDirty: boolean;
     errors: ValidationError[];
-    events: any;
+    saveTable: (tableRows: TableRow[]) => void;
     attribute: TableAttribute;
     locale: string;
     structure: {
@@ -58,8 +57,7 @@ class TableAttributeModal extends React.Component<TableProp> {
         return [...this.props.attribute.table_property.normalize(), emptyRow];
     }
 
-    filter(tableRows: TableRow[]): TableRow[] {
-        const emptyRow = TableProperty.createEmptyRow(this.props.structure.locales);
+    filterEmpty(tableRows: TableRow[]): TableRow[] {
         tableRows = tableRows.filter((tableRow: TableRow): boolean => {
             const val = Object.keys(tableRow.config).length === 0 &&
                 tableRow.type === 'text' &&
@@ -68,13 +66,16 @@ class TableAttributeModal extends React.Component<TableProp> {
 
             return !val;
         });
-        tableRows.push(emptyRow);
 
         return tableRows;
     }
 
     updateTableRowsState(tableRows: TableRow[]): void {
-        tableRows = this.filter(tableRows);
+        tableRows = this.filterEmpty(tableRows);
+
+        const emptyRow = TableProperty.createEmptyRow(this.props.structure.locales);
+        tableRows.push(emptyRow);
+
         this.setState({tableRows: tableRows});
     }
 
@@ -122,6 +123,12 @@ class TableAttributeModal extends React.Component<TableProp> {
         tableRows[index].labels[locale] = label;
 
         this.updateTableRowsState(tableRows);
+    }
+
+    onTableEditionSubmission(): void {
+        this.props.saveTable(this.filterEmpty(this.getTableRows()));
+
+        $('#table').css({'display': 'none'});
     }
 
     onTableEditionDelete(index: number): void {
@@ -213,9 +220,9 @@ class TableAttributeModal extends React.Component<TableProp> {
                         {this.props.rights.attribute.edit ? (
                             <button
                                 className="AknButton AknButton--apply AknFullPage-ok ok confirm"
-                                onClick={this.props.events.onTableEditionSubmission}
+                                onClick={this.onTableEditionSubmission.bind(this)}
                             >
-                                {__('pim_reference_entity.attribute.create.confirm')}
+                                {__('flagbit_reference_entity_table.attribute.confirm')}
                             </button>
                         ) : null}
                         <div
@@ -223,9 +230,6 @@ class TableAttributeModal extends React.Component<TableProp> {
                             className="AknFullPage-cancel cancel"
                             onClick={this.cancelManageTableAttribute.bind(this)}
                             tabIndex={0}
-                            onKeyPress={event => {
-                                if (Key.Space === event.key) this.cancelManageTableAttribute();
-                            }}
                         />
                     </div>
                 </div>
@@ -258,12 +262,4 @@ export default connect(
             },
         };
     },
-    () => {
-        return {
-            events: {
-                onTableEditionSubmission: () => {
-                },
-            },
-        }
-    }
 )(TableAttributeModal);
