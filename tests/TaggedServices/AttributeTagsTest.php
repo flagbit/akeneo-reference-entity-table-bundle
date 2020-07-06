@@ -37,7 +37,7 @@ class AttributeTagsTest extends KernelTestCase
     {
         $registry = self::$container->get('akeneo_referenceentity.application.registry.edit_attribute_command_factory_registry');
 
-        $factories = $registry->getFactories(['table_property' => 'table_property', 'identifier' => 'identifier']);
+        $factories = $registry->getFactories(['table_property' => ['table_property'], 'identifier' => 'identifier']);
 
         self::assertCount(1, $factories);
         self::assertContainsOnlyInstancesOf(EditTableAttributeCommandFactory::class, $factories);

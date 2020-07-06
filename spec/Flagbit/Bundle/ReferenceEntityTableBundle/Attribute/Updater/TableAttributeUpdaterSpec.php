@@ -30,9 +30,9 @@ class TableAttributeUpdaterSpec extends ObjectBehavior
 
     public function it_does_update_attribute(TableAttribute $attribute, EditTableAttributeCommand $command): void
     {
-        $command->tableProperty = 'table_property';
+        $command->tableProperty = ['table_property'];
 
-        $attribute->setTableProperty(TableProperty::fromArray('table_property'));
+        $attribute->setTableProperty(TableProperty::fromArray(['table_property']))->shouldBeCalled();
 
         $this->__invoke($attribute, $command)->shouldBeAnInstanceOf(TableAttribute::class);
     }

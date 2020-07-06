@@ -11,7 +11,8 @@ class EditTableAttributeCommandFactory implements EditAttributeCommandFactoryInt
     public function supports(array $normalizedCommand): bool
     {
         return array_key_exists('table_property', $normalizedCommand)
-            && array_key_exists('identifier', $normalizedCommand);
+            && array_key_exists('identifier', $normalizedCommand)
+            && is_array($normalizedCommand['table_property']);
     }
 
     public function create(array $normalizedCommand): AbstractEditAttributeCommand

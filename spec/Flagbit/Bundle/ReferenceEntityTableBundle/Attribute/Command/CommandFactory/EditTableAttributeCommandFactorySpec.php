@@ -15,7 +15,7 @@ class EditTableAttributeCommandFactorySpec extends ObjectBehavior
 
     public function it_does_support_command(): void
     {
-        $this->supports(['table_property' => 'table_property', 'identifier' => 'identifier'])->shouldReturn(true);
+        $this->supports(['table_property' => [], 'identifier' => 'identifier'])->shouldReturn(true);
     }
 
     public function it_does_not_support_command(): void
@@ -23,10 +23,15 @@ class EditTableAttributeCommandFactorySpec extends ObjectBehavior
         $this->supports([])->shouldReturn(false);
     }
 
+    public function it_does_not_support_command_on_wrong_property_type(): void
+    {
+        $this->supports(['table_property' => 'string', 'identifier' => 'identifier'])->shouldReturn(false);
+    }
+
     public function it_does_create_command(): void
     {
-        $command = new EditTableAttributeCommand('identifier', 'table_property');
+        $command = new EditTableAttributeCommand('identifier', []);
 
-        $this->create(['table_property' => 'table_property', 'identifier' => 'identifier'])->shouldBeLike($command);
+        $this->create(['table_property' => [], 'identifier' => 'identifier'])->shouldBeLike($command);
     }
 }

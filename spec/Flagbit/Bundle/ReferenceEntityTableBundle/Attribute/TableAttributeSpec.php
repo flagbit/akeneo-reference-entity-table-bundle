@@ -31,7 +31,7 @@ class TableAttributeSpec extends ObjectBehavior
             AttributeIsRequired::fromBoolean(false),
             AttributeValuePerChannel::fromBoolean(false),
             AttributeValuePerLocale::fromBoolean(false),
-            TableProperty::fromArray('table_property')
+            TableProperty::fromArray([])
         ]);
     }
 
@@ -79,7 +79,7 @@ class TableAttributeSpec extends ObjectBehavior
             'value_per_channel' => false,
             'value_per_locale' => false,
             'type' => 'flagbit_table',
-            'table_property' => 'table_property',
+            'table_property' => [],
         ]);
     }
 }
