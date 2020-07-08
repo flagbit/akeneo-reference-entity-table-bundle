@@ -62,5 +62,10 @@
                  class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\JsonSchema\TableTypeValidator">
             <tag name="akeneo_referenceentity.connector.api.record_value_validator"/>
         </service>
+
+        <service id="flagbit_table_attribute.record.table_connector_value_transformer"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\TableConnectorValueTransformer">
+            <tag name="akeneo_referenceentity.connector_value_transformer"/>
+        </service>
     </services>
 </container>
