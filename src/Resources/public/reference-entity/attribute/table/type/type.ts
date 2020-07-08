@@ -1,5 +1,6 @@
 import Text from "./text";
 import Number from "./number";
+import Select from "./select";
 
 // Export for custom implementations
 export interface TypeFactory {
@@ -70,6 +71,7 @@ export namespace FlagbitTableTypes {
         [
             new SimpleTypeFactory('text', Text),
             new SimpleTypeFactory('number', Number),
+            new SimpleTypeFactory('simple_select', Select),
         ]
     );
 }

@@ -1,6 +1,7 @@
 import {TableRow} from "../../../attribute/table/table";
 import Text from "./text";
 import Number from "./number";
+import Select from "./select";
 import { TableDataRow } from "../table";
 
 // Export for custom implementations
@@ -62,6 +63,7 @@ export namespace FlagbitTableRecordTypes {
         [
             new SimpleTypeFactory('text', Text),
             new SimpleTypeFactory('number', Number),
+            new SimpleTypeFactory('simple_select', Select),
         ]
     );
 }

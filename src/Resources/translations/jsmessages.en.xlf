@@ -71,6 +71,21 @@
                 <source>flagbit_reference_entity_table.record.table_row.confirm</source>
                 <target>Do you want to remove this row?</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_select_label_options">
+                <source>flagbit_reference_entity_table.attribute.column_type.select.label.options</source>
+                <target>Options</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_select_label_code">
+                <source>flagbit_reference_entity_table.attribute.column_type.select.label.code</source>
+                <target>Code</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_select_label_value">
+                <source>flagbit_reference_entity_table.attribute.column_type.select.label.value</source>
+                <target>Value</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
