@@ -2,7 +2,7 @@ import {Type, ConfigChangeState} from "./type";
 import __ from 'akeneoreferenceentity/tools/translator';
 import React from "react";
 
-type NumberConfig = {
+export type NumberConfig = {
     decimal: 'true' | 'false'
 }
 

@@ -14,8 +14,8 @@ class EditTableCommandFactory implements EditValueCommandFactoryInterface
     {
         return
             $attribute instanceof TableAttribute &&
-            '' !== $normalizedValue['data'] &&
-            is_string($normalizedValue['data']);
+            is_array($normalizedValue['data']) &&
+            0 !== count($normalizedValue['data']);
     }
 
     public function create(AbstractAttribute $attribute, array $normalizedValue): AbstractEditValueCommand

@@ -1,6 +1,8 @@
+import {TableRow} from "../../../attribute/table/table";
 import Text from "./text";
 import Number from "./number";
 import Select from "./select";
+import { TableDataRow } from "../table";
 
 // Export for custom implementations
 export interface TypeFactory {
@@ -11,7 +13,7 @@ export interface TypeFactory {
 // Export for custom implementations
 export interface Type {
     typeCode: string;
-    render(renderArguments: ConfigChangeState): any;
+    render(recordRowData: RecordChangeState): any;
 }
 
 class SimpleTypeFactory implements TypeFactory{
@@ -22,42 +24,32 @@ class SimpleTypeFactory implements TypeFactory{
     }
 }
 
-type Option = {
-    code: string;
-}
-
-export type ConfigChangeState = {
-    typeCode: string;
-    updateConfig: (config: object, index: number) => void;
+export type RecordChangeState = {
+    tableRow: TableRow;
+    updateValue: (code: string, value: any, index: number) => void;
     index: number;
-    config: object
+    rowData: TableDataRow;
 }
 
 class TypeRegistry {
     public constructor(readonly typeFactories: TypeFactory[]) {}
 
-    public getSelectValues(): Option[] {
-        return this.typeFactories.map((typeFactory: TypeFactory) => {
-            return { code: typeFactory.typeCode };
-        })
-    }
-
-    public render(renderArguments: ConfigChangeState): any {
+    public render(recordRowData: RecordChangeState): any {
         const filteredTypes: TypeFactory[] = this.typeFactories.filter(function (typeFactory: TypeFactory): boolean {
-            return typeFactory.typeCode === renderArguments.typeCode;
+            return typeFactory.typeCode === recordRowData.tableRow.type;
         });
 
         if (filteredTypes.length !== 1) {
-            throw Error('Unknown type code ' + renderArguments.typeCode);
+            throw Error('Unknown type code ' + recordRowData.tableRow.type);
         }
 
         const selectedFactory: TypeFactory|undefined = filteredTypes.pop();
 
         if (selectedFactory === undefined) {
-            throw Error('"undefined" for type code ' + renderArguments.typeCode);
+            throw Error('"undefined" for type code ' + recordRowData.tableRow.type);
         }
 
-        return selectedFactory.create().render(renderArguments);
+        return selectedFactory.create().render(recordRowData);
     }
 
     public addFactory(typeFactory: TypeFactory): void {
@@ -66,7 +58,7 @@ class TypeRegistry {
 }
 
 // Keep one instance across the project
-export namespace FlagbitTableTypes {
+export namespace FlagbitTableRecordTypes {
     export const typeRegistry: TypeRegistry = new TypeRegistry(
         [
             new SimpleTypeFactory('text', Text),

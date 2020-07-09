@@ -50,11 +50,11 @@ class TableUpdaterSpec extends ObjectBehavior
         $command->attribute = $attribute;
         $command->channel = 'channel';
         $command->locale = 'locale';
-        $command->tableValue = '{}';
+        $command->tableValue = ['data'];
 
         $channelReference = ChannelReference::fromChannelIdentifier(ChannelIdentifier::fromCode('channel'));
         $localeReference = LocaleReference::fromLocaleIdentifier(LocaleIdentifier::fromCode('locale'));
-        $tableValue = TableData::createFromNormalize('{}');
+        $tableValue = TableData::createFromNormalize(['data']);
 
         $value = Value::create($attributeIdentifier->getWrappedObject(), $channelReference, $localeReference, $tableValue);
 
@@ -73,11 +73,11 @@ class TableUpdaterSpec extends ObjectBehavior
         $command->attribute = $attribute;
         $command->channel = null;
         $command->locale = null;
-        $command->tableValue = '{}';
+        $command->tableValue = [];
 
         $channelReference = ChannelReference::noReference();
         $localeReference = LocaleReference::noReference();
-        $tableValue = TableData::createFromNormalize('{}');
+        $tableValue = TableData::createFromNormalize([]);
 
         $value = Value::create($attributeIdentifier->getWrappedObject(), $channelReference, $localeReference, $tableValue);
 

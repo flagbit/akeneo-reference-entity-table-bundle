@@ -17,7 +17,7 @@ class EditTableCommandFactorySpec extends ObjectBehavior
 
     public function it_does_support_command(TableAttribute $attribute): void
     {
-        $this->supports($attribute, ['data' => 'data'])->shouldReturn(true);
+        $this->supports($attribute, ['data' => ['data']])->shouldReturn(true);
     }
 
     public function it_does_not_support_command(TableAttribute $attribute, AbstractAttribute $abstractAttribute): void
@@ -33,13 +33,13 @@ class EditTableCommandFactorySpec extends ObjectBehavior
             $attribute->getWrappedObject(),
             'channel',
             'locale',
-            'data'
+            ['data']
         );
 
         $normalizedValue = [
             'channel' => 'channel',
             'locale' => 'locale',
-            'data' => 'data',
+            'data' => ['data'],
         ];
 
         $this->create($attribute, $normalizedValue)->shouldBeLike($command);

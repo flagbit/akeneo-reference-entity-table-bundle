@@ -6,6 +6,7 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttribute;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Record\Command\CommandFactory\EditTableCommandFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Record\Command\EditTableValueCommand;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Record\JsonSchema\TableTypeValidator;
+use Flagbit\Bundle\ReferenceEntityTableBundle\Record\TableConnectorValueTransformer;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Record\TableDataHydrator;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Record\Updater\TableUpdater;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -21,7 +22,7 @@ class RecordTagsTest extends KernelTestCase
     {
         $registry = self::$container->get('akeneo_referenceentity.application.registry.record.edit_record_value_command_factory_registry');
 
-        $factory = $registry->getFactory($this->createMock(TableAttribute::class), ['data' => 'data']);
+        $factory = $registry->getFactory($this->createMock(TableAttribute::class), ['data' => ['data']]);
 
         self::assertInstanceOf(EditTableCommandFactory::class, $factory);
     }
@@ -51,5 +52,14 @@ class RecordTagsTest extends KernelTestCase
         $validator = $registry->getValidator(TableAttribute::class);
 
         self::assertInstanceOf(TableTypeValidator::class, $validator);
+    }
+
+    public function testSupportsTableConnectorValueTransformer(): void
+    {
+        $registry = self::$container->get('akeneo_referenceentity.infrastructure.persistence.record.transformer.connector_value_registry');
+
+        $transformer = $registry->getTransformer($this->createMock(TableAttribute::class));
+
+        self::assertInstanceOf(TableConnectorValueTransformer::class, $transformer);
     }
 }

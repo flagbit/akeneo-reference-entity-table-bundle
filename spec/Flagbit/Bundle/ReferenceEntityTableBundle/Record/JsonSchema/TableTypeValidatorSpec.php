@@ -31,7 +31,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
                     [
                         'channel' => null,
                         'locale'  => null,
-                        'data'    => null,
+                        'data'    => [],
                     ]
                 ]
             ]
@@ -48,7 +48,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
                     [
                         'channel' => 'channel',
                         'locale'  => 'locale',
-                        'data'    => '{}',
+                        'data'    => ['data'],
                     ]
                 ]
             ]
@@ -60,7 +60,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
     public function it_does_validate_invalid_record_without_values(): void
     {
         $normalizedRecord = [
-            'values' => [],
+            'values' => '[]',
         ];
 
         $this->validate($normalizedRecord)->shouldHaveCount(1);
@@ -89,7 +89,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
                 'foo' => [
                     [
                         'channel' => null,
-                        'data'  => null,
+                        'data'  => [],
                     ]
                 ]
             ]
@@ -105,7 +105,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
                 'foo' => [
                     [
                         'locale' => null,
-                        'data'  => null,
+                        'data'  => [],
                     ]
                 ]
             ]
@@ -122,7 +122,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
                     [
                         'channel' => 'channel',
                         'locale'  => 'locale',
-                        'data'    => '{}',
+                        'data'    => ['data'],
                         'extra' => null,
                     ]
                 ]
