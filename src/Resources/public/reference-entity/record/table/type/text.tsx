@@ -7,7 +7,6 @@ export default class Text implements Type {
     render(recordRowData: RecordChangeState) {
         return (<React.Fragment key={this.typeCode+recordRowData.index}>
             <input
-                id={`pim_reference_entity.record.enrich.${this.typeCode}.${recordRowData.index}`}
                 type="text"
                 autoComplete="off"
                 className={`AknTextField AknTextField--narrow AknTextField--light`}

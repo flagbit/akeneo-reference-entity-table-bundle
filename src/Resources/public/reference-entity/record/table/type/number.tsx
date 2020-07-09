@@ -11,7 +11,6 @@ export default class Number implements Type {
 
         return (<React.Fragment key={this.typeCode+recordRowData.index}>
             <input
-                id={`pim_reference_entity.record.enrich.${this.typeCode}.${recordRowData.index}`}
                 type="number"
                 step={isDecimal ? '0.1' : '1.0'}
                 autoComplete="off"
