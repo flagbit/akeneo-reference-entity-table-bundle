@@ -5,6 +5,7 @@ import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
+import lodash from 'lodash';
 const securityContext = require('pim/security-context');
 
 import {
@@ -39,6 +40,8 @@ interface TableProp extends OwnProps {
 }
 
 class TableAttributeModal extends React.Component<TableProp> {
+    private id: string = '#table_' + this.props.attribute.getCode().stringValue();
+    private initialState: TableRow[];
 
     cancelManageTableAttribute() {
         const message = __('pim_enrich.confirmation.discard_changes', {entity: 'table_property'});
@@ -52,9 +55,14 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     getInitialTableRows(): TableRow[] {
-        const emptyRow: TableRow = TableProperty.createEmptyRow(this.props.structure.locales);
+        if (this.initialState !== undefined) {
+            return lodash.cloneDeep(this.initialState);
+        }
 
-        return [...this.props.attribute.table_property.normalize(), emptyRow];
+        const emptyRow: TableRow = TableProperty.createEmptyRow(this.props.structure.locales);
+        this.initialState = [...this.props.attribute.table_property.normalize(), emptyRow];
+
+        return lodash.cloneDeep(this.initialState);
     }
 
     filterEmpty(tableRows: TableRow[]): TableRow[] {
@@ -80,7 +88,7 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     closeModal(): void {
-        $('#table').css({'display': 'none'});
+        $(this.id).css({'display': 'none'});
 
         this.updateTableRowsState(
             this.getInitialTableRows()
@@ -126,9 +134,11 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     onTableEditionSubmission(): void {
-        this.props.saveTable(this.filterEmpty(this.getTableRows()));
+        const newState = this.filterEmpty(this.getTableRows())
+        this.props.saveTable(newState);
+        this.initialState = lodash.cloneDeep(newState);
 
-        $('#table').css({'display': 'none'});
+        $(this.id).css({'display': 'none'});
     }
 
     onTableEditionDelete(index: number): void {
@@ -153,7 +163,7 @@ class TableAttributeModal extends React.Component<TableProp> {
     render() {
         return (
             <React.Fragment>
-                <div className="modal in flagbitTableAttribute" id="table" aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
+                <div className="modal in flagbitTableAttribute" id={`table_${this.props.attribute.getCode().stringValue()}`} aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
                     <div>
                         <div className="AknFullPage AknFullPage--full">
                             <div className="AknFullPage-content">

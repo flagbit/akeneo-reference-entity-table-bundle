@@ -19,7 +19,7 @@ const TableAttributeView = ({
                                 errors,
                                 rights
                             }: {
-    onTableEditionStart: () => void
+    onTableEditionStart: (attribute: TableAttribute) => void
     attribute: TableAttribute;
     onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void;
     // onSubmit: () => void;
@@ -43,7 +43,7 @@ const TableAttributeView = ({
         <React.Fragment>
             <div className="AknFieldContainer" data-code="table_property">
                 <div className="AknFieldContainer-header">
-                    <button onClick={onTableEditionStart} className="AknButton" data-code="table_property">
+                    <button onClick={() => onTableEditionStart(attribute)} className="AknButton" data-code="table_property">
                         {__('flagbit_reference_entity_table.attribute.edit_button.manage_columns.label')}
                     </button>
                 </div>
@@ -58,9 +58,10 @@ const TableAttributeView = ({
 export const view = connect(
     () => ({}),
     () => ({
-        onTableEditionStart: () => {
-            $('#table').css({'display': 'block'});
-            $('#table').detach().prependTo('body .app:first');
+        onTableEditionStart: (attribute: TableAttribute) => {
+            const id = '#table_' + attribute.getCode().stringValue();
+            $(id).css({'display': 'block'});
+            $(id).detach().prependTo('body .app:first');
         }
     })
 )(TableAttributeView);
