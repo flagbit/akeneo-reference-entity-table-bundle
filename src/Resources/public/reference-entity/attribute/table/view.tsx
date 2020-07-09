@@ -50,7 +50,7 @@ const TableAttributeView = ({
             </div>
             {getErrorsView(errors, 'table_property')}
 
-            <TableAttributeModal attribute={attribute} rights={rights} saveTable={save} />
+            <TableAttributeModal key={`key_${attribute.getCode().stringValue()}`} attribute={attribute} rights={rights} saveTable={save} />
         </React.Fragment>
     );
 };
