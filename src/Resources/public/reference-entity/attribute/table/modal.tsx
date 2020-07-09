@@ -141,6 +141,15 @@ class TableAttributeModal extends React.Component<TableProp> {
         }
     }
 
+    renderLabel(): string {
+        try {
+            return this.props.attribute.getLabelCollection().getLabel(this.props.locale);
+        } catch (e) {
+            // No Label available for language
+            return this.props.attribute.getCode().stringValue();
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -160,7 +169,7 @@ class TableAttributeModal extends React.Component<TableProp> {
                                     <div className="AknSubsection AknOptionEditor-translator">
                                         <div className="AknSubsection-title AknSubsection-title--sticky AknSubsection-title--light">
                                             <span className="AknSubsection-titleLabel">
-                                                {this.props.attribute.getLabelCollection().getLabel(this.props.locale)}
+                                                {this.renderLabel()}
                                             </span>
                                         </div>
                                         <table className="AknOptionEditor-table">
