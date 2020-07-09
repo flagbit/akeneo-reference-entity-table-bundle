@@ -19,7 +19,7 @@ const TableAttributeView = ({
                                 errors,
                                 rights
                             }: {
-    onTableEditionStart: (attribute: TableAttribute) => void
+    onTableEditionStart: (selector: string) => void
     attribute: TableAttribute;
     onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void;
     // onSubmit: () => void;
@@ -39,18 +39,23 @@ const TableAttributeView = ({
         onAdditionalPropertyUpdated('table_property', new TableProperty(tableRows));
     }
 
+    const modalSelector = '#flagbit_table_' + attribute.getCode().stringValue();
+    const modalContainer = 'flagbit_container_' + attribute.getCode().stringValue();
+
     return (
         <React.Fragment>
             <div className="AknFieldContainer" data-code="table_property">
                 <div className="AknFieldContainer-header">
-                    <button onClick={() => onTableEditionStart(attribute)} className="AknButton" data-code="table_property">
+                    <button onClick={() => onTableEditionStart(modalSelector)} className="AknButton" data-code="table_property">
                         {__('flagbit_reference_entity_table.attribute.edit_button.manage_columns.label')}
                     </button>
                 </div>
             </div>
             {getErrorsView(errors, 'table_property')}
 
-            <TableAttributeModal key={`key_${attribute.getCode().stringValue()}`} attribute={attribute} rights={rights} saveTable={save} />
+            <div id={modalContainer}>
+                <TableAttributeModal key={`key_${attribute.getCode().stringValue()}`} attribute={attribute} rights={rights} saveTable={save} />
+            </div>
         </React.Fragment>
     );
 };
@@ -58,10 +63,9 @@ const TableAttributeView = ({
 export const view = connect(
     () => ({}),
     () => ({
-        onTableEditionStart: (attribute: TableAttribute) => {
-            const id = '#table_' + attribute.getCode().stringValue();
-            $(id).css({'display': 'block'});
-            $(id).detach().prependTo('body .app:first');
+        onTableEditionStart: (selector: string) => {
+            $(selector).css({'display': 'block'});
+            $(selector).detach().prependTo('body .app:first');
         }
     })
 )(TableAttributeView);

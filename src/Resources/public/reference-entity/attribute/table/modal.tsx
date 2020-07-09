@@ -40,7 +40,8 @@ interface TableProp extends OwnProps {
 }
 
 class TableAttributeModal extends React.Component<TableProp> {
-    private id: string = '#table_' + this.props.attribute.getCode().stringValue();
+    private readonly modalSelector = 'body .app:first > #flagbit_table_' + this.props.attribute.getCode().stringValue();
+    private readonly modalContainerSelector = '#flagbit_container_' + this.props.attribute.getCode().stringValue();
     private initialState: TableRow[];
 
     cancelManageTableAttribute() {
@@ -88,7 +89,8 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     closeModal(): void {
-        $(this.id).css({'display': 'none'});
+        $(this.modalSelector).css({'display': 'none'});
+        $(this.modalSelector).detach().prependTo(this.modalContainerSelector);
 
         this.updateTableRowsState(
             this.getInitialTableRows()
@@ -138,7 +140,8 @@ class TableAttributeModal extends React.Component<TableProp> {
         this.props.saveTable(newState);
         this.initialState = lodash.cloneDeep(newState);
 
-        $(this.id).css({'display': 'none'});
+        $(this.modalSelector).css({'display': 'none'});
+        $(this.modalSelector).detach().prependTo(this.modalContainerSelector);
     }
 
     onTableEditionDelete(index: number): void {
@@ -163,7 +166,7 @@ class TableAttributeModal extends React.Component<TableProp> {
     render() {
         return (
             <React.Fragment>
-                <div className="modal in flagbitTableAttribute" id={`table_${this.props.attribute.getCode().stringValue()}`} aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
+                <div className="modal in flagbitTableAttribute" id={`flagbit_table_${this.props.attribute.getCode().stringValue()}`} aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
                     <div>
                         <div className="AknFullPage AknFullPage--full">
                             <div className="AknFullPage-content">
