@@ -86,6 +86,16 @@
                 <source>flagbit_reference_entity_table.attribute.column_type.select.label.value</source>
                 <target>Value</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_error">
+                <source>flagbit_reference_entity_table.attribute.error</source>
+                <target>Manage Table Columns to see error messages</target>
+            </trans-unit>
+
+            <trans-unit id="pim_reference_entity_attribute_validation_duplicate_code">
+                <source>pim_reference_entity.attribute.validation.duplicate_code</source>
+                <target>This code is already in use in your table configuration.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

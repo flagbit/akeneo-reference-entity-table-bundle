@@ -4,7 +4,6 @@ import $ from 'jquery';
 import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
-import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
 import lodash from 'lodash';
 const securityContext = require('pim/security-context');
 
@@ -228,9 +227,6 @@ class TableAttributeModal extends React.Component<TableProp> {
                                                     onTableEditionDelete: this.onTableEditionDelete.bind(this),
                                                 });
                                             })}
-                                            <tr>
-                                                <td>{getErrorsView(this.props.errors, 'table_property')}</td>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -267,7 +263,7 @@ export default connect(
             structure: {
                 locales: state.structure.locales,
             },
-            errors: [],
+            errors: state.attribute.errors,
             isDirty: false,
             rights: {
                 locale: {

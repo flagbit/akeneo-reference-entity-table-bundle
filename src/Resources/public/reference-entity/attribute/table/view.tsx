@@ -1,6 +1,5 @@
 import * as React from 'react';
 import __ from 'akeneoreferenceentity/tools/translator';
-import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import {
     TableAttribute,
@@ -15,14 +14,12 @@ const TableAttributeView = ({
                                 onTableEditionStart,
                                 attribute,
                                 onAdditionalPropertyUpdated,
-                                // onSubmit,
                                 errors,
                                 rights
                             }: {
     onTableEditionStart: (selector: string) => void
     attribute: TableAttribute;
     onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void;
-    // onSubmit: () => void;
     errors: ValidationError[];
     rights: {
         locale: {
@@ -51,7 +48,12 @@ const TableAttributeView = ({
                     </button>
                 </div>
             </div>
-            {getErrorsView(errors, 'table_property')}
+
+            {errors.length !== 0 ? (
+                <div className="AknFieldContainer-footer AknFieldContainer-validationErrors">
+                    <span className="AknFieldContainer-validationError">{__('flagbit_reference_entity_table.attribute.error')}</span>
+                </div>
+            ) : null}
 
             <div id={modalContainer}>
                 <TableAttributeModal key={`key_${attribute.getCode().stringValue()}`} attribute={attribute} rights={rights} saveTable={save} />
