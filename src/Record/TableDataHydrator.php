@@ -14,6 +14,12 @@ class TableDataHydrator implements DataHydratorInterface
         return $attribute instanceof TableAttribute;
     }
 
+    /**
+     * @param array<mixed>      $normalizedData
+     * @param AbstractAttribute $attribute
+     *
+     * @return ValueDataInterface
+     */
     public function hydrate($normalizedData, AbstractAttribute $attribute): ValueDataInterface
     {
         return TableData::createFromNormalize($normalizedData);

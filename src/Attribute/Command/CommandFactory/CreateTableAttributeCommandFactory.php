@@ -9,11 +9,21 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttribute;
 
 class CreateTableAttributeCommandFactory extends AbstractCreateAttributeCommandFactory
 {
+    /**
+     * @param array<mixed> $normalizedCommand
+     *
+     * @return bool
+     */
     public function supports(array $normalizedCommand): bool
     {
         return isset($normalizedCommand['type']) && TableAttribute::ATTRIBUTE_TYPE_NAME === $normalizedCommand['type'];
     }
 
+    /**
+     * @param array<mixed> $normalizedCommand
+     *
+     * @return AbstractCreateAttributeCommand
+     */
     public function create(array $normalizedCommand): AbstractCreateAttributeCommand
     {
         $this->checkCommonProperties($normalizedCommand);

@@ -3,4 +3,4 @@ parameters:
     paths:
         - "%currentWorkingDirectory%/src/"
     typeAliases:
-        tablePropertyArray: "array{'code': string, 'labels': array<string, string>, 'type': string, 'validations': array<mixed>, config: array<mixed>}"
+        tablePropertyArray: "array{'code': string, 'labels': array<string, string>, 'type': string, 'validations': array<mixed>, 'config': array<mixed>}"

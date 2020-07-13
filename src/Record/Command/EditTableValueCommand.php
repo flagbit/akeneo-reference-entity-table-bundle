@@ -7,9 +7,15 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttribute;
 
 class EditTableValueCommand extends AbstractEditValueCommand
 {
-    /** @var array */
+    /** @var array<mixed> */
     public $tableValue;
 
+    /**
+     * @param TableAttribute $attribute
+     * @param string|null    $channel
+     * @param string|null    $locale
+     * @param array<mixed>   $newTableValue
+     */
     public function __construct(TableAttribute $attribute, ?string $channel, ?string $locale, array $newTableValue)
     {
         parent::__construct($attribute, $channel, $locale);

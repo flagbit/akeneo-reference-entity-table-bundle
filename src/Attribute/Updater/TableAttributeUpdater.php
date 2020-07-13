@@ -16,6 +16,11 @@ class TableAttributeUpdater implements AttributeUpdaterInterface
         return $command instanceof EditTableAttributeCommand && $attribute instanceof TableAttribute;
     }
 
+    /**
+     * @param TableAttribute               $attribute
+     * @param AbstractEditAttributeCommand $command
+     * @return AbstractAttribute
+     */
     public function __invoke(AbstractAttribute $attribute, AbstractEditAttributeCommand $command): AbstractAttribute
     {
         if (! $command instanceof EditTableAttributeCommand) {

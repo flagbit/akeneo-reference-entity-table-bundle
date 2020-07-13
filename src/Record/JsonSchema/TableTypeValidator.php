@@ -9,7 +9,9 @@ use JsonSchema\Validator;
 class TableTypeValidator implements RecordValueValidatorInterface
 {
     /**
-     * {@inheritdoc}
+     * @param array<mixed> $normalizedRecord
+     *
+     * @return array{'property': string, 'message': string}
      */
     public function validate(array $normalizedRecord): array
     {
@@ -25,6 +27,9 @@ class TableTypeValidator implements RecordValueValidatorInterface
         return TableAttribute::class;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getJsonSchema(): array
     {
         return [

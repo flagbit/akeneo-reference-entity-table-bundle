@@ -9,6 +9,11 @@ use JsonSchema\Validator;
 
 class TableAttributeEditValidator implements AttributeValidatorInterface
 {
+    /**
+     * @param array<mixed> $normalizedAttribute
+     *
+     * @return array{'property': string, 'message': string}
+     */
     public function validate(array $normalizedAttribute): array
     {
         $record = Validator::arrayToObjectRecursive($normalizedAttribute);
@@ -23,6 +28,9 @@ class TableAttributeEditValidator implements AttributeValidatorInterface
         return $attribute instanceof TableAttribute;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getJsonSchema(): array
     {
         return [

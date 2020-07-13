@@ -55,7 +55,7 @@ class TableAttribute extends AbstractAttribute
         AttributeValuePerChannel $valuePerChannel,
         AttributeValuePerLocale $valuePerLocale,
         TableProperty $property
-    ) {
+    ): self {
         return new self(
             $identifier,
             $referenceEntityIdentifier,
@@ -82,6 +82,9 @@ class TableAttribute extends AbstractAttribute
         $this->tableProperty = $property;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function normalize(): array
     {
         return array_merge(
