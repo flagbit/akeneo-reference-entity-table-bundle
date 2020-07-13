@@ -4,7 +4,7 @@ import $ from 'jquery';
 import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
-import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
+import lodash from 'lodash';
 const securityContext = require('pim/security-context');
 
 import {
@@ -39,6 +39,9 @@ interface TableProp extends OwnProps {
 }
 
 class TableAttributeModal extends React.Component<TableProp> {
+    private readonly modalSelector = 'body .app:first > #flagbit_table_' + this.props.attribute.getCode().stringValue();
+    private readonly modalContainerSelector = '#flagbit_container_' + this.props.attribute.getCode().stringValue();
+    private initialState: TableRow[];
 
     cancelManageTableAttribute() {
         const message = __('pim_enrich.confirmation.discard_changes', {entity: 'table_property'});
@@ -52,9 +55,14 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     getInitialTableRows(): TableRow[] {
-        const emptyRow: TableRow = TableProperty.createEmptyRow(this.props.structure.locales);
+        if (this.initialState !== undefined) {
+            return lodash.cloneDeep(this.initialState);
+        }
 
-        return [...this.props.attribute.table_property.normalize(), emptyRow];
+        const emptyRow: TableRow = TableProperty.createEmptyRow(this.props.structure.locales);
+        this.initialState = [...this.props.attribute.table_property.normalize(), emptyRow];
+
+        return lodash.cloneDeep(this.initialState);
     }
 
     filterEmpty(tableRows: TableRow[]): TableRow[] {
@@ -80,7 +88,8 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     closeModal(): void {
-        $('#table').css({'display': 'none'});
+        $(this.modalSelector).css({'display': 'none'});
+        $(this.modalSelector).detach().prependTo(this.modalContainerSelector);
 
         this.updateTableRowsState(
             this.getInitialTableRows()
@@ -126,9 +135,12 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     onTableEditionSubmission(): void {
-        this.props.saveTable(this.filterEmpty(this.getTableRows()));
+        const newState = this.filterEmpty(this.getTableRows())
+        this.props.saveTable(newState);
+        this.initialState = lodash.cloneDeep(newState);
 
-        $('#table').css({'display': 'none'});
+        $(this.modalSelector).css({'display': 'none'});
+        $(this.modalSelector).detach().prependTo(this.modalContainerSelector);
     }
 
     onTableEditionDelete(index: number): void {
@@ -141,10 +153,19 @@ class TableAttributeModal extends React.Component<TableProp> {
         }
     }
 
+    renderLabel(): string {
+        try {
+            return this.props.attribute.getLabelCollection().getLabel(this.props.locale);
+        } catch (e) {
+            // No Label available for language
+            return this.props.attribute.getCode().stringValue();
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
-                <div className="modal in flagbitTableAttribute" id="table" aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
+                <div className="modal in flagbitTableAttribute" id={`flagbit_table_${this.props.attribute.getCode().stringValue()}`} aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
                     <div>
                         <div className="AknFullPage AknFullPage--full">
                             <div className="AknFullPage-content">
@@ -160,7 +181,7 @@ class TableAttributeModal extends React.Component<TableProp> {
                                     <div className="AknSubsection AknOptionEditor-translator">
                                         <div className="AknSubsection-title AknSubsection-title--sticky AknSubsection-title--light">
                                             <span className="AknSubsection-titleLabel">
-                                                {this.props.attribute.getLabelCollection().getLabel(this.props.locale)}
+                                                {this.renderLabel()}
                                             </span>
                                         </div>
                                         <table className="AknOptionEditor-table">
@@ -206,9 +227,6 @@ class TableAttributeModal extends React.Component<TableProp> {
                                                     onTableEditionDelete: this.onTableEditionDelete.bind(this),
                                                 });
                                             })}
-                                            <tr>
-                                                <td>{getErrorsView(this.props.errors, 'table_property')}</td>
-                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -245,7 +263,7 @@ export default connect(
             structure: {
                 locales: state.structure.locales,
             },
-            errors: [],
+            errors: state.attribute.errors,
             isDirty: false,
             rights: {
                 locale: {

@@ -1,0 +1,41 @@
+Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CreateTableAttributeCommand:
+  constraints:
+    - Callback: ['Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty', 'validateProperty']
+  properties:
+    tableProperty:
+      - All:
+          - Collection:
+              fields:
+                code:
+                  - Type: 'string'
+                  - Akeneo\ReferenceEntity\Infrastructure\Validation\ReferenceEntity\Code: ~
+                labels:
+                  - Akeneo\ReferenceEntity\Infrastructure\Validation\ReferenceEntity\LabelCollection: ~
+                validations:
+                  - Type: 'array'
+                config:
+                  - Type: 'array'
+                type:
+                  - Type: 'string'
+                  - Akeneo\ReferenceEntity\Infrastructure\Validation\ReferenceEntity\Code: ~
+
+Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\EditTableAttributeCommand:
+  constraints:
+    - Callback: ['Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty', 'validateProperty']
+  properties:
+    tableProperty:
+      - All:
+          - Collection:
+              fields:
+                code:
+                  - Type: 'string'
+                  - Akeneo\ReferenceEntity\Infrastructure\Validation\ReferenceEntity\Code: ~
+                labels:
+                  - Akeneo\ReferenceEntity\Infrastructure\Validation\ReferenceEntity\LabelCollection: ~
+                validations:
+                  - Type: 'array'
+                config:
+                  - Type: 'array'
+                type:
+                  - Type: 'string'
+                  - Akeneo\ReferenceEntity\Infrastructure\Validation\ReferenceEntity\Code: ~

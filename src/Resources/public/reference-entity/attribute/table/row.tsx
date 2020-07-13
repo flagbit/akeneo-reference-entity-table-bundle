@@ -78,6 +78,7 @@ export const tableRow = ({
                                 />
                             </div>
                         </div>
+                        {getErrorsView(errors, `tableProperty[${index}][code]`)}
                     </td>
                     {locales.map((currentLocale: Locale) => {
                         return (
@@ -104,6 +105,7 @@ export const tableRow = ({
                                     </div>
                                     {!isLastRow ? getErrorsView(errors, `table_property.${index}`) : null}
                                 </div>
+                                {getErrorsView(errors, `tableProperty[${index}][${currentLocale.code}]`)}
                             </td>
                         );
                     })}
@@ -134,6 +136,7 @@ export const tableRow = ({
                                 </div>
                             </div>
                         </div>
+                        {getErrorsView(errors, `tableProperty[${index}][type]`)}
                     </td>
                     <td>
                         {FlagbitTableTypes.typeRegistry.render({
@@ -142,6 +145,7 @@ export const tableRow = ({
                             index: index,
                             config: row.config,
                         })}
+                        {getErrorsView(errors, `tableProperty[${index}][config]`)}
                     </td>
                     <td>
                         {displayDeleteRowButton ? (
