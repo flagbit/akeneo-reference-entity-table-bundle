@@ -41,6 +41,8 @@ jobs:
         run: "vendor/bin/phplint ./src"
       - name: "Code Sniffer"
         run: "vendor/bin/phpcs -d memory_limit=-1 --standard=PSR2 --extensions=php ./src"
+      - name: "PHPStan"
+        run: "vendor/bin/phpstan analyse"
       - name: "PHPSpec"
         run: "vendor/bin/phpspec run"
       - name: "Integration tests"
