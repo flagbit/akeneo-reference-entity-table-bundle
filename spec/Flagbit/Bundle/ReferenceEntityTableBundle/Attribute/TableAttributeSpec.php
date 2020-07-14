@@ -82,4 +82,17 @@ class TableAttributeSpec extends ObjectBehavior
             'table_property' => [],
         ]);
     }
+
+    public function it_sets_table_property(
+        AttributeIdentifier $identifier,
+        AttributeOrder $order
+    ): void {
+
+        $identifier->__toString()->willReturn('id');
+        $order->intValue()->willReturn(42);
+
+        $this->setTableProperty(TableProperty::fromArray(['foo']));
+
+        $this->normalize()->shouldHaveKeyWithValue('table_property', ['foo']);
+    }
 }

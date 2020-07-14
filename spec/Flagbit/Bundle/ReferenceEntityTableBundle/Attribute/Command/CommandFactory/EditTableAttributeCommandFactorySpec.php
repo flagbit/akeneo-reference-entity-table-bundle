@@ -34,4 +34,9 @@ class EditTableAttributeCommandFactorySpec extends ObjectBehavior
 
         $this->create(['table_property' => [], 'identifier' => 'identifier'])->shouldBeLike($command);
     }
+
+    public function it_throws_exception_on_different_command(): void
+    {
+        $this->shouldThrow(\RuntimeException::class)->during('create', [['foo' => true, 'identifier' => 'identifier']]);
+    }
 }

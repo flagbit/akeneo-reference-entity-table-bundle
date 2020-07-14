@@ -12,3 +12,4 @@ extensions:
       - tests/
       - spec/
       - src/Resources
+      - src/DependencyInjection/FlagbitReferenceEntityTableExtension.php
