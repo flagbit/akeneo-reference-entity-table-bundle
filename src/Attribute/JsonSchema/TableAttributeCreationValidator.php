@@ -59,7 +59,40 @@ final class TableAttributeCreationValidator implements AttributeValidatorInterfa
                 ],
                 'is_required_for_completeness' => [
                     'type' => ['boolean'],
-                ]
+                ],
+                'table_property' => [
+                    'type' => 'array',
+                    'minItems' => 0,
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'code' => [
+                                'type' => ['string'],
+                            ],
+                            'labels' => [
+                                'type' => 'object',
+                                'patternProperties' => [
+                                    '.+' => ['type' => 'string'],
+                                ],
+                            ],
+                            'type' => [
+                                'type' => ['string'],
+                                'enum' => ['text', 'number', 'simple_select'],
+                            ],
+                            'validations' => [
+                                'minItems' => 0,
+                                'maxItems' => 0, // Not implemented yet. Prevent users to add nonsense-data
+                                'type' => 'array',
+                                'items' => [
+                                    'type' => 'object',
+                                ],
+                            ],
+                            'config' => [
+                                'type' => ['object', 'array'],
+                            ]
+                        ],
+                    ],
+                ],
             ],
             'additionalProperties' => false,
         ];
