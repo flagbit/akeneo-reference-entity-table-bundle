@@ -8,6 +8,11 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\EditTableAttribu
 
 class EditTableAttributeCommandFactory implements EditAttributeCommandFactoryInterface
 {
+    /**
+     * @param array<mixed> $normalizedCommand
+     *
+     * @return bool
+     */
     public function supports(array $normalizedCommand): bool
     {
         return array_key_exists('table_property', $normalizedCommand)
@@ -15,6 +20,11 @@ class EditTableAttributeCommandFactory implements EditAttributeCommandFactoryInt
             && is_array($normalizedCommand['table_property']);
     }
 
+    /**
+     * @param array<mixed> $normalizedCommand
+     *
+     * @return AbstractEditAttributeCommand
+     */
     public function create(array $normalizedCommand): AbstractEditAttributeCommand
     {
         if (!$this->supports($normalizedCommand)) {

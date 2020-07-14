@@ -9,6 +9,11 @@ use JsonSchema\Validator;
 
 class TableAttributeEditValidator implements AttributeValidatorInterface
 {
+    /**
+     * @param array<mixed> $normalizedAttribute
+     *
+     * @return array{'property': string, 'message': string}
+     */
     public function validate(array $normalizedAttribute): array
     {
         $record = Validator::arrayToObjectRecursive($normalizedAttribute);
@@ -23,6 +28,9 @@ class TableAttributeEditValidator implements AttributeValidatorInterface
         return $attribute instanceof TableAttribute;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getJsonSchema(): array
     {
         return [
@@ -49,6 +57,39 @@ class TableAttributeEditValidator implements AttributeValidatorInterface
                 ],
                 'is_required_for_completeness' => [
                     'type' => ['boolean'],
+                ],
+                'table_property' => [
+                    'type' => 'array',
+                    'minItems' => 0,
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => [
+                            'code' => [
+                                'type' => ['string'],
+                            ],
+                            'labels' => [
+                                'type' => 'object',
+                                'patternProperties' => [
+                                    '.+' => ['type' => 'string'],
+                                ],
+                            ],
+                            'type' => [
+                                'type' => ['string'],
+                                'enum' => ['text', 'number', 'simple_select'],
+                            ],
+                            'validations' => [
+                                'minItems' => 0,
+                                'maxItems' => 0, // Not implemented yet. Prevent users to add nonsense-data
+                                'type' => 'array',
+                                'items' => [
+                                    'type' => 'object',
+                                ],
+                            ],
+                            'config' => [
+                                'type' => ['object', 'array'],
+                            ]
+                        ],
+                    ],
                 ],
                 '_links' => [
                     'type' => 'object'

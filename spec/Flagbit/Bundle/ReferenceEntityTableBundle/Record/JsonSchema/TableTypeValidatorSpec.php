@@ -48,7 +48,12 @@ class TableTypeValidatorSpec extends ObjectBehavior
                     [
                         'channel' => 'channel',
                         'locale'  => 'locale',
-                        'data'    => ['data'],
+                        'data'    => [[
+                            'string' => 'value',
+                            'object' => ['key' => 'value'],
+                            'array' => ['array'],
+                            'number' => 1,
+                        ]],
                     ]
                 ]
             ]
@@ -122,7 +127,7 @@ class TableTypeValidatorSpec extends ObjectBehavior
                     [
                         'channel' => 'channel',
                         'locale'  => 'locale',
-                        'data'    => ['data'],
+                        'data'    => [['key' => 'value']],
                         'extra' => null,
                     ]
                 ]

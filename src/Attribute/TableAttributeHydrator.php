@@ -19,6 +19,9 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Property\TableProperty;
 
 class TableAttributeHydrator extends AbstractAttributeHydrator
 {
+    /**
+     * @return string[]
+     */
     protected function getExpectedProperties(): array
     {
         return [
@@ -35,6 +38,14 @@ class TableAttributeHydrator extends AbstractAttributeHydrator
         ];
     }
 
+    /**
+     * @param AbstractPlatform $platform
+     * @param array<mixed>     $row
+     *
+     * @return array<mixed>
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
     protected function convertAdditionalProperties(AbstractPlatform $platform, array $row): array
     {
         $row['table_property'] = Type::getType(Types::STRING)->convertToPhpValue(
@@ -45,6 +56,11 @@ class TableAttributeHydrator extends AbstractAttributeHydrator
         return $row;
     }
 
+    /**
+     * @param array<mixed> $row
+     *
+     * @return AbstractAttribute
+     */
     protected function hydrateAttribute(array $row): AbstractAttribute
     {
         return TableAttribute::create(
@@ -60,6 +76,11 @@ class TableAttributeHydrator extends AbstractAttributeHydrator
         );
     }
 
+    /**
+     * @param array<mixed> $result
+     *
+     * @return bool
+     */
     public function supports(array $result): bool
     {
         return isset($result['attribute_type']) && TableAttribute::ATTRIBUTE_TYPE_NAME === $result['attribute_type'];

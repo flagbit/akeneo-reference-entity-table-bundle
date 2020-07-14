@@ -8,19 +8,29 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class TableProperty
 {
-    /** @var array */
+    /** @var tablePropertyArray */
     private $tableProperty;
 
+    /**
+     * @param tablePropertyArray $tableProperty
+     */
     private function __construct(array $tableProperty)
     {
         $this->tableProperty = $tableProperty;
     }
 
+    /**
+     * @param tablePropertyArray $tableProperty
+     * @return self
+     */
     public static function fromArray(array $tableProperty): self
     {
         return new self($tableProperty);
     }
 
+    /**
+     * @return tablePropertyArray
+     */
     public function normalize(): array
     {
         return $this->tableProperty;

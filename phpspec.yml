@@ -1,0 +1,15 @@
+extensions:
+  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
+    format:
+      - html
+      - clover
+
+    output:
+      html: build/coverage
+      clover: build/coverage.xml
+
+    blacklist:
+      - tests/
+      - spec/
+      - src/Resources
+      - src/DependencyInjection/FlagbitReferenceEntityTableExtension.php

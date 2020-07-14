@@ -6,9 +6,18 @@ use Akeneo\ReferenceEntity\Application\Attribute\CreateAttribute\AbstractCreateA
 
 class CreateTableAttributeCommand extends AbstractCreateAttributeCommand
 {
-    /** @var array */
+    /** @var tablePropertyArray */
     public $tableProperty;
 
+    /**
+     * @param string                 $referenceEntityIdentifier
+     * @param string                 $code
+     * @param array<string, string>  $labels
+     * @param bool                   $isRequired
+     * @param bool                   $valuePerChannel
+     * @param bool                   $valuePerLocale
+     * @param tablePropertyArray     $tableProperty
+     */
     public function __construct(
         string $referenceEntityIdentifier,
         string $code,

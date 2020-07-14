@@ -15,6 +15,12 @@ class TableConnectorValueTransformer implements ConnectorValueTransformerInterfa
         return $attribute instanceof TableAttribute;
     }
 
+    /**
+     * @param array<mixed>      $normalizedValue
+     * @param AbstractAttribute $attribute
+     *
+     * @return array{'locale': string|null, 'channel': string|null, 'data': array<mixed>}
+     */
     public function transform(array $normalizedValue, AbstractAttribute $attribute): array
     {
         Assert::true($this->supports($attribute));

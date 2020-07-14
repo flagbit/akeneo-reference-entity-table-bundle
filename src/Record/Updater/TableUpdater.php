@@ -20,6 +20,10 @@ class TableUpdater implements ValueUpdaterInterface
         return $command instanceof EditTableValueCommand;
     }
 
+    /**
+     * @param Record                $record
+     * @param EditTableValueCommand $command
+     */
     public function __invoke(Record $record, AbstractEditValueCommand $command): void
     {
         if (!$this->supports($command)) {

@@ -10,6 +10,12 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Record\Command\EditTableValueComma
 
 class EditTableCommandFactory implements EditValueCommandFactoryInterface
 {
+    /**
+     * @param AbstractAttribute                                                          $attribute
+     * @param array{'locale': string|null, 'channel': string|null, 'data': array<mixed>} $normalizedValue
+     *
+     * @return bool
+     */
     public function supports(AbstractAttribute $attribute, array $normalizedValue): bool
     {
         return
@@ -18,6 +24,12 @@ class EditTableCommandFactory implements EditValueCommandFactoryInterface
             0 !== count($normalizedValue['data']);
     }
 
+    /**
+     * @param TableAttribute                                                             $attribute
+     * @param array{'locale': string|null, 'channel': string|null, 'data': array<mixed>} $normalizedValue
+     *
+     * @return AbstractEditValueCommand
+     */
     public function create(AbstractAttribute $attribute, array $normalizedValue): AbstractEditValueCommand
     {
         return new EditTableValueCommand(

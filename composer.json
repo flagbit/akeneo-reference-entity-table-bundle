@@ -2,6 +2,7 @@
     "name": "flagbit/akeneo-reference-entity-table-bundle",
     "description": "An Akeneo PIM Bundle by Flagbit that adds a multi-dimensional data representation in the form of tables as an attribute for PIM Enterprise Reference Entities",
     "type": "library",
+    "keywords": ["akeneo", "table", "reference entity", "pim", "record", "attribute"],
     "license": "MIT",
     "minimum-stability": "stable",
     "autoload": {
@@ -19,18 +20,14 @@
         "akeneo/pim-enterprise-dev": "^4.0"
     },
     "require-dev": {
+        "friends-of-phpspec/phpspec-code-coverage": "^4.3",
         "phpspec/phpspec": "^6.0",
+        "phpstan/phpstan": "^0.12.32",
         "phpunit/phpunit": "^8.0",
         "squizlabs/php_codesniffer": "^3.5",
         "overtrue/phplint": "^2.0",
         "symfony/debug-bundle": "^4.4",
         "symfony/web-profiler-bundle": "^4.4",
         "symfony/web-server-bundle": "^4.4"
-    },
-    "repositories": {
-        "ee": {
-            "type": "vcs",
-            "url": "ssh://git@distribution.akeneo.com:443/pim-enterprise-dev-flagbit-gmbh-co-kg.git"
-        }
     }
 }
