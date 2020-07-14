@@ -51,6 +51,9 @@ class TableTypeValidator implements RecordValueValidatorInterface
                                     ],
                                     'data' => [
                                         'type' => ['array'],
+                                        'items' => [
+                                            'type' => ['object', 'array'],
+                                        ],
                                     ],
                                 ],
                                 'required' => ['locale', 'channel', 'data'],
