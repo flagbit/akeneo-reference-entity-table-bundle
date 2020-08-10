@@ -9,6 +9,7 @@ Provides a _table_ as attribute type where you can define a set of columns of di
 * Text
 * Number (Integer or Decimal)
 * Simple select
+* Simple select (multilanguage)
 
 ## Installation
 
