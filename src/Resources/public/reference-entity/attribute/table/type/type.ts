@@ -1,6 +1,7 @@
 import Text from "./text";
 import Number from "./number";
 import Select from "./select";
+import Locale from 'akeneoreferenceentity/domain/model/locale';
 
 // Export for custom implementations
 export interface TypeFactory {
@@ -30,7 +31,8 @@ export type ConfigChangeState = {
     typeCode: string;
     updateConfig: (config: object, index: number) => void;
     index: number;
-    config: object
+    config: object;
+    supportedLocales: Locale[];
 }
 
 class TypeRegistry {

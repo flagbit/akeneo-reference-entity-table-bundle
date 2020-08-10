@@ -144,6 +144,7 @@ export const tableRow = ({
                             updateConfig: onTableEditionConfigUpdated,
                             index: index,
                             config: row.config,
+                            supportedLocales: locales
                         })}
                         {getErrorsView(errors, `tableProperty[${index}][config]`)}
                     </td>
