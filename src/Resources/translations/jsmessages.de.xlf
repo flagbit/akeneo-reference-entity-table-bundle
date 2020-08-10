@@ -101,6 +101,11 @@
                 <source>pim_reference_entity.attribute.validation.duplicate_code</source>
                 <target>Dieser Code ist bereits in Verwendung.</target>
             </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_select_localized_button_options">
+                <source>flagbit_reference_entity_table.attribute.column_type.select_localized.button.options</source>
+                <target>Optionen bearbeiten</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
