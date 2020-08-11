@@ -234,7 +234,7 @@ class TableAttributeModal extends React.Component<TableProp> {
                             </div>
                         </div>
                     </div>
-                    <div className="AknButtonList AknButtonList--right modal-footer">
+                    <div id={'table_attribute_modal_buttons'} className="AknButtonList AknButtonList--right modal-footer">
                         {this.props.rights.attribute.edit ? (
                             <button
                                 className="AknButton AknButton--apply AknFullPage-ok ok confirm"

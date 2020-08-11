@@ -48,10 +48,12 @@ export default class LocalizedSelect implements Type {
         }
 
         const openOptions = (): void => {
+            $('#table_attribute_modal_buttons').css({'display': 'none'});
             $('#'+selector).css({'display': 'block'});
         }
 
         const closeOptions = (): void => {
+            $('#table_attribute_modal_buttons').css({'display': 'block'});
             $('#'+selector).css({'display': 'none'});
         }
 
@@ -67,14 +69,6 @@ export default class LocalizedSelect implements Type {
                 className="AknButton AknButton--apply"
             >{__('flagbit_reference_entity_table.attribute.column_type.select_localized.button.options')}</button>
             <div className="modal in flagbitTableAttributeSelectType" id={selector} aria-hidden="false" style={{zIndex: 1060, display: 'none', overflow: 'auto'}}>
-                <div style={{textAlign: 'right', marginRight: '20px', marginTop: '70px'}}>
-                    <button
-                        className="AknButton AknButton--apply ok confirm"
-                        onClick={closeOptions}
-                    >
-                        {__('flagbit_reference_entity_table.attribute.column_type.select_localized.config.buttom.confirm_options')}
-                    </button>
-                </div>
                 <div>
                     <table style={{margin: '70px auto'}}>
                         <caption style={{textAlign: 'left'}}>{__('flagbit_reference_entity_table.attribute.column_type.select.label.options')}</caption>
@@ -135,6 +129,14 @@ export default class LocalizedSelect implements Type {
                         })}
                         </tbody>
                     </table>
+                </div>
+                <div className="AknButtonList AknButtonList--right modal-footer">
+                    <button
+                        className="AknButton AknButton--apply AknFullPage-ok ok confirm"
+                        onClick={closeOptions}
+                    >
+                        {__('flagbit_reference_entity_table.attribute.column_type.select_localized.config.buttom.confirm_options')}
+                    </button>
                 </div>
             </div>
         </React.Fragment>)
