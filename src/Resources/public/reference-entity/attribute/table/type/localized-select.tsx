@@ -58,11 +58,22 @@ export default class LocalizedSelect implements Type {
         config.options = cleanOptions(config.options);
 
         return (<React.Fragment key={key}>
-            <button onClick={openOptions}>{__('flagbit_reference_entity_table.attribute.column_type.select_localized.button.options')}</button>
-            <div className="modal in flagbitTableAttributeSelectType" id={selector} aria-hidden="false" style={{zIndex: 1060, display: 'none'}}>
+            <button
+                onClick={openOptions}
+                className="AknButton AknButton--apply"
+            >{__('flagbit_reference_entity_table.attribute.column_type.select_localized.button.options')}</button>
+            <div className="modal in flagbitTableAttributeSelectType" id={selector} aria-hidden="false" style={{zIndex: 1060, display: 'none', overflow: 'auto'}}>
+                <div style={{textAlign: 'right', marginRight: '20px', marginTop: '70px'}}>
+                    <button
+                        className="AknButton AknButton--apply ok confirm"
+                        onClick={closeOptions}
+                    >
+                        {__('flagbit_reference_entity_table.attribute.column_type.select_localized.config.buttom.confirm_options')}
+                    </button>
+                </div>
                 <div>
-                    <label>{__('flagbit_reference_entity_table.attribute.column_type.select.label.options')}</label>
-                    <table>
+                    <table style={{margin: '70px auto'}}>
+                        <caption style={{textAlign: 'left'}}>{__('flagbit_reference_entity_table.attribute.column_type.select.label.options')}</caption>
                         <thead>
                         <tr>
                             <th>{__('flagbit_reference_entity_table.attribute.column_type.select.label.code')}</th>
@@ -80,6 +91,7 @@ export default class LocalizedSelect implements Type {
                                             key={`row_index${changeState.index}_code${index}`}
                                             type="text"
                                             value={option.code}
+                                            className={'AknTextField AknTextField--light'}
                                             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
                                                 config.options[index] = { code: event.target.value, values: option.values };
                                                 config.options = cleanOptions(config.options);
@@ -93,6 +105,7 @@ export default class LocalizedSelect implements Type {
                                                 key={`row_index${changeState.index}_locale${locale_index}_value${index}`}
                                                 type="text"
                                                 value={option.values[locale.code] || ''}
+                                                className={'AknTextField AknTextField--light'}
                                                 onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
                                                     const localeCode: string = locale.code;
                                                     let optionValues = option.values;
@@ -118,14 +131,6 @@ export default class LocalizedSelect implements Type {
                         })}
                         </tbody>
                     </table>
-                </div>
-                <div>
-                    <button
-                        className="AknButton AknButton--apply AknFullPage-ok ok confirm"
-                        onClick={closeOptions}
-                    >
-                        Nnnnnnope
-                    </button>
                 </div>
             </div>
         </React.Fragment>)
