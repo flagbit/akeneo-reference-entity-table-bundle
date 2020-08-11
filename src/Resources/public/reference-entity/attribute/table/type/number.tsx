@@ -16,7 +16,7 @@ export default class Number implements Type {
     render(changeState: ConfigChangeState) {
         const key = this.typeCode+changeState.index;
         // TODO This needs a better type/content check
-        const config = Object.keys(changeState.config).length === 0 ? this.default : changeState.config as NumberConfig;
+        const config = 'decimal' in changeState.config ? changeState.config as NumberConfig : this.default;
 
         return (<React.Fragment key={key}>
             <label>{__('flagbit_reference_entity_table.attribute.column_type.number.label.decimal')}</label>

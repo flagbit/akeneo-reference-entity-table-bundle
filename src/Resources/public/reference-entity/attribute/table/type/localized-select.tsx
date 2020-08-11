@@ -34,6 +34,10 @@ export default class LocalizedSelect implements Type {
 
         const cleanOptions = (options: Option[]): Option[] => {
             options =  options.filter((option: Option): boolean => {
+                if (typeof option.values !== 'object') {
+                    return false;
+                }
+
                 const optionValues: any[] = Object.values(option.values);
 
                 return ! (optionValues.every((fieldValue) => {return fieldValue === ''}) && option.code === '');
