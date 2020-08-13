@@ -98,7 +98,8 @@ const View = ({
                                 index: index,
                                 rowData: rowData,
                                 tableRow: tableRow,
-                                updateValue: updateValue
+                                updateValue: updateValue,
+                                locale: locale
                             };
 
                             return (

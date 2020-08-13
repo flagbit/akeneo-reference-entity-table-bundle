@@ -2,7 +2,9 @@ import {TableRow} from "../../../attribute/table/table";
 import Text from "./text";
 import Number from "./number";
 import Select from "./select";
+import LocalizedSelect from "./localized-select";
 import { TableDataRow } from "../table";
+import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 
 // Export for custom implementations
 export interface TypeFactory {
@@ -29,6 +31,7 @@ export type RecordChangeState = {
     updateValue: (code: string, value: any, index: number) => void;
     index: number;
     rowData: TableDataRow;
+    locale: LocaleReference;
 }
 
 class TypeRegistry {
@@ -64,6 +67,7 @@ export namespace FlagbitTableRecordTypes {
             new SimpleTypeFactory('text', Text),
             new SimpleTypeFactory('number', Number),
             new SimpleTypeFactory('simple_select', Select),
+            new SimpleTypeFactory('simple_select_localized', LocalizedSelect),
         ]
     );
 }

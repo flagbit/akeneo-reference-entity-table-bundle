@@ -57,6 +57,11 @@
                 <target>Einfachauswahl</target>
             </trans-unit>
 
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_simple_select_localized">
+                <source>flagbit_reference_entity_table.attribute.column_type.simple_select_localized</source>
+                <target>Einfachauswahl (mehrsprachig)</target>
+            </trans-unit>
+
             <trans-unit id="flagbit_reference_entity_table_attribute_column_type_number_label_decimal">
                 <source>flagbit_reference_entity_table.attribute.column_type.number.label.decimal</source>
                 <target>Dezimal</target>
@@ -95,6 +100,16 @@
             <trans-unit id="pim_reference_entity_attribute_validation_duplicate_code">
                 <source>pim_reference_entity.attribute.validation.duplicate_code</source>
                 <target>Dieser Code ist bereits in Verwendung.</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_select_localized_button_options">
+                <source>flagbit_reference_entity_table.attribute.column_type.select_localized.button.options</source>
+                <target>Optionen bearbeiten</target>
+            </trans-unit>
+
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_select_localized_config_buttom_confirm_options">
+                <source>flagbit_reference_entity_table.attribute.column_type.select_localized.config.buttom.confirm_options</source>
+                <target>Optionen übernehmen</target>
             </trans-unit>
         </body>
     </file>
