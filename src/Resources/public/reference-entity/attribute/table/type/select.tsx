@@ -40,11 +40,7 @@ export default class Select implements Type {
 
         const key = this.typeCode+changeState.index;
         // TODO This needs a better type/content check
-        if (Object.keys(changeState.config).length === 0) {
-            changeState.config = this.default;
-            changeState.updateConfig(this.default, changeState.index);
-        }
-        const config = changeState.config as SelectConfig;
+        const config = Object.keys(changeState.config).length === 0 ? this.default : changeState.config as SelectConfig;
 
         config.options = cleanOptions(config.options);
 
