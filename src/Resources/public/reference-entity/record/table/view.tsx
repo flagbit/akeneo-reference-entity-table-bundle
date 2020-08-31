@@ -83,7 +83,7 @@ const View = ({
                     {tableRows.map((tableRow: TableRow) => {
                         return (
                             <th className="AknOptionEditor-headCell" key={`title_${attributeCode}_${tableRow.code}`}>
-                                <label className="AknOptionEditor-headCellLabel">{tableRow.labels[locale.stringValue()]}</label>
+                                <label className="AknOptionEditor-headCellLabel">{tableRow.labels[locale.stringValue()] || `[${tableRow.code}]`}</label>
                             </th>
                         );
                     })}
