@@ -32,7 +32,7 @@ export default class LocalizedSelect implements Type {
             changeState.updateConfig(config, changeState.index);
         };
 
-        const cleanOptions = (options: Option[]): Option[] => {
+        const cleanOptions = (options: Option[], appendRow: boolean = true): Option[] => {
             options =  options.filter((option: Option): boolean => {
                 if (typeof option.values !== 'object') {
                     return false;
@@ -42,19 +42,28 @@ export default class LocalizedSelect implements Type {
 
                 return ! (optionValues.every((fieldValue) => {return fieldValue === ''}) && option.code === '');
             });
-            options.push(this.createEmptyOption());
+
+            if (appendRow) {
+                options.push(this.createEmptyOption());
+            }
 
             return options;
         }
 
-        const openOptions = (): void => {
+        const openOptions = (config: SelectConfig): void => {
             $('#table_attribute_modal_buttons').css({'display': 'none'});
             $('#'+selector).css({'display': 'block'});
+
+            config.options = cleanOptions(config.options);
+            changeState.updateConfig(config, changeState.index);
         }
 
-        const closeOptions = (): void => {
+        const closeOptions = (config: SelectConfig): void => {
             $('#table_attribute_modal_buttons').css({'display': 'block'});
             $('#'+selector).css({'display': 'none'});
+
+            config.options = cleanOptions(config.options, false);
+            changeState.updateConfig(config, changeState.index);
         }
 
         const key = this.typeCode+changeState.index;
@@ -65,11 +74,9 @@ export default class LocalizedSelect implements Type {
         }
         const config = changeState.config as SelectConfig;
 
-        config.options = cleanOptions(config.options);
-
         return (<React.Fragment key={key}>
             <button
-                onClick={openOptions}
+                onClick={() => openOptions(config)}
                 className="AknButton AknButton--apply"
             >{__('flagbit_reference_entity_table.attribute.column_type.select_localized.button.options')}</button>
             <div className="modal in flagbitTableAttributeSelectType" id={selector} aria-hidden="false" style={{zIndex: 1060, display: 'none', overflow: 'auto'}}>
@@ -137,7 +144,7 @@ export default class LocalizedSelect implements Type {
                 <div className="AknButtonList AknButtonList--right modal-footer">
                     <button
                         className="AknButton AknButton--apply AknFullPage-ok ok confirm"
-                        onClick={closeOptions}
+                        onClick={() => closeOptions(config)}
                     >
                         {__('flagbit_reference_entity_table.attribute.column_type.select_localized.config.buttom.confirm_options')}
                     </button>
