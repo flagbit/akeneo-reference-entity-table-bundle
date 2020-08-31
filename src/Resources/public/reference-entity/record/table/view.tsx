@@ -11,14 +11,10 @@ const View = ({
                   value,
                   onChange,
                   locale,
-                  // onSubmit,
-                  // canEditData,
               }: {
     value: Value;
     onChange: (value: Value) => void;
     locale: LocaleReference;
-    // onSubmit: () => void;
-    // canEditData: boolean;
 }) => {
     if (!(value.data instanceof TableData && value.attribute instanceof ConcreteTableAttribute)) {
         return null;
@@ -26,13 +22,11 @@ const View = ({
 
     // Remove all rows that became empty.
     const filterEmptyRows = (tableDataRows: TableDataRow[]): TableDataRow[] => {
-        const filteredRows = tableDataRows.filter((tableDataRow: TableDataRow): boolean => {
+        return tableDataRows.filter((tableDataRow: TableDataRow): boolean => {
             const rowValues: any[] = Object.values(tableDataRow);
 
             return ! rowValues.every((fieldValue) => {return fieldValue === null});
         });
-
-        return filteredRows;
     }
 
     const attributeCode: string = value.attribute.getCode().normalize();
