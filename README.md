@@ -16,7 +16,7 @@ Provides a _table_ as attribute type where you can define a set of columns of di
 Simply install the package with the following command: 
 
 ``` bash
-composer require flagbit/reference-entity-table-bundle
+composer require flagbit/akeneo-reference-entity-table-bundle
 ```
 
 ### Enable the bundle
