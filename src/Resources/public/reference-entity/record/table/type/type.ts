@@ -7,6 +7,7 @@ import { TableDataRow } from "../table";
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 
 // Export for custom implementations
+// ts-unused-exports:disable-next-line
 export interface TypeFactory {
     typeCode: string;
     create(): Type;

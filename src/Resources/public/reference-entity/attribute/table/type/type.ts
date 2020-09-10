@@ -5,6 +5,7 @@ import LocalizedSelect from "./localized-select";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 
 // Export for custom implementations
+// ts-unused-exports:disable-next-line
 export interface TypeFactory {
     typeCode: string;
     create(): Type;
