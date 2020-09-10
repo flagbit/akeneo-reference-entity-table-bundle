@@ -15,4 +15,5 @@ const tableCellView: CellView = memo(({value}: {value: NormalizedValue}) => {
     );
 });
 
+// ts-unused-exports:disable-next-line
 export const cell = tableCellView;

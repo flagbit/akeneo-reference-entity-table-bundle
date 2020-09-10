@@ -110,4 +110,5 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
 /**
  * The only required part of the file: exporting a denormalize method returning a custom attribute implementing Attribute interface
  */
+// ts-unused-exports:disable-next-line
 export const denormalize = ConcreteTableAttribute.createFromNormalized;

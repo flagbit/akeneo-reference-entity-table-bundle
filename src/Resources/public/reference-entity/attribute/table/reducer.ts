@@ -25,4 +25,5 @@ const tableAttributeReducer = (
  * The only required part of the file: exporting the custom attribute reducer.
  * Be aware that the export has to be named ``reducer``
  */
+// ts-unused-exports:disable-next-line
 export const reducer = tableAttributeReducer;

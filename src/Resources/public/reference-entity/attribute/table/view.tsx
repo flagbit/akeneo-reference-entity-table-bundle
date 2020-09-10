@@ -62,6 +62,7 @@ const TableAttributeView = ({
     );
 };
 
+// ts-unused-exports:disable-next-line
 export const view = connect(
     () => ({}),
     () => ({

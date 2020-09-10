@@ -120,4 +120,5 @@ const View = ({
     );
 };
 
+// ts-unused-exports:disable-next-line
 export const view = View;

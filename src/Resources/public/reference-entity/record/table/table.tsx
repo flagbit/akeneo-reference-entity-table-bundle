@@ -35,4 +35,5 @@ export class TableData extends ValueData {
     }
 }
 
+// ts-unused-exports:disable-next-line
 export const denormalize = TableData.createFromNormalized;
