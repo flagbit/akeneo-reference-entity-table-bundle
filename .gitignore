@@ -15,3 +15,7 @@
 /composer.phar
 /composer.lock
 /vendor/
+
+# Yarn
+/yarn-error.log
+/node_modules

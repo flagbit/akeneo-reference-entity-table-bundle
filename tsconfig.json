@@ -1,0 +1,7 @@
+{
+  "extends": "./vendor/akeneo/pim-community-dev/tsconfig.json",
+  "include": [
+    "vendor/akeneo/pim-community-dev/frontend/types.d.ts",
+    "vendor/akeneo/pim-enterprise-dev/frontend/types.d.ts"
+  ]
+}
