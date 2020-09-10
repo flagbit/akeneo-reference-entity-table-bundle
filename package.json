@@ -12,5 +12,8 @@
     "vendor/akeneo/pim-community-dev",
     "vendor/akeneo/pim-community-dev/src/Akeneo/Connectivity/Connection/front",
     "vendor/akeneo/pim-enterprise-dev/src/Akeneo/Pim/Automation/DataQualityInsights/front"
-  ]
+  ],
+  "devDependencies": {
+    "ts-unused-exports": "^6.2.3"
+  }
 }
