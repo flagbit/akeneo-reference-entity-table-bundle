@@ -39,9 +39,7 @@ export class TableProperty {
     }
 }
 
-export type TableAdditionalProperty = TableProperty;
-
-export type NormalizedTableAdditionalProperty = NormalizedTableProperty;
+export type NormalizedTableAdditionalProperty = TableRow[];
 
 export interface NormalizedTableAttribute extends NormalizedAttribute {
     type: 'flagbit_table';

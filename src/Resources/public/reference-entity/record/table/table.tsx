@@ -6,7 +6,6 @@ export type TableDataRow = {
     [key: string]: any;
 }
 
-export type NormalizedTableData = TableDataRow[] | null;
 export class TableData extends ValueData {
     private constructor(private tableData: TableDataRow[]) {
         super();
@@ -18,7 +17,7 @@ export class TableData extends ValueData {
         Object.freeze(this);
     }
 
-    public static createFromNormalized(tableData: NormalizedTableData): TableData {
+    public static createFromNormalized(tableData: TableDataRow[] | null): TableData {
         return new TableData(null === tableData ? [] : tableData);
     }
 
