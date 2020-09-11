@@ -82,3 +82,6 @@ jobs:
 
       - name: "Check for obsolete ts exports"
         run: "npx ts-unused-exports tsconfig.json $(find src/Resources/public -name '*.ts*') --showLineNumber"
+
+      - name: "Typescript linting"
+        run: "npx tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
