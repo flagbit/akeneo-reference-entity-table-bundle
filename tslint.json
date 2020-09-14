@@ -4,6 +4,21 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "max-classes-per-file": false,
+        "no-namespace": false,
+        "object-literal-shorthand": [true, "never"],
+        "variable-name": {
+            "options": [
+                "allow-snake-case"
+            ]
+        },
+        "no-shadowed-variable": [
+            true,
+            {
+                "temporalDeadZone": false
+            }
+        ]
+    },
     "rulesDirectory": []
 }
