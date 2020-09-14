@@ -18,7 +18,7 @@ export interface Type {
 }
 
 class SimpleTypeFactory implements TypeFactory{
-    constructor(readonly typeCode: string, readonly typeClass: { new(typeCode: string): Type }) {}
+    constructor(readonly typeCode: string, readonly typeClass: new(typeCode: string) => Type) {}
 
     create(): Type {
         return new this.typeClass(this.typeCode);
@@ -47,9 +47,11 @@ class TypeRegistry {
     }
 
     public render(renderArguments: ConfigChangeState): any {
-        const filteredTypes: TypeFactory[] = this.typeFactories.filter(function (typeFactory: TypeFactory): boolean {
-            return typeFactory.typeCode === renderArguments.typeCode;
-        });
+        const filteredTypes: TypeFactory[] = this.typeFactories.filter(
+            (typeFactory: TypeFactory): boolean => {
+                return typeFactory.typeCode === renderArguments.typeCode
+            }
+        );
 
         if (filteredTypes.length !== 1) {
             throw Error('Unknown type code ' + renderArguments.typeCode);

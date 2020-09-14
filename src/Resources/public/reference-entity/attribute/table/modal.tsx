@@ -5,7 +5,6 @@ import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import lodash from 'lodash';
-const securityContext = require('pim/security-context');
 
 import {
     TableAttribute,
@@ -66,16 +65,14 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     filterEmpty(tableRows: TableRow[]): TableRow[] {
-        tableRows = tableRows.filter((tableRow: TableRow): boolean => {
-            const val = Object.keys(tableRow.config).length === 0 &&
-                tableRow.type === 'text' &&
-                tableRow.code === '' &&
-                Object.values(tableRow.labels).filter((value: string): boolean => '' !== value).length === 0;
+        return tableRows.filter((row: TableRow): boolean => {
+            const val = Object.keys(row.config).length === 0 &&
+                row.type === 'text' &&
+                row.code === '' &&
+                Object.values(row.labels).filter((value: string): boolean => '' !== value).length === 0;
 
             return !val;
         });
-
-        return tableRows;
     }
 
     updateTableRowsState(tableRows: TableRow[]): void {
@@ -258,6 +255,7 @@ class TableAttributeModal extends React.Component<TableProp> {
 
 export default connect(
     (state: any, ownProps: OwnProps) => {
+        const securityContext = require('pim/security-context');
         return {
             locale: state.user.catalogLocale,
             structure: {

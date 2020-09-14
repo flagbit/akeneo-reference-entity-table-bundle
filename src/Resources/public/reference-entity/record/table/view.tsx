@@ -7,7 +7,7 @@ import {ConcreteTableAttribute, TableRow} from '../../attribute/table/table';
 import {denormalize, TableData, TableDataRow} from './table';
 import {RecordChangeState, FlagbitTableRecordTypes} from './type/type';
 
-const View = ({
+const recordView = ({
                   value,
                   onChange,
                   locale,
@@ -121,4 +121,4 @@ const View = ({
 };
 
 // ts-unused-exports:disable-next-line
-export const view = View;
+export const view = recordView;

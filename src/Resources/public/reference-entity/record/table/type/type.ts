@@ -20,7 +20,7 @@ export interface Type {
 }
 
 class SimpleTypeFactory implements TypeFactory{
-    constructor(readonly typeCode: string, readonly typeClass: { new(typeCode: string): Type }) {}
+    constructor(readonly typeCode: string, readonly typeClass: new(typeCode: string) => Type) {}
 
     create(): Type {
         return new this.typeClass(this.typeCode);
@@ -39,9 +39,11 @@ class TypeRegistry {
     public constructor(readonly typeFactories: TypeFactory[]) {}
 
     public render(recordRowData: RecordChangeState): any {
-        const filteredTypes: TypeFactory[] = this.typeFactories.filter(function (typeFactory: TypeFactory): boolean {
-            return typeFactory.typeCode === recordRowData.tableRow.type;
-        });
+        const filteredTypes: TypeFactory[] = this.typeFactories.filter(
+            (typeFactory: TypeFactory): boolean => {
+                return typeFactory.typeCode === recordRowData.tableRow.type;
+            }
+        );
 
         if (filteredTypes.length !== 1) {
             throw Error('Unknown type code ' + recordRowData.tableRow.type);

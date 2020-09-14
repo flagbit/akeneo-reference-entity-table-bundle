@@ -10,7 +10,7 @@ import TableAttributeModal from './modal';
 import {connect} from 'react-redux';
 import $ from 'jquery';
 
-const TableAttributeView = ({
+const tableAttributeView = ({
                                 onTableEditionStart,
                                 attribute,
                                 onAdditionalPropertyUpdated,
@@ -71,4 +71,4 @@ export const view = connect(
             $(selector).detach().prependTo('body .app:first');
         }
     })
-)(TableAttributeView);
+)(tableAttributeView);

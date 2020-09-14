@@ -24,7 +24,7 @@ export default class Select implements Type {
         const selector = `flagbit_table_${changeState.typeCode}_${changeState.index}`;
 
         const removeDataRow = (config: SelectConfig, index: number): void => {
-            let options: Option[] = config.options
+            const options: Option[] = config.options
             options.splice(index, 1);
             config.options = options;
             changeState.updateConfig(config, changeState.index);

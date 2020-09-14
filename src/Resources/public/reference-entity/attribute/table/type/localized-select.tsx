@@ -26,7 +26,7 @@ export default class LocalizedSelect implements Type {
         const selector = `flagbit_table_${changeState.typeCode}_${changeState.index}`;
 
         const removeDataRow = (config: SelectConfig, index: number): void => {
-            let options: Option[] = config.options
+            const options: Option[] = config.options
             options.splice(index, 1);
             config.options = options;
             changeState.updateConfig(config, changeState.index);
@@ -108,10 +108,10 @@ export default class LocalizedSelect implements Type {
                                             }}
                                         />
                                     </td>
-                                    {changeState.supportedLocales.map((locale, locale_index: number) => {
-                                        return (<td key={`th_${locale.code}_${locale_index}_${index}`}>
+                                    {changeState.supportedLocales.map((locale, localeIndex: number) => {
+                                        return (<td key={`th_${locale.code}_${localeIndex}_${index}`}>
                                             <input
-                                                key={`row_index${changeState.index}_locale${locale_index}_value${index}`}
+                                                key={`row_index${changeState.index}_locale${localeIndex}_value${index}`}
                                                 type="text"
                                                 value={option.values[locale.code] || ''}
                                                 className={'AknTextField AknTextField--light'}

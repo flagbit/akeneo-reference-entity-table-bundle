@@ -11,8 +11,8 @@ const tableAttributeReducer = (
 ): NormalizedTableAttribute => {
     switch (propertyCode) {
         case 'table_property':
-            const table_property = propertyValue as NormalizedTableProperty;
-            return {...normalizedAttribute, table_property};
+            const tableProperty = propertyValue as NormalizedTableProperty;
+            return {...normalizedAttribute, table_property: tableProperty};
 
         default:
             break;
