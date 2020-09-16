@@ -81,7 +81,10 @@ jobs:
           cmd: "install"
 
       - name: "Check for obsolete ts exports"
-        run: "npx ts-unused-exports tsconfig.json $(find src/Resources/public -name '*.ts*') --showLineNumber"
+        run: "yarn ts-unused-exports tsconfig.json $(find src/Resources/public -name '*.ts*') --showLineNumber"
 
       - name: "Typescript linting"
-        run: "npx tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
+        run: "yarn tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
+
+      - name: "Typescript linting"
+        run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
