@@ -1,28 +1,28 @@
-import * as React from "react";
-import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
-import Key from "akeneoreferenceentity/tools/key";
+import * as React from 'react';
+import ValidationError from 'akeneoreferenceentity/domain/model/validation-error';
+import Key from 'akeneoreferenceentity/tools/key';
 import __ from 'akeneoreferenceentity/tools/translator';
-import {getErrorsView} from 'akeneoreferenceentity/application/component/app/validation-error';
+import { getErrorsView } from 'akeneoreferenceentity/application/component/app/validation-error';
 import Close from 'akeneoreferenceentity/application/component/app/icon/close';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
-import {FlagbitTableTypes} from './type/type';
-import {TableRow} from "./table";
+import { FlagbitTableTypes } from './type/type';
+import { TableRow } from './table';
 
 export const tableRow = ({
-                             row,
-                             index,
-                             isLastRow,
-                             numberOfLockedRows,
-                             locales,
-                             errors,
-                             rights,
-                             onTableEditionCodeUpdated,
-                             onTableEditionLabelUpdated,
-                             onTableEditionTypeUpdated,
-                             onTableEditionConfigUpdated,
-                             onTableEditionDelete,
-                         }: {
-    row: TableRow
+    row,
+    index,
+    isLastRow,
+    numberOfLockedRows,
+    locales,
+    errors,
+    rights,
+    onTableEditionCodeUpdated,
+    onTableEditionLabelUpdated,
+    onTableEditionTypeUpdated,
+    onTableEditionConfigUpdated,
+    onTableEditionDelete,
+}: {
+    row: TableRow;
     index: number;
     isLastRow: boolean;
     numberOfLockedRows: number;
@@ -45,9 +45,8 @@ export const tableRow = ({
     onTableEditionDelete: (id: any) => void;
 }) => {
     const code: string = row.code;
-    const labels: {[index:string]: string} = row.labels;
+    const labels: { [index: string]: string } = row.labels;
     const type: string = row.type;
-
 
     const displayDeleteRowButton: boolean = !isLastRow && rights.attribute.delete;
     const canEditLabel = rights.attribute.edit && rights.locale.edit;
@@ -87,11 +86,7 @@ export const tableRow = ({
                                     <div className="AknFieldContainer-inputContainer">
                                         <input
                                             autoComplete="off"
-                                            placeholder={
-                                                isLastRow && canEditLabel
-                                                    ? ''
-                                                    : ''
-                                            }
+                                            placeholder={isLastRow && canEditLabel ? '' : ''}
                                             type="text"
                                             className={labelClassName}
                                             id={`pim_reference_entity.attribute.edit.input.${currentLocale.code}_${index}.label`}
@@ -128,9 +123,11 @@ export const tableRow = ({
                                         disabled={!rights.attribute.edit}
                                     >
                                         {FlagbitTableTypes.typeRegistry.getSelectValues().map((option: any) => {
-                                            return (<option key={`${option.code}_${index}`} value={option.code}>
-                                                {__('flagbit_reference_entity_table.attribute.column_type.'+option.code)}
-                                            </option>);
+                                            return (
+                                                <option key={`${option.code}_${index}`} value={option.code}>
+                                                    {__('flagbit_reference_entity_table.attribute.column_type.' + option.code)}
+                                                </option>
+                                            );
                                         })}
                                     </select>
                                 </div>
@@ -144,7 +141,7 @@ export const tableRow = ({
                             updateConfig: onTableEditionConfigUpdated,
                             index: index,
                             config: row.config,
-                            supportedLocales: locales
+                            supportedLocales: locales,
                         })}
                         {getErrorsView(errors, `tableProperty[${index}][config]`)}
                     </td>

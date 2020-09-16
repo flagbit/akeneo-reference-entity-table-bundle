@@ -1,9 +1,9 @@
-import {TableRow} from "../../../attribute/table/table";
-import Text from "./text";
-import Number from "./number";
-import Select from "./select";
-import LocalizedSelect from "./localized-select";
-import { TableDataRow } from "../table";
+import { TableRow } from '../../../attribute/table/table';
+import Text from './text';
+import Number from './number';
+import Select from './select';
+import LocalizedSelect from './localized-select';
+import { TableDataRow } from '../table';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 
 // Export for custom implementations
@@ -19,8 +19,8 @@ export interface Type {
     render(recordRowData: RecordChangeState): any;
 }
 
-class SimpleTypeFactory implements TypeFactory{
-    constructor(readonly typeCode: string, readonly typeClass: new(typeCode: string) => Type) {}
+class SimpleTypeFactory implements TypeFactory {
+    constructor(readonly typeCode: string, readonly typeClass: new (typeCode: string) => Type) {}
 
     create(): Type {
         return new this.typeClass(this.typeCode);
@@ -33,23 +33,21 @@ export type RecordChangeState = {
     index: number;
     rowData: TableDataRow;
     locale: LocaleReference;
-}
+};
 
 class TypeRegistry {
     public constructor(readonly typeFactories: TypeFactory[]) {}
 
     public render(recordRowData: RecordChangeState): any {
-        const filteredTypes: TypeFactory[] = this.typeFactories.filter(
-            (typeFactory: TypeFactory): boolean => {
-                return typeFactory.typeCode === recordRowData.tableRow.type;
-            }
-        );
+        const filteredTypes: TypeFactory[] = this.typeFactories.filter((typeFactory: TypeFactory): boolean => {
+            return typeFactory.typeCode === recordRowData.tableRow.type;
+        });
 
         if (filteredTypes.length !== 1) {
             throw Error('Unknown type code ' + recordRowData.tableRow.type);
         }
 
-        const selectedFactory: TypeFactory|undefined = filteredTypes.pop();
+        const selectedFactory: TypeFactory | undefined = filteredTypes.pop();
 
         if (selectedFactory === undefined) {
             throw Error('"undefined" for type code ' + recordRowData.tableRow.type);
@@ -65,12 +63,10 @@ class TypeRegistry {
 
 // Keep one instance across the project
 export namespace FlagbitTableRecordTypes {
-    export const typeRegistry: TypeRegistry = new TypeRegistry(
-        [
-            new SimpleTypeFactory('text', Text),
-            new SimpleTypeFactory('number', Number),
-            new SimpleTypeFactory('simple_select', Select),
-            new SimpleTypeFactory('simple_select_localized', LocalizedSelect),
-        ]
-    );
+    export const typeRegistry: TypeRegistry = new TypeRegistry([
+        new SimpleTypeFactory('text', Text),
+        new SimpleTypeFactory('number', Number),
+        new SimpleTypeFactory('simple_select', Select),
+        new SimpleTypeFactory('simple_select_localized', LocalizedSelect),
+    ]);
 }

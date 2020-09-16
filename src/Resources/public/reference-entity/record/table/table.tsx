@@ -4,7 +4,7 @@ class InvalidTypeError extends Error {}
 
 export type TableDataRow = {
     [key: string]: any;
-}
+};
 
 export class TableData extends ValueData {
     private constructor(private tableData: TableDataRow[]) {

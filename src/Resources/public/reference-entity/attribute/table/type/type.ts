@@ -1,7 +1,7 @@
-import Text from "./text";
-import Number from "./number";
-import Select from "./select";
-import LocalizedSelect from "./localized-select";
+import Text from './text';
+import Number from './number';
+import Select from './select';
+import LocalizedSelect from './localized-select';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 
 // Export for custom implementations
@@ -17,8 +17,8 @@ export interface Type {
     render(renderArguments: ConfigChangeState): any;
 }
 
-class SimpleTypeFactory implements TypeFactory{
-    constructor(readonly typeCode: string, readonly typeClass: new(typeCode: string) => Type) {}
+class SimpleTypeFactory implements TypeFactory {
+    constructor(readonly typeCode: string, readonly typeClass: new (typeCode: string) => Type) {}
 
     create(): Type {
         return new this.typeClass(this.typeCode);
@@ -27,7 +27,7 @@ class SimpleTypeFactory implements TypeFactory{
 
 type Option = {
     code: string;
-}
+};
 
 export type ConfigChangeState = {
     typeCode: string;
@@ -35,7 +35,7 @@ export type ConfigChangeState = {
     index: number;
     config: object;
     supportedLocales: Locale[];
-}
+};
 
 class TypeRegistry {
     public constructor(readonly typeFactories: TypeFactory[]) {}
@@ -43,21 +43,19 @@ class TypeRegistry {
     public getSelectValues(): Option[] {
         return this.typeFactories.map((typeFactory: TypeFactory) => {
             return { code: typeFactory.typeCode };
-        })
+        });
     }
 
     public render(renderArguments: ConfigChangeState): any {
-        const filteredTypes: TypeFactory[] = this.typeFactories.filter(
-            (typeFactory: TypeFactory): boolean => {
-                return typeFactory.typeCode === renderArguments.typeCode
-            }
-        );
+        const filteredTypes: TypeFactory[] = this.typeFactories.filter((typeFactory: TypeFactory): boolean => {
+            return typeFactory.typeCode === renderArguments.typeCode;
+        });
 
         if (filteredTypes.length !== 1) {
             throw Error('Unknown type code ' + renderArguments.typeCode);
         }
 
-        const selectedFactory: TypeFactory|undefined = filteredTypes.pop();
+        const selectedFactory: TypeFactory | undefined = filteredTypes.pop();
 
         if (selectedFactory === undefined) {
             throw Error('"undefined" for type code ' + renderArguments.typeCode);
@@ -73,12 +71,10 @@ class TypeRegistry {
 
 // Keep one instance across the project
 export namespace FlagbitTableTypes {
-    export const typeRegistry: TypeRegistry = new TypeRegistry(
-        [
-            new SimpleTypeFactory('text', Text),
-            new SimpleTypeFactory('number', Number),
-            new SimpleTypeFactory('simple_select', Select),
-            new SimpleTypeFactory('simple_select_localized', LocalizedSelect),
-        ]
-    );
+    export const typeRegistry: TypeRegistry = new TypeRegistry([
+        new SimpleTypeFactory('text', Text),
+        new SimpleTypeFactory('number', Number),
+        new SimpleTypeFactory('simple_select', Select),
+        new SimpleTypeFactory('simple_select_localized', LocalizedSelect),
+    ]);
 }

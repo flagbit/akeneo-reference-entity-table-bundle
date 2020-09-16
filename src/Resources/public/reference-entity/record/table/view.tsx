@@ -3,19 +3,11 @@ import Value from 'akeneoreferenceentity/domain/model/record/value';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import Close from 'akeneoreferenceentity/application/component/app/icon/close';
 import __ from 'akeneoreferenceentity/tools/translator';
-import {ConcreteTableAttribute, TableRow} from '../../attribute/table/table';
-import {denormalize, TableData, TableDataRow} from './table';
-import {RecordChangeState, FlagbitTableRecordTypes} from './type/type';
+import { ConcreteTableAttribute, TableRow } from '../../attribute/table/table';
+import { denormalize, TableData, TableDataRow } from './table';
+import { RecordChangeState, FlagbitTableRecordTypes } from './type/type';
 
-const recordView = ({
-                  value,
-                  onChange,
-                  locale,
-              }: {
-    value: Value;
-    onChange: (value: Value) => void;
-    locale: LocaleReference;
-}) => {
+const recordView = ({ value, onChange, locale }: { value: Value; onChange: (value: Value) => void; locale: LocaleReference }) => {
     if (!(value.data instanceof TableData && value.attribute instanceof ConcreteTableAttribute)) {
         return null;
     }
@@ -25,9 +17,11 @@ const recordView = ({
         return tableDataRows.filter((tableDataRow: TableDataRow): boolean => {
             const rowValues: any[] = Object.values(tableDataRow);
 
-            return ! rowValues.every((fieldValue) => {return fieldValue === null});
+            return !rowValues.every((fieldValue) => {
+                return fieldValue === null;
+            });
         });
-    }
+    };
 
     const attributeCode: string = value.attribute.getCode().normalize();
     const tableRows: TableRow[] = value.attribute.table_property.normalize();
@@ -40,7 +34,7 @@ const recordView = ({
         });
 
         return emptyTableDataRow;
-    }
+    };
 
     normalizedTableData.push(createEmptyRow());
 
@@ -53,7 +47,7 @@ const recordView = ({
         const newValue = value.setData(newTableData);
 
         onChange(newValue);
-    }
+    };
 
     const updateValue = (code: string, fieldValue: any, index: number) => {
         normalizedTableData[index][code] = fieldValue;
@@ -71,49 +65,52 @@ const recordView = ({
 
     return (
         <React.Fragment>
-            <table className="AknOptionEditor-table" style={{marginTop: '20px'}}>
+            <table className="AknOptionEditor-table" style={{ marginTop: '20px' }}>
                 <thead>
-                <tr>
-                    {tableRows.map((tableRow: TableRow) => {
-                        return (
-                            <th className="AknOptionEditor-headCell" key={`title_${attributeCode}_${tableRow.code}`}>
-                                <label className="AknOptionEditor-headCellLabel">{tableRow.labels[locale.stringValue()] || `[${tableRow.code}]`}</label>
-                            </th>
-                        );
-                    })}
-                </tr>
-                </thead>
-                <tbody>
-                {normalizedTableData.map((rowData: TableDataRow, index: number) => {
-
-                    return (<tr className="AknOptionEditor-row" key={`row_${attributeCode}_${index}`}>
+                    <tr>
                         {tableRows.map((tableRow: TableRow) => {
-                            const recordChangeState: RecordChangeState = {
-                                index: index,
-                                rowData: rowData,
-                                tableRow: tableRow,
-                                updateValue: updateValue,
-                                locale: locale
-                            };
-
                             return (
-                                <td key={`column_${attributeCode}_${tableRow.code}_${index}`}>
-                                    {FlagbitTableRecordTypes.typeRegistry.render(recordChangeState)}
-                                </td>
+                                <th className="AknOptionEditor-headCell" key={`title_${attributeCode}_${tableRow.code}`}>
+                                    <label className="AknOptionEditor-headCellLabel">
+                                        {tableRow.labels[locale.stringValue()] || `[${tableRow.code}]`}
+                                    </label>
+                                </th>
                             );
                         })}
-                        <td>
-                            {normalizedTableData.length - 1 !== index ? (
-                                <Close
-                                    onClick={() => removeDataRow(index)}
-                                    color="#67768A"
-                                    className="AknOptionEditor-remove"
-                                    tabIndex={0}
-                                />
-                            ) : null}
-                        </td>
-                    </tr>)
-                })}
+                    </tr>
+                </thead>
+                <tbody>
+                    {normalizedTableData.map((rowData: TableDataRow, index: number) => {
+                        return (
+                            <tr className="AknOptionEditor-row" key={`row_${attributeCode}_${index}`}>
+                                {tableRows.map((tableRow: TableRow) => {
+                                    const recordChangeState: RecordChangeState = {
+                                        index: index,
+                                        rowData: rowData,
+                                        tableRow: tableRow,
+                                        updateValue: updateValue,
+                                        locale: locale,
+                                    };
+
+                                    return (
+                                        <td key={`column_${attributeCode}_${tableRow.code}_${index}`}>
+                                            {FlagbitTableRecordTypes.typeRegistry.render(recordChangeState)}
+                                        </td>
+                                    );
+                                })}
+                                <td>
+                                    {normalizedTableData.length - 1 !== index ? (
+                                        <Close
+                                            onClick={() => removeDataRow(index)}
+                                            color="#67768A"
+                                            className="AknOptionEditor-remove"
+                                            tabIndex={0}
+                                        />
+                                    ) : null}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </React.Fragment>

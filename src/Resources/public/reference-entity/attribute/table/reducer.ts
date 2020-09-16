@@ -1,8 +1,4 @@
-import {
-    NormalizedTableAttribute,
-    NormalizedTableAdditionalProperty,
-    NormalizedTableProperty,
-} from './table';
+import { NormalizedTableAttribute, NormalizedTableAdditionalProperty, NormalizedTableProperty } from './table';
 
 const tableAttributeReducer = (
     normalizedAttribute: NormalizedTableAttribute,
@@ -12,7 +8,7 @@ const tableAttributeReducer = (
     switch (propertyCode) {
         case 'table_property':
             const tableProperty = propertyValue as NormalizedTableProperty;
-            return {...normalizedAttribute, table_property: tableProperty};
+            return { ...normalizedAttribute, table_property: tableProperty };
 
         default:
             break;

@@ -1,25 +1,21 @@
-import Identifier, {createIdentifier} from 'akeneoreferenceentity/domain/model/attribute/identifier';
+import Identifier, { createIdentifier } from 'akeneoreferenceentity/domain/model/attribute/identifier';
 import ReferenceEntityIdentifier, {
     createIdentifier as createReferenceEntityIdentifier,
 } from 'akeneoreferenceentity/domain/model/reference-entity/identifier';
-import LabelCollection, {createLabelCollection} from 'akeneoreferenceentity/domain/model/label-collection';
-import AttributeCode, {createCode} from 'akeneoreferenceentity/domain/model/attribute/code';
+import LabelCollection, { createLabelCollection } from 'akeneoreferenceentity/domain/model/label-collection';
+import AttributeCode, { createCode } from 'akeneoreferenceentity/domain/model/attribute/code';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
-import {
-    NormalizedAttribute,
-    Attribute,
-    ConcreteAttribute,
-} from 'akeneoreferenceentity/domain/model/attribute/attribute';
+import { NormalizedAttribute, Attribute, ConcreteAttribute } from 'akeneoreferenceentity/domain/model/attribute/attribute';
 
 export type TableRow = {
     code: string;
-    labels: {[index:string]: string};
+    labels: { [index: string]: string };
     type: string;
-    validations: any
+    validations: any;
     config: object;
-}
+};
 
-type LocalizedLabels = {[index:string]: string}
+type LocalizedLabels = { [index: string]: string };
 
 export type NormalizedTableProperty = TableRow[];
 export class TableProperty {
@@ -35,7 +31,13 @@ export class TableProperty {
             emptyLocales[currentLocale.code] = '';
         });
 
-        return {code: '', labels: emptyLocales, type: 'text', validations: [], config: {}};
+        return {
+            code: '',
+            labels: emptyLocales,
+            type: 'text',
+            validations: [],
+            config: {},
+        };
     }
 }
 
@@ -100,7 +102,7 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
         return {
             ...super.normalize(),
             type: 'flagbit_table',
-            table_property: this.table_property.normalize()
+            table_property: this.table_property.normalize(),
         };
     }
 }
