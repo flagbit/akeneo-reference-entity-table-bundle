@@ -1,40 +1,36 @@
 import * as React from 'react';
 import __ from 'akeneoreferenceentity/tools/translator';
-import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
-import {
-    TableAttribute,
-    TableProperty,
-    TableRow,
-} from "./table";
+import ValidationError from 'akeneoreferenceentity/domain/model/validation-error';
+import { TableAttribute, TableProperty, TableRow } from './table';
 import TableAttributeModal from './modal';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 
-const TableAttributeView = ({
-                                onTableEditionStart,
-                                attribute,
-                                onAdditionalPropertyUpdated,
-                                errors,
-                                rights
-                            }: {
-    onTableEditionStart: (selector: string) => void
+const tableAttributeView = ({
+    onTableEditionStart,
+    attribute,
+    onAdditionalPropertyUpdated,
+    errors,
+    rights,
+}: {
+    onTableEditionStart: (selector: string) => void;
     attribute: TableAttribute;
     onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void;
     errors: ValidationError[];
     rights: {
         locale: {
-            edit: boolean
-        }
+            edit: boolean;
+        };
         attribute: {
             create: boolean;
             edit: boolean;
             delete: boolean;
         };
-    }
+    };
 }) => {
     const save = (tableRows: TableRow[]) => {
         onAdditionalPropertyUpdated('table_property', new TableProperty(tableRows));
-    }
+    };
 
     const modalSelector = '#flagbit_table_' + attribute.getCode().stringValue();
     const modalContainer = 'flagbit_container_' + attribute.getCode().stringValue();
@@ -56,18 +52,24 @@ const TableAttributeView = ({
             ) : null}
 
             <div id={modalContainer}>
-                <TableAttributeModal key={`key_${attribute.getCode().stringValue()}`} attribute={attribute} rights={rights} saveTable={save} />
+                <TableAttributeModal
+                    key={`key_${attribute.getCode().stringValue()}`}
+                    attribute={attribute}
+                    rights={rights}
+                    saveTable={save}
+                />
             </div>
         </React.Fragment>
     );
 };
 
+// ts-unused-exports:disable-next-line
 export const view = connect(
     () => ({}),
     () => ({
         onTableEditionStart: (selector: string) => {
-            $(selector).css({'display': 'block'});
+            $(selector).css({ display: 'block' });
             $(selector).detach().prependTo('body .app:first');
-        }
+        },
     })
-)(TableAttributeView);
+)(tableAttributeView);

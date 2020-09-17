@@ -1,0 +1,21 @@
+{
+  "name": "akeneo-reference-entity-table-bundle",
+  "description": "Akeneo ReferenceEntity TableAttributeBundle",
+  "homepage": "http://www.flagbit.de",
+  "private": true,
+  "config": {
+    "source": "vendor/akeneo/pim-community-dev",
+    "styles": "vendor/akeneo/pim-community-dev/frontend/build/compile-less.js"
+  },
+  "workspaces": [
+    "vendor/akeneo/pim-enterprise-dev",
+    "vendor/akeneo/pim-community-dev",
+    "vendor/akeneo/pim-community-dev/src/Akeneo/Connectivity/Connection/front",
+    "vendor/akeneo/pim-enterprise-dev/src/Akeneo/Pim/Automation/DataQualityInsights/front"
+  ],
+  "devDependencies": {
+    "prettier": "^2.1.1",
+    "ts-unused-exports": "^6.2.3",
+    "tslint": "^6.1.3"
+  }
+}

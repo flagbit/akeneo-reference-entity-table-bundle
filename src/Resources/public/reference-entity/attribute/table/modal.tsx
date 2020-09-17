@@ -1,18 +1,13 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 import __ from 'akeneoreferenceentity/tools/translator';
-import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
+import ValidationError from 'akeneoreferenceentity/domain/model/validation-error';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import lodash from 'lodash';
-const securityContext = require('pim/security-context');
 
-import {
-    TableAttribute,
-    TableRow,
-    TableProperty,
-} from "./table";
-import {tableRow} from './row'
+import { TableAttribute, TableRow, TableProperty } from './table';
+import { tableRow } from './row';
 
 type OwnProps = {
     rights: {
@@ -44,7 +39,9 @@ class TableAttributeModal extends React.Component<TableProp> {
     private initialState: TableRow[];
 
     cancelManageTableAttribute() {
-        const message = __('pim_enrich.confirmation.discard_changes', {entity: 'table_property'});
+        const message = __('pim_enrich.confirmation.discard_changes', {
+            entity: 'table_property',
+        });
         if (this.props.isDirty) {
             if (confirm(message)) {
                 this.closeModal();
@@ -66,16 +63,15 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     filterEmpty(tableRows: TableRow[]): TableRow[] {
-        tableRows = tableRows.filter((tableRow: TableRow): boolean => {
-            const val = Object.keys(tableRow.config).length === 0 &&
-                tableRow.type === 'text' &&
-                tableRow.code === '' &&
-                Object.values(tableRow.labels).filter((value: string): boolean => '' !== value).length === 0;
+        return tableRows.filter((row: TableRow): boolean => {
+            const val =
+                Object.keys(row.config).length === 0 &&
+                row.type === 'text' &&
+                row.code === '' &&
+                Object.values(row.labels).filter((value: string): boolean => '' !== value).length === 0;
 
             return !val;
         });
-
-        return tableRows;
     }
 
     updateTableRowsState(tableRows: TableRow[]): void {
@@ -84,16 +80,14 @@ class TableAttributeModal extends React.Component<TableProp> {
         const emptyRow = TableProperty.createEmptyRow(this.props.structure.locales);
         tableRows.push(emptyRow);
 
-        this.setState({tableRows: tableRows});
+        this.setState({ tableRows: tableRows });
     }
 
     closeModal(): void {
-        $(this.modalSelector).css({'display': 'none'});
+        $(this.modalSelector).css({ display: 'none' });
         $(this.modalSelector).detach().prependTo(this.modalContainerSelector);
 
-        this.updateTableRowsState(
-            this.getInitialTableRows()
-        );
+        this.updateTableRowsState(this.getInitialTableRows());
     }
 
     getTableRows(): TableRow[] {
@@ -107,14 +101,14 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     updateColumnType(value: string, index: number): void {
-        const tableRows: TableRow[] = this.getTableRows()
+        const tableRows: TableRow[] = this.getTableRows();
         tableRows[index].type = value;
 
         this.updateTableRowsState(tableRows);
     }
 
     updateColumnConfig(config: object, index: number): void {
-        const tableRows: TableRow[] = this.getTableRows()
+        const tableRows: TableRow[] = this.getTableRows();
         tableRows[index].config = config;
 
         this.updateTableRowsState(tableRows);
@@ -135,16 +129,18 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 
     onTableEditionSubmission(): void {
-        const newState = this.filterEmpty(this.getTableRows())
+        const newState = this.filterEmpty(this.getTableRows());
         this.props.saveTable(newState);
         this.initialState = lodash.cloneDeep(newState);
 
-        $(this.modalSelector).css({'display': 'none'});
+        $(this.modalSelector).css({ display: 'none' });
         $(this.modalSelector).detach().prependTo(this.modalContainerSelector);
     }
 
     onTableEditionDelete(index: number): void {
-        const message = __('pim_enrich.confirmation.discard_changes', {entity: 'Column'});
+        const message = __('pim_enrich.confirmation.discard_changes', {
+            entity: 'Column',
+        });
         if (confirm(message)) {
             const tableRows: TableRow[] = this.getTableRows();
             tableRows.splice(index, 1);
@@ -165,7 +161,12 @@ class TableAttributeModal extends React.Component<TableProp> {
     render() {
         return (
             <React.Fragment>
-                <div className="modal in flagbitTableAttribute" id={`flagbit_table_${this.props.attribute.getCode().stringValue()}`} aria-hidden="false" style={{zIndex: 1042, display: 'none'}}>
+                <div
+                    className="modal in flagbitTableAttribute"
+                    id={`flagbit_table_${this.props.attribute.getCode().stringValue()}`}
+                    aria-hidden="false"
+                    style={{ zIndex: 1042, display: 'none' }}
+                >
                     <div>
                         <div className="AknFullPage AknFullPage--full">
                             <div className="AknFullPage-content">
@@ -180,53 +181,58 @@ class TableAttributeModal extends React.Component<TableProp> {
                                 <div className="AknOptionEditor">
                                     <div className="AknSubsection AknOptionEditor-translator">
                                         <div className="AknSubsection-title AknSubsection-title--sticky AknSubsection-title--light">
-                                            <span className="AknSubsection-titleLabel">
-                                                {this.renderLabel()}
-                                            </span>
+                                            <span className="AknSubsection-titleLabel">{this.renderLabel()}</span>
                                         </div>
                                         <table className="AknOptionEditor-table">
                                             <thead>
-                                            <tr>
-                                                <th className="AknOptionEditor-headCell">
-                                                    <label className="AknOptionEditor-headCellLabel">
-                                                        {__('flagbit_reference_entity_table.attribute.edit.input.code')}
-                                                    </label>
-                                                </th>
-                                                {this.props.structure.locales.map((locale: Locale) => {
-                                                    return (
-                                                        <th className="AknOptionEditor-headCell" key={locale.code}>
-                                                            <label className="AknOptionEditor-headCellLabel">{__('flagbit_reference_entity_table.attribute.edit.input.label')} {locale.code}</label>
-                                                        </th>
-                                                    );
-                                                })}
-                                                <th className="AknOptionEditor-headCell">
-                                                    <label className="AknOptionEditor-headCellLabel">{__('flagbit_reference_entity_table.attribute.edit.input.type')}</label>
-                                                </th>
-                                                <th className="AknOptionEditor-headCell">
-                                                    <label className="AknOptionEditor-headCellLabel">{__('flagbit_reference_entity_table.attribute.edit.input.configuration')}</label>
-                                                </th>
-                                                <th className="AknOptionEditor-headCell">
-                                                    <label className="AknOptionEditor-headCellLabel" />
-                                                </th>
-                                            </tr>
+                                                <tr>
+                                                    <th className="AknOptionEditor-headCell">
+                                                        <label className="AknOptionEditor-headCellLabel">
+                                                            {__('flagbit_reference_entity_table.attribute.edit.input.code')}
+                                                        </label>
+                                                    </th>
+                                                    {this.props.structure.locales.map((locale: Locale) => {
+                                                        return (
+                                                            <th className="AknOptionEditor-headCell" key={locale.code}>
+                                                                <label className="AknOptionEditor-headCellLabel">
+                                                                    {__('flagbit_reference_entity_table.attribute.edit.input.label')}{' '}
+                                                                    {locale.code}
+                                                                </label>
+                                                            </th>
+                                                        );
+                                                    })}
+                                                    <th className="AknOptionEditor-headCell">
+                                                        <label className="AknOptionEditor-headCellLabel">
+                                                            {__('flagbit_reference_entity_table.attribute.edit.input.type')}
+                                                        </label>
+                                                    </th>
+                                                    <th className="AknOptionEditor-headCell">
+                                                        <label className="AknOptionEditor-headCellLabel">
+                                                            {__('flagbit_reference_entity_table.attribute.edit.input.configuration')}
+                                                        </label>
+                                                    </th>
+                                                    <th className="AknOptionEditor-headCell">
+                                                        <label className="AknOptionEditor-headCellLabel" />
+                                                    </th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            {this.getTableRows().map((row, index: number) => {
-                                                return tableRow({
-                                                    row: row,
-                                                    index: index,
-                                                    isLastRow: index >= this.getTableRows().length - 1,
-                                                    numberOfLockedRows: this.getTableRows().length,
-                                                    locales: this.props.structure.locales,
-                                                    errors: this.props.errors,
-                                                    rights: this.props.rights,
-                                                    onTableEditionCodeUpdated: this.updateColumnCode.bind(this),
-                                                    onTableEditionLabelUpdated: this.updateColumnLabel.bind(this),
-                                                    onTableEditionTypeUpdated: this.updateColumnType.bind(this),
-                                                    onTableEditionConfigUpdated: this.updateColumnConfig.bind(this),
-                                                    onTableEditionDelete: this.onTableEditionDelete.bind(this),
-                                                });
-                                            })}
+                                                {this.getTableRows().map((row, index: number) => {
+                                                    return tableRow({
+                                                        row: row,
+                                                        index: index,
+                                                        isLastRow: index >= this.getTableRows().length - 1,
+                                                        numberOfLockedRows: this.getTableRows().length,
+                                                        locales: this.props.structure.locales,
+                                                        errors: this.props.errors,
+                                                        rights: this.props.rights,
+                                                        onTableEditionCodeUpdated: this.updateColumnCode.bind(this),
+                                                        onTableEditionLabelUpdated: this.updateColumnLabel.bind(this),
+                                                        onTableEditionTypeUpdated: this.updateColumnType.bind(this),
+                                                        onTableEditionConfigUpdated: this.updateColumnConfig.bind(this),
+                                                        onTableEditionDelete: this.onTableEditionDelete.bind(this),
+                                                    });
+                                                })}
                                             </tbody>
                                         </table>
                                     </div>
@@ -256,28 +262,27 @@ class TableAttributeModal extends React.Component<TableProp> {
     }
 }
 
-export default connect(
-    (state: any, ownProps: OwnProps) => {
-        return {
-            locale: state.user.catalogLocale,
-            structure: {
-                locales: state.structure.locales,
+export default connect((state: any, ownProps: OwnProps) => {
+    const securityContext = require('pim/security-context');
+    return {
+        locale: state.user.catalogLocale,
+        structure: {
+            locales: state.structure.locales,
+        },
+        errors: state.attribute.errors,
+        isDirty: false,
+        rights: {
+            locale: {
+                edit: ownProps.rights.locale.edit,
             },
-            errors: state.attribute.errors,
-            isDirty: false,
-            rights: {
-                locale: {
-                    edit: ownProps.rights.locale.edit,
-                },
-                attribute: {
-                    create: ownProps.rights.attribute.create && securityContext.isGranted('akeneo_referenceentity_option_create'),
-                    edit: ownProps.rights.attribute.edit && securityContext.isGranted('akeneo_referenceentity_option_edit'),
-                    delete:
-                        ownProps.rights.attribute.edit &&
-                        securityContext.isGranted('akeneo_referenceentity_option_delete') &&
-                        securityContext.isGranted('akeneo_referenceentity_option_edit'),
-                },
+            attribute: {
+                create: ownProps.rights.attribute.create && securityContext.isGranted('akeneo_referenceentity_option_create'),
+                edit: ownProps.rights.attribute.edit && securityContext.isGranted('akeneo_referenceentity_option_edit'),
+                delete:
+                    ownProps.rights.attribute.edit &&
+                    securityContext.isGranted('akeneo_referenceentity_option_delete') &&
+                    securityContext.isGranted('akeneo_referenceentity_option_edit'),
             },
-        };
-    },
-)(TableAttributeModal);
+        },
+    };
+})(TableAttributeModal);
