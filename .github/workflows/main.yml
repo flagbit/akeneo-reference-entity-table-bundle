@@ -86,5 +86,5 @@ jobs:
       - name: "Typescript linting"
         run: "yarn tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
 
-      - name: "Typescript linting"
+      - name: "Coding Style"
         run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
