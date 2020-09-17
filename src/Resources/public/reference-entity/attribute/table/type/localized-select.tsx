@@ -117,7 +117,8 @@ export default class LocalizedSelect implements Type {
                                                 className={'AknTextField AknTextField--light'}
                                                 onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
                                                     const localeCode: string = locale.code;
-                                                    let optionValues = option.values;
+                                                    // Can only be array when it's empty. This depends on the JSON decode in PHP
+                                                    const optionValues = Array.isArray(option.values) ? {} : option.values;
                                                     optionValues[localeCode] = event.target.value;
                                                     config.options[index] = { code: option.code, values: optionValues };
                                                     config.options = cleanOptions(config.options);
