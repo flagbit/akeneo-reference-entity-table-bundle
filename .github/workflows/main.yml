@@ -88,3 +88,6 @@ jobs:
 
       - name: "Coding Style"
         run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
+
+      - name: "Frontend tests"
+        run: "jest --no-cache --config jest.config.js"
