@@ -2,7 +2,6 @@ import { ConcreteTableAttribute, TableRow } from '../../../attribute/table/table
 import { denormalize, TableData, TableDataRow } from '../table';
 import Value from 'akeneoreferenceentity/domain/model/record/value';
 
-// ts-unused-exports:disable-next-line
 export default class ValueUpdater {
     private internalDataRows: TableDataRow[];
 
