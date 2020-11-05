@@ -26,7 +26,7 @@ export class TableData extends ValueData {
     }
 
     public equals(data: ValueData): boolean {
-        return data instanceof TableData && this.tableData === data.tableData;
+        return data instanceof TableData && JSON.stringify(this.tableData) === JSON.stringify(data.tableData);
     }
 
     public normalize(): any {

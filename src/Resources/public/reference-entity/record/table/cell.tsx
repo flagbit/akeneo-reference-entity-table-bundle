@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NormalizedValue } from 'akeneoreferenceentity/domain/model/record/value';
 import { CellView } from 'akeneoreferenceentity/application/configuration/value';
-import { denormalize } from 'flagbitreferenceentitytable/reference-entity/record/table/table';
+import { denormalize } from './table';
 
 const memo = (React as any).memo;
 
