@@ -3,7 +3,7 @@ import { denormalize, TableData, TableDataRow } from '../table';
 import Value from 'akeneoreferenceentity/domain/model/record/value';
 
 export default class ValueUpdater {
-    private internalDataRows: TableDataRow[];
+    private readonly internalDataRows: TableDataRow[];
 
     private readonly tableRows: TableRow[];
 
