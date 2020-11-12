@@ -25,6 +25,13 @@
         <env name="APP_DATABASE_USER" value="akeneo_pim"/>
         <env name="APP_DATABASE_PASSWORD" value="akeneo_pim"/>
         <env name="APP_DEFAULT_LOCALE" value="en"/>
+
+        <env name="APP_PRODUCT_PROPOSAL_INDEX_NAME" value="akeneo_pim_product_proposal"/>
+        <env name="APP_PUBLISHED_PRODUCT_INDEX_NAME" value="akeneo_pim_published_product"/>
+        <env name="APP_PRODUCT_AND_PRODUCT_MODEL_INDEX_NAME" value="akeneo_pim_product_and_product_model"/>
+        <env name="APP_RECORD_INDEX_NAME" value="akeneo_referenceentity_record"/>
+        <env name="APP_ASSET_INDEX_NAME" value="akeneo_assetmanager_asset"/>
+        <env name="ASPELL_BINARY_PATH" value="aspell"/>
     </php>
 
     <extensions>

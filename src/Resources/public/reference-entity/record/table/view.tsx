@@ -4,64 +4,19 @@ import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference
 import Close from 'akeneoreferenceentity/application/component/app/icon/close';
 import __ from 'akeneoreferenceentity/tools/translator';
 import { ConcreteTableAttribute, TableRow } from '../../attribute/table/table';
-import { denormalize, TableData, TableDataRow } from './table';
+import { TableData, TableDataRow } from './table';
 import { RecordChangeState, FlagbitTableRecordTypes } from './type/type';
+import ValueUpdater from './value/value-updater';
 
 const recordView = ({ value, onChange, locale }: { value: Value; onChange: (value: Value) => void; locale: LocaleReference }) => {
     if (!(value.data instanceof TableData && value.attribute instanceof ConcreteTableAttribute)) {
         return null;
     }
 
-    // Remove all rows that became empty.
-    const filterEmptyRows = (tableDataRows: TableDataRow[]): TableDataRow[] => {
-        return tableDataRows.filter((tableDataRow: TableDataRow): boolean => {
-            const rowValues: any[] = Object.values(tableDataRow);
-
-            return !rowValues.every((fieldValue) => {
-                return fieldValue === null;
-            });
-        });
-    };
-
     const attributeCode: string = value.attribute.getCode().normalize();
     const tableRows: TableRow[] = value.attribute.table_property.normalize();
-    const normalizedTableData: TableDataRow[] = filterEmptyRows(value.data.normalize());
 
-    const createEmptyRow = (): TableDataRow => {
-        const emptyTableDataRow: TableDataRow = {};
-        tableRows.forEach((tableRow: TableRow) => {
-            emptyTableDataRow[tableRow.code] = null;
-        });
-
-        return emptyTableDataRow;
-    };
-
-    normalizedTableData.push(createEmptyRow());
-
-    const updateDataRows = (tableDataRow: TableDataRow[]) => {
-        const newTableData = denormalize(filterEmptyRows(tableDataRow));
-        if (newTableData.equals(value.data)) {
-            return;
-        }
-
-        const newValue = value.setData(newTableData);
-
-        onChange(newValue);
-    };
-
-    const updateValue = (code: string, fieldValue: any, index: number) => {
-        normalizedTableData[index][code] = fieldValue;
-
-        updateDataRows(normalizedTableData);
-    };
-
-    const removeDataRow = (index: number) => {
-        const message = __('flagbit_reference_entity_table.record.table_row.confirm');
-        if (confirm(message)) {
-            normalizedTableData.splice(index, 1);
-            updateDataRows(normalizedTableData);
-        }
-    };
+    const valueUpdater = new ValueUpdater(value, onChange);
 
     return (
         <React.Fragment>
@@ -80,7 +35,7 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
                     </tr>
                 </thead>
                 <tbody>
-                    {normalizedTableData.map((rowData: TableDataRow, index: number) => {
+                    {valueUpdater.tableDataRows.map((rowData: TableDataRow, index: number) => {
                         return (
                             <tr className="AknOptionEditor-row" key={`row_${attributeCode}_${index}`}>
                                 {tableRows.map((tableRow: TableRow) => {
@@ -88,7 +43,7 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
                                         index: index,
                                         rowData: rowData,
                                         tableRow: tableRow,
-                                        updateValue: updateValue,
+                                        updateValue: valueUpdater.updateValue.bind(valueUpdater),
                                         locale: locale,
                                     };
 
@@ -99,9 +54,14 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
                                     );
                                 })}
                                 <td>
-                                    {normalizedTableData.length - 1 !== index ? (
+                                    {valueUpdater.tableDataRows.length - 1 !== index ? (
                                         <Close
-                                            onClick={() => removeDataRow(index)}
+                                            onClick={() =>
+                                                valueUpdater.removeDataRow(
+                                                    index,
+                                                    __('flagbit_reference_entity_table.record.table_row.confirm')
+                                                )
+                                            }
                                             color="#67768A"
                                             className="AknOptionEditor-remove"
                                             tabIndex={0}

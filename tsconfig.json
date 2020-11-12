@@ -1,5 +1,14 @@
 {
-  "extends": "./vendor/akeneo/pim-community-dev/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "paths": {
+      "akeneoreferenceentity/*": [
+        "vendor/akeneo/pim-enterprise-dev/src/Akeneo/ReferenceEntity/front/*"
+      ]
+    }
+  },
   "include": [
     "vendor/akeneo/pim-community-dev/frontend/types.d.ts",
     "vendor/akeneo/pim-enterprise-dev/frontend/types.d.ts"
