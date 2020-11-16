@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "jsx": "react",
+    "esModuleInterop": true,
     "paths": {
       "akeneoreferenceentity/*": [
         "vendor/akeneo/pim-enterprise-dev/src/Akeneo/ReferenceEntity/front/*"
