@@ -7,6 +7,7 @@
 /tests/var
 /public
 /config
+/.phpunit.result.cache
 
 # Build data
 /build/

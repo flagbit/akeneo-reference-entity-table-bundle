@@ -2,6 +2,7 @@
 
 namespace Flagbit\Bundle\ReferenceEntityTableBundle\Tests;
 
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 require_once __DIR__ . '/../vendor/akeneo/pim-enterprise-dev/src/Kernel.php';
@@ -48,8 +49,15 @@ class TestKernel extends \Kernel
     {
         $serviceIds = [
             'akeneo_referenceentity.infrastructure.persistence.repository.attribute',
-            'akeneo.referencentity.infrastructure.persistence.query.get_attribute_identifier'
+            'akeneo.referencentity.infrastructure.persistence.query.get_attribute_identifier',
         ];
         $container->addCompilerPass(new PublicServiceCompilerPass($serviceIds));
+
+        // current workaround: Class of this service doesn't autoload. Needs research why it is that way.
+        $serviceIds = [
+            'akeneo_integration_tests.fixture.loader.product_and_product_model_with_removed_attribute',
+        ];
+        $optimization = PassConfig::TYPE_BEFORE_OPTIMIZATION;
+        $container->addCompilerPass(new RemoveServiceCompilerPass($serviceIds), $optimization, 1000);
     }
 }
