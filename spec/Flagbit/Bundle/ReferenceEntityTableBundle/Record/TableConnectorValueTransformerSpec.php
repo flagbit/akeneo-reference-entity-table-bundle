@@ -27,6 +27,12 @@ class TableConnectorValueTransformerSpec extends ObjectBehavior
 
     public function it_does_transform_record(TableAttribute $attribute): void
     {
+        $attribute->normalize()->willReturn([
+            'table_property' => [
+                ['code' => 'test3'],
+                ['code' => 'test4'],
+            ]
+        ]);
         $normalized = [
             'locale' => null,
             'channel' => null,
@@ -47,6 +53,7 @@ class TableConnectorValueTransformerSpec extends ObjectBehavior
 
     public function it_does_not_transform_other_records(AbstractAttribute $attribute): void
     {
+        $attribute->normalize()->willReturn([]);
         $normalized = [
             'locale' => null,
             'channel' => null,
@@ -63,5 +70,91 @@ class TableConnectorValueTransformerSpec extends ObjectBehavior
         ];
 
         $this->shouldThrow(Exception::class)->during('transform', [$normalized, $attribute]);
+    }
+
+    public function it_does_filter_unknown_columns(TableAttribute $attribute): void
+    {
+        $attribute->normalize()->willReturn([
+            'table_property' => [
+                ['code' => 'test2'],
+                ['code' => 'test4'],
+            ]
+        ]);
+        $normalized = [
+            'locale' => null,
+            'channel' => null,
+            'data' => [
+                [
+                    'test1' => '1',
+                    'test2' => '2',
+                    'test3' => '3',
+                    'test4' => '4',
+                ],
+                [
+                    'test1' => '5',
+                    'test2' => '6',
+                    'test3' => '7',
+                    'test4' => '8',
+                ],
+            ],
+        ];
+
+        $expected = [
+            'locale' => null,
+            'channel' => null,
+            'data' => [
+                [
+                    'test2' => '2',
+                    'test4' => '4',
+                ],
+                [
+                    'test2' => '6',
+                    'test4' => '8',
+                ],
+            ],
+        ];
+
+        $this->transform($normalized, $attribute)->shouldReturn($expected);
+    }
+
+    public function it_can_handle_missing_value_of_new_column(TableAttribute $attribute): void
+    {
+        $attribute->normalize()->willReturn([
+            'table_property' => [
+                ['code' => 'test2'],
+                ['code' => 'test4'],
+            ]
+        ]);
+        $normalized = [
+            'locale' => null,
+            'channel' => null,
+            'data' => [
+                [
+                    'test1' => '1',
+                    'test3' => '3',
+                    'test4' => '4',
+                ],
+                [
+                    'test1' => '5',
+                    'test3' => '7',
+                    'test4' => '8',
+                ],
+            ],
+        ];
+
+        $expected = [
+            'locale' => null,
+            'channel' => null,
+            'data' => [
+                [
+                    'test4' => '4',
+                ],
+                [
+                    'test4' => '8',
+                ],
+            ],
+        ];
+
+        $this->transform($normalized, $attribute)->shouldReturn($expected);
     }
 }
