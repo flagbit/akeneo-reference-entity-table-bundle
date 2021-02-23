@@ -1,5 +1,10 @@
 # Flagbit ReferenceEntity TableAttribute for Akeneo PIM
 
+[![Frontend Tests](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/frontend-tests.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/frontend-tests.yml)
+[![Backend Tests](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-tests.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-tests.yml)
+[![PHP Code Analysis + Style](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-analysis.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-analysis.yml)
+[![Frontend Code Analysis + Style](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/frontend-analysis.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/frontend-analysis.yml)
+
 ## Key Features
 
 Provides a _table_ as attribute type where you can define a set of columns of different types and validation rules.
