@@ -94,9 +94,7 @@ describe('Record view', function () {
 
         const removeButton = renderedView.find('td').at(3).children();
 
-        global.confirm = () => {
-            return true;
-        };
+        global.confirm = () => true;
 
         removeButton.simulate('click');
 
