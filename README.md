@@ -4,6 +4,7 @@
 [![Backend Tests](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-tests.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-tests.yml)
 [![PHP Code Analysis + Style](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-analysis.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/backend-analysis.yml)
 [![Frontend Code Analysis + Style](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/frontend-analysis.yml/badge.svg?branch=master)](https://github.com/flagbit/akeneo-reference-entity-table-bundle/actions/workflows/frontend-analysis.yml)
+[![codecov](https://codecov.io/gh/flagbit/akeneo-reference-entity-table-bundle/branch/master/graph/badge.svg?token=6F67B93XA9)](https://codecov.io/gh/flagbit/akeneo-reference-entity-table-bundle)
 
 ## Key Features
 
