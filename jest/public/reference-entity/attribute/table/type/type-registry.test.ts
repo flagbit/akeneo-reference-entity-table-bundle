@@ -10,6 +10,17 @@ describe('TypeRegistry', function () {
         expect(() => FlagbitTableTypes.typeRegistry.render(createConfigChangeState())).toThrow(Error);
     });
 
+    test('getSelectValues()', function () {
+        const expected = [
+            {"code": "text"},
+            {"code": "number"},
+            {"code": "simple_select"},
+            {"code": "simple_select_localized"}
+        ];
+
+        expect(FlagbitTableTypes.typeRegistry.getSelectValues()).toStrictEqual(expected);
+    });
+
     test('Render type output determined by typeCode', function () {
         const testType = new class implements TypeFactory
         {

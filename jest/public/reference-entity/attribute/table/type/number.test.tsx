@@ -17,6 +17,14 @@ describe('Text type', function () {
         expect(optionList.at(1).props().value).toBe('false');
     });
 
+    test('Pre-set config', function () {
+        const renderedAttributeType = renderType({decimal: 'true'}, 'number', jest.fn());
+
+        const select = renderedAttributeType.find('select');
+
+        expect(select.props().value).toBe('true');
+    });
+
     test('Change decimal config', function () {
         const onchange = jest.fn();
         const renderedAttributeType = renderType({}, 'number', onchange);
