@@ -43,3 +43,30 @@ jobs:
         run: "vendor/bin/phpspec run"
       - name: "Integration tests"
         run: "vendor/bin/phpunit"
+
+      - name: "Upload coverage file"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "phpspec-${{ matrix.php-versions }}.coverage"
+          path: "build/coverage.xml"
+
+  coverage-upload:
+    name: "Upload coverage to Codecov"
+    runs-on: "ubuntu-18.04"
+
+    needs:
+      - "backend"
+
+    steps:
+      - uses: "actions/checkout@v2"
+
+      - name: "Download coverage files"
+        uses: "actions/download-artifact@v2"
+        with:
+          path: "reports"
+
+      - name: "Upload to Codecov"
+        uses: "codecov/codecov-action@v1"
+        with:
+          directory: "reports"
+          flags: "backend"

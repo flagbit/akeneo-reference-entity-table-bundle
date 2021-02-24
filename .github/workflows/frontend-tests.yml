@@ -12,7 +12,7 @@ jobs:
         php-versions: [ '7.3' ]
 
     steps:
-      - uses: "actions/checkout@v2.0.0"
+      - uses: "actions/checkout@v2"
 
       - name: "Setup PHP Action"
         uses: "shivammathur/setup-php@v2"
@@ -38,4 +38,31 @@ jobs:
           cmd: "install"
 
       - name: "Frontend tests"
-        run: "yarn jest --no-cache --config jest.config.js"
+        run: "yarn jest --no-cache --config jest.config.js --collect-coverage --collectCoverageFrom=src/**"
+
+      - name: "Upload coverage file"
+        uses: "actions/upload-artifact@v2"
+        with:
+          name: "jest.coverage"
+          path: "coverage/clover.xml"
+
+  coverage-upload:
+    name: "Upload coverage to Codecov"
+    runs-on: "ubuntu-18.04"
+
+    needs:
+      - "frontend"
+
+    steps:
+      - uses: "actions/checkout@v2"
+
+      - name: "Download coverage files"
+        uses: "actions/download-artifact@v2"
+        with:
+          path: "reports"
+
+      - name: "Upload to Codecov"
+        uses: "codecov/codecov-action@v1"
+        with:
+          directory: "reports"
+          flags: "frontend"
