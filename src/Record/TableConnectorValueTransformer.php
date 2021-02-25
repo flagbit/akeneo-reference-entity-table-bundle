@@ -28,7 +28,33 @@ class TableConnectorValueTransformer implements ConnectorValueTransformerInterfa
         return [
             'locale'  => $normalizedValue['locale'],
             'channel' => $normalizedValue['channel'],
-            'data'    => $normalizedValue['data'],
+            'data'    => $this->filterRows($normalizedValue['data'], $attribute),
         ];
+    }
+
+    /**
+     * Filters out unknown codes from table data
+     *
+     * @param array<array<string, mixed>> $normalizedData
+     * @param AbstractAttribute           $attribute
+     *
+     * @return array<array<string, mixed>>
+     */
+    private function filterRows(array $normalizedData, AbstractAttribute $attribute): array
+    {
+        $tableProperty = $attribute->normalize()['table_property'];
+
+        $codeStructure = static function (array $row) {
+            return $row['code'];
+        };
+
+        $allowedCodes = array_flip(array_map($codeStructure, $tableProperty));
+
+        $data = [];
+        foreach ($normalizedData as $dataRow) {
+            $data[] = array_intersect_key($dataRow, $allowedCodes);
+        }
+
+        return $data;
     }
 }
