@@ -1,6 +1,6 @@
 import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/localized-select';
-import Locale, {ConcreteLocale} from "akeneoreferenceentity/domain/model/locale";
-import renderType from "./test-helper";
+import Locale, { ConcreteLocale } from 'akeneoreferenceentity/domain/model/locale';
+import renderType from './test-helper';
 import * as React from 'react';
 
 jest.mock('akeneoreferenceentity/tools/translator');
@@ -12,7 +12,7 @@ describe('Localized Simple Select type', function () {
         const renderedRecordType = renderType({} as SelectConfig, 'simple_select_localized', onchange, createLocales());
 
         expect(onchange.mock.calls.length).toBe(1);
-        expect(onchange.mock.calls[0][0]).toStrictEqual({options: []});
+        expect(onchange.mock.calls[0][0]).toStrictEqual({ options: [] });
         expect(onchange.mock.calls[0][1]).toBe(0);
 
         // buttons rendering
@@ -57,11 +57,11 @@ describe('Localized Simple Select type', function () {
         const tr = renderedRecordType.find('tbody').find('tr');
         const input = tr.find('input');
 
-        input.at(2).simulate('change', { target: { value: 'C' }});
+        input.at(2).simulate('change', { target: { value: 'C' } });
 
-        let expectedOptions = getOptions();
+        const expectedOptions = getOptions();
         expectedOptions.options[0].values.en_US = 'C';
-        expectedOptions.options.push({code: '', values: {}});
+        expectedOptions.options.push({ code: '', values: {} });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(expectedOptions);
@@ -79,11 +79,11 @@ describe('Localized Simple Select type', function () {
         const tr = renderedRecordType.find('tbody').find('tr');
         const input = tr.find('input');
 
-        input.at(5).simulate('change', { target: { value: 'C' }});
+        input.at(5).simulate('change', { target: { value: 'C' } });
 
-        let expectedOptions = getOptions();
-        expectedOptions.options[1] = {code: 'b', values: {en_US: 'C'}};
-        expectedOptions.options.push({code: '', values: {}});
+        const expectedOptions = getOptions();
+        expectedOptions.options[1] = { code: 'b', values: { en_US: 'C' } };
+        expectedOptions.options.push({ code: '', values: {} });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(expectedOptions);
@@ -97,11 +97,11 @@ describe('Localized Simple Select type', function () {
         const tr = renderedRecordType.find('tbody').find('tr');
         const input = tr.find('input');
 
-        input.at(0).simulate('change', { target: { value: 'c' }});
+        input.at(0).simulate('change', { target: { value: 'c' } });
 
-        let expectedOptions = getOptions();
+        const expectedOptions = getOptions();
         expectedOptions.options[0].code = 'c';
-        expectedOptions.options.push({code: '', values: {}});
+        expectedOptions.options.push({ code: '', values: {} });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(expectedOptions);
@@ -117,7 +117,7 @@ describe('Localized Simple Select type', function () {
         buttons.first().simulate('click');
 
         expect(onchange.mock.calls.length).toBe(2);
-        expect(onchange.mock.calls[1][0]).toStrictEqual({options: [{code: '', values: {}}]});
+        expect(onchange.mock.calls[1][0]).toStrictEqual({ options: [{ code: '', values: {} }] });
         expect(onchange.mock.calls[1][1]).toBe(0);
     });
 
@@ -131,7 +131,7 @@ describe('Localized Simple Select type', function () {
         buttons.last().simulate('click'); // close modal
 
         expect(onchange.mock.calls.length).toBe(3);
-        expect(onchange.mock.calls[2][0]).toStrictEqual({options: []});
+        expect(onchange.mock.calls[2][0]).toStrictEqual({ options: [] });
         expect(onchange.mock.calls[2][1]).toBe(0);
     });
 
@@ -142,7 +142,7 @@ describe('Localized Simple Select type', function () {
         const removeButton = renderedRecordType.find('.AknOptionEditor-remove');
         removeButton.at(0).simulate('click');
 
-        let expectedOptions = getOptions();
+        const expectedOptions = getOptions();
         expectedOptions.options.shift();
 
         expect(onchange.mock.calls.length).toBe(1);
@@ -152,19 +152,9 @@ describe('Localized Simple Select type', function () {
 });
 
 function createLocales(): Locale[] {
-    const localeDe: Locale = new ConcreteLocale(
-        'de_DE',
-        'de_DE',
-        'de',
-        'deutsch'
-    );
+    const localeDe: Locale = new ConcreteLocale('de_DE', 'de_DE', 'de', 'deutsch');
 
-    const localeUs: Locale = new ConcreteLocale(
-        'en_US',
-        'en_US',
-        'en',
-        'english'
-    );
+    const localeUs: Locale = new ConcreteLocale('en_US', 'en_US', 'en', 'english');
 
     return [localeDe, localeUs];
 }
@@ -174,12 +164,12 @@ function getOptions(): SelectConfig {
         options: [
             {
                 code: 'a',
-                values: {de_DE: 'Ä', en_US: 'A'}
+                values: { de_DE: 'Ä', en_US: 'A' },
             },
             {
                 code: 'b',
-                values: {en_US: 'B'}
+                values: { en_US: 'B' },
             },
-        ]
+        ],
     };
 }

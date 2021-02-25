@@ -1,19 +1,23 @@
 import {
     ConcreteTableAttribute,
     TableAttribute,
-    TableRow
-} from "../../../../../src/Resources/public/reference-entity/attribute/table/table";
-import TableAttributeModal from "../../../../../src/Resources/public/reference-entity/attribute/table/modal";
-import { RightsType } from "../../../../../src/Resources/public/reference-entity/attribute/table/view";
-import { createLocales, accessRightsTrue, accessRightsFalse } from "../../test-helper";
-import * as React from "react";
+    TableRow,
+} from '../../../../../src/Resources/public/reference-entity/attribute/table/table';
+import TableAttributeModal from '../../../../../src/Resources/public/reference-entity/attribute/table/modal';
+import { RightsType } from '../../../../../src/Resources/public/reference-entity/attribute/table/view';
+import { createLocales, accessRightsTrue, accessRightsFalse } from '../../test-helper';
+import * as React from 'react';
 import { Provider } from 'react-redux';
-import { createStore }  from 'redux';
+import { createStore } from 'redux';
 import { render, fireEvent } from '@testing-library/react';
 
-jest.mock('pim/security-context', () => ({
-    isGranted: jest.fn().mockImplementation(() => true)
-}), {virtual: true});
+jest.mock(
+    'pim/security-context',
+    () => ({
+        isGranted: jest.fn().mockImplementation(() => true),
+    }),
+    { virtual: true }
+);
 
 describe('Modal view', function () {
     test('Default rendering', function () {
@@ -35,12 +39,12 @@ describe('Modal view', function () {
     });
 
     test('Confirm button does not appear without having edit rights', function () {
-        const { container } = renderView({rights: accessRightsFalse});
+        const { container } = renderView({ rights: accessRightsFalse });
 
         expect(container.getElementsByTagName('button').length).toBe(0);
     });
 
-    test('Add new empty row on edit of last row\'s code', function () {
+    test("Add new empty row on edit of last row's code", function () {
         const { container } = renderView();
 
         // 1 row with th + 1 row with td
@@ -55,7 +59,7 @@ describe('Modal view', function () {
         expectEmptyRow(container.getElementsByTagName('tr').item(2));
     });
 
-    test('Add new empty row on edit of last row\'s label', function () {
+    test("Add new empty row on edit of last row's label", function () {
         const { container } = renderView();
 
         // 1 row with th + 1 row with td
@@ -70,7 +74,7 @@ describe('Modal view', function () {
         expectEmptyRow(container.getElementsByTagName('tr').item(2));
     });
 
-    test('Add new empty row on edit of last row\'s type', function () {
+    test("Add new empty row on edit of last row's type", function () {
         const { container } = renderView();
 
         // 1 row with th + 1 row with td
@@ -88,12 +92,14 @@ describe('Modal view', function () {
         fireEvent.change(container.getElementsByTagName('select')[0], { target: { value: 'number' } });
 
         expect(container.querySelector('option:checked').textContent).toBe('flagbit_reference_entity_table.attribute.column_type.number');
-        expect(container.getElementsByTagName('td')[4].textContent).not.toBe('flagbit_reference_entity_table.attribute.column_type.text.no_config');
+        expect(container.getElementsByTagName('td')[4].textContent).not.toBe(
+            'flagbit_reference_entity_table.attribute.column_type.text.no_config'
+        );
     });
 
     test('Click on confirm button will apply changes for attribute', function () {
         const saveTable = jest.fn();
-        const { container } = renderView({saveTable: saveTable});
+        const { container } = renderView({ saveTable: saveTable });
 
         const inputFields = container.getElementsByTagName('input');
 
@@ -105,12 +111,12 @@ describe('Modal view', function () {
 
         const expectedRow = {
             code: 'my_code',
-            labels: {de_DE: 'de label', en_US: 'us label'},
+            labels: { de_DE: 'de label', en_US: 'us label' },
             type: 'number',
             validations: [],
             config: {
-                decimal: 'true'
-            }
+                decimal: 'true',
+            },
         };
 
         fireEvent.click(container.querySelector('button.confirm'));
@@ -122,7 +128,7 @@ describe('Modal view', function () {
     test('Removing rows', function () {
         const attribute = createPopulatedAttribute();
         const saveTable = jest.fn();
-        const { container } = renderView({saveTable: saveTable, attribute: attribute});
+        const { container } = renderView({ saveTable: saveTable, attribute: attribute });
 
         // check if given row exists
         expect(container.querySelector('tr[data-code="my_code"]')).not.toBeNull();
@@ -143,7 +149,7 @@ describe('Modal view', function () {
 
     test('Abort row removal will keep changes', function () {
         const attribute = createPopulatedAttribute();
-        const { container } = renderView({attribute: attribute});
+        const { container } = renderView({ attribute: attribute });
 
         // check if given row exists
         expect(container.querySelector('tr[data-code="my_code"]')).not.toBeNull();
@@ -159,7 +165,7 @@ describe('Modal view', function () {
 
     test('Canceling modal after editing data will not apply changes', function () {
         const attribute = createPopulatedAttribute();
-        const { container } = renderView({attribute: attribute});
+        const { container } = renderView({ attribute: attribute });
 
         // check if given row exists
         expect(container.querySelector('tr[data-code="my_code"]')).not.toBeNull();
@@ -179,39 +185,39 @@ describe('Modal view', function () {
     });
 });
 
-function renderView(options: {
-    saveTable?: (tableRows: TableRow[]) => void;
-    attribute?: TableAttribute;
-    rights?: RightsType;
-} = {}) {
-
+function renderView(
+    options: {
+        saveTable?: (tableRows: TableRow[]) => void;
+        attribute?: TableAttribute;
+        rights?: RightsType;
+    } = {}
+) {
     options = {
         attribute: createDefaultAttribute(),
         saveTable: jest.fn(),
         rights: accessRightsTrue,
-        ...options
-    }
+        ...options,
+    };
 
     const store = {
         reloadPreview: false,
         user: {
-            catalogLocale: null
+            catalogLocale: null,
         },
         structure: {
-            locales: createLocales()
+            locales: createLocales(),
         },
         attribute: {
-            errors: []
-        }
+            errors: [],
+        },
     };
 
-    return render(<Provider store={createStore(() => (store))}>
-        <TableAttributeModal
-            key={`key_my_code`}
-            attribute={options.attribute}
-            rights={options.rights}
-            saveTable={options.saveTable}
-        /></Provider>, {});
+    return render(
+        <Provider store={createStore(() => store)}>
+            <TableAttributeModal key={`key_my_code`} attribute={options.attribute} rights={options.rights} saveTable={options.saveTable} />
+        </Provider>,
+        {}
+    );
 }
 
 function createDefaultAttribute(): TableAttribute {
@@ -220,12 +226,12 @@ function createDefaultAttribute(): TableAttribute {
         reference_entity_identifier: 'refId',
         code: 'attribute_code',
         type: 'flagbit_table',
-        labels: {de_DE: 'Tabelle', en_US: 'Table'},
+        labels: { de_DE: 'Tabelle', en_US: 'Table' },
         value_per_locale: false,
         value_per_channel: false,
         order: 1,
         is_required: false,
-        table_property: []
+        table_property: [],
     });
 }
 
@@ -235,20 +241,22 @@ function createPopulatedAttribute(): TableAttribute {
         reference_entity_identifier: 'refId',
         code: 'attribute_code',
         type: 'flagbit_table',
-        labels: {de_DE: 'Tabelle', en_US: 'Table'},
+        labels: { de_DE: 'Tabelle', en_US: 'Table' },
         value_per_locale: false,
         value_per_channel: false,
         order: 1,
         is_required: false,
-        table_property: [{
-            code: 'my_code',
-            labels: {de_DE: 'de label', en_US: 'us label'},
-            type: 'number',
-            validations: [],
-            config: {
-                decimal: 'true'
-            }
-        }]
+        table_property: [
+            {
+                code: 'my_code',
+                labels: { de_DE: 'de label', en_US: 'us label' },
+                type: 'number',
+                validations: [],
+                config: {
+                    decimal: 'true',
+                },
+            },
+        ],
     });
 }
 
@@ -260,7 +268,9 @@ function expectEmptyRow(htmlElement: HTMLElement): void {
     expect(emptyInput[1].value).toBe('');
     expect(emptyInput[2].value).toBe('');
     expect(htmlElement.getElementsByTagName('select')[0].value).toBe('text');
-    expect(htmlElement.getElementsByTagName('td')[4].textContent).toBe('flagbit_reference_entity_table.attribute.column_type.text.no_config');
+    expect(htmlElement.getElementsByTagName('td')[4].textContent).toBe(
+        'flagbit_reference_entity_table.attribute.column_type.text.no_config'
+    );
 }
 
 function changeInputField(input: HTMLInputElement, value: string): void {

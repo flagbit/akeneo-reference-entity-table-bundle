@@ -1,19 +1,23 @@
-import ValidationError from "akeneoreferenceentity/domain/model/validation-error";
+import ValidationError from 'akeneoreferenceentity/domain/model/validation-error';
 import {
     ConcreteTableAttribute,
     TableAttribute,
-    TableProperty
-} from "../../../../../src/Resources/public/reference-entity/attribute/table/table";
-import { view } from "../../../../../src/Resources/public/reference-entity/attribute/table/view";
-import { accessRightsTrue } from "../../test-helper";
-import * as React from "react";
+    TableProperty,
+} from '../../../../../src/Resources/public/reference-entity/attribute/table/table';
+import { view } from '../../../../../src/Resources/public/reference-entity/attribute/table/view';
+import { accessRightsTrue } from '../../test-helper';
+import * as React from 'react';
 import { Provider } from 'react-redux';
-import { createStore }  from 'redux';
+import { createStore } from 'redux';
 import { screen, render } from '@testing-library/react';
 
-jest.mock('pim/security-context', () => ({
-    isGranted: jest.fn().mockImplementation(() => true)
-}), {virtual: true});
+jest.mock(
+    'pim/security-context',
+    () => ({
+        isGranted: jest.fn().mockImplementation(() => true),
+    }),
+    { virtual: true }
+);
 
 describe('Attribute view', function () {
     test('Default rendering', function () {
@@ -60,31 +64,32 @@ describe('Attribute view', function () {
     });
 });
 
-function renderView(
-    onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void,
-    errors: ValidationError[] = [],
-) {
+function renderView(onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void, errors: ValidationError[] = []) {
     const ViewContent = view;
     const store = {
         reloadPreview: false,
         user: {
-            catalogLocale: null
+            catalogLocale: null,
         },
         structure: {
-            locales: []
+            locales: [],
         },
         attribute: {
-            errors: []
-        }
+            errors: [],
+        },
     };
 
-    return render(<Provider store={createStore(() => (store))}>
-        <ViewContent
-            attribute={createAttribute()}
-            onAdditionalPropertyUpdated={onAdditionalPropertyUpdated}
-            errors={errors}
-            rights={accessRightsTrue}
-    /></Provider>, {});
+    return render(
+        <Provider store={createStore(() => store)}>
+            <ViewContent
+                attribute={createAttribute()}
+                onAdditionalPropertyUpdated={onAdditionalPropertyUpdated}
+                errors={errors}
+                rights={accessRightsTrue}
+            />
+        </Provider>,
+        {}
+    );
 }
 
 function createAttribute(): TableAttribute {
@@ -93,11 +98,11 @@ function createAttribute(): TableAttribute {
         reference_entity_identifier: 'refId',
         code: 'my_code',
         type: 'flagbit_table',
-        labels: {de_DE: 'Tabelle', en_US: 'Table'},
+        labels: { de_DE: 'Tabelle', en_US: 'Table' },
         value_per_locale: false,
         value_per_channel: false,
         order: 1,
         is_required: false,
-        table_property: []
+        table_property: [],
     });
 }

@@ -1,7 +1,4 @@
-import {
-    RecordChangeState,
-    FlagbitTableRecordTypes
-} from "../../../../../../src/Resources/public/reference-entity/record/table/type/type";
+import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/select';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
@@ -21,12 +18,12 @@ describe('Simple Select type', function () {
     test('Rendering with options', function () {
         const options = {
             options: [
-                {code: 'foo', value: 'A'},
-                {code: 'bar', value: 'B'},
-                {code: 'baz', value: 'C'},
-            ]
-        }
-        const renderedRecordType = renderType({selection: 'foo'}, jest.fn(), options);
+                { code: 'foo', value: 'A' },
+                { code: 'bar', value: 'B' },
+                { code: 'baz', value: 'C' },
+            ],
+        };
+        const renderedRecordType = renderType({ selection: 'foo' }, jest.fn(), options);
 
         const optionList = renderedRecordType.find('select').find('option');
 
@@ -43,7 +40,7 @@ describe('Simple Select type', function () {
     });
 
     test('Rendering with saved value', function () {
-        const renderedRecordType = renderType({selection: 'foo'}, jest.fn());
+        const renderedRecordType = renderType({ selection: 'foo' }, jest.fn());
 
         const select = renderedRecordType.find('select');
 
@@ -52,11 +49,11 @@ describe('Simple Select type', function () {
 
     test('onChange event', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType({code: 'test'}, onchange);
+        const renderedRecordType = renderType({ code: 'test' }, onchange);
 
         const select = renderedRecordType.find('select');
 
-        select.simulate('change', { currentTarget: { value: 'foo' }});
+        select.simulate('change', { currentTarget: { value: 'foo' } });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toBe('selection');
@@ -65,17 +62,22 @@ describe('Simple Select type', function () {
     });
 });
 
-function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = {options: []}) {
-    const RecordType = () => FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as SelectConfig));
+function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = { options: [] }) {
+    const RecordType = () =>
+        FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as SelectConfig));
 
     return shallow(<RecordType />);
 }
 
-function createRecordChangeState(rowData, onchange: (code: string, value: any, index: number) => void, config: SelectConfig): RecordChangeState {
+function createRecordChangeState(
+    rowData,
+    onchange: (code: string, value: any, index: number) => void,
+    config: SelectConfig
+): RecordChangeState {
     return {
         tableRow: {
             code: 'selection',
-            labels: {de_DE: 'DE'},
+            labels: { de_DE: 'DE' },
             type: 'simple_select',
             validations: [],
             config: config,

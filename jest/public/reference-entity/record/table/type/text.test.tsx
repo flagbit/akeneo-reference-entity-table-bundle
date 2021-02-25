@@ -1,7 +1,4 @@
-import {
-    RecordChangeState,
-    FlagbitTableRecordTypes
-} from "../../../../../../src/Resources/public/reference-entity/record/table/type/type";
+import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
 import { shallow } from 'enzyme';
@@ -18,7 +15,7 @@ describe('Text type', function () {
     });
 
     test('Rendering with saved value', function () {
-        const renderedRecordType = renderType({code: 'test'}, jest.fn());
+        const renderedRecordType = renderType({ code: 'test' }, jest.fn());
 
         const input = renderedRecordType.find('input');
 
@@ -27,11 +24,11 @@ describe('Text type', function () {
 
     test('onChange event', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType({code: 'test'}, onchange);
+        const renderedRecordType = renderType({ code: 'test' }, onchange);
 
         const input = renderedRecordType.find('input');
 
-        input.simulate('change', { currentTarget: { value: 'foo' }});
+        input.simulate('change', { currentTarget: { value: 'foo' } });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toBe('code');
@@ -50,7 +47,7 @@ function createRecordChangeState(rowData, onchange: (code: string, value: any, i
     return {
         tableRow: {
             code: 'code',
-            labels: {de_DE: 'DE'},
+            labels: { de_DE: 'DE' },
             type: 'text',
             validations: [],
             config: {},

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import renderType from "./test-helper";
-import { SelectConfig } from "../../../../../../src/Resources/public/reference-entity/attribute/table/type/select";
+import renderType from './test-helper';
+import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/select';
 
 jest.mock('akeneoreferenceentity/tools/translator');
 
@@ -8,7 +8,7 @@ describe('Text type', function () {
     test('Default rendering', function () {
         const renderedAttributeType = renderType({}, 'simple_select', jest.fn());
 
-        const emptyOptionFields = renderedAttributeType.find('tbody').find('td').find('input')
+        const emptyOptionFields = renderedAttributeType.find('tbody').find('td').find('input');
 
         expect(renderedAttributeType.key()).toBe('simple_select0');
 
@@ -28,7 +28,7 @@ describe('Text type', function () {
         const modalButton = renderedAttributeType.find('button').at(0);
         modalButton.simulate('click');
 
-        const expectedConfig: SelectConfig = { options: [ { code: '', value: '' } ] };
+        const expectedConfig: SelectConfig = { options: [{ code: '', value: '' }] };
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(expectedConfig);
@@ -37,13 +37,18 @@ describe('Text type', function () {
 
     test('Change value of row 1', function () {
         const onchange = jest.fn();
-        const config: SelectConfig = { options: [ { code: 'code', value: 'oldvalue' } ] };
+        const config: SelectConfig = { options: [{ code: 'code', value: 'oldvalue' }] };
         const renderedAttributeType = renderType(config, 'simple_select', onchange);
 
         const firstRowValueField = renderedAttributeType.find('tbody').find('input').at(1);
-        firstRowValueField.simulate('change', { target: { value: 'foo' }});
+        firstRowValueField.simulate('change', { target: { value: 'foo' } });
 
-        const expectedConfig: SelectConfig = { options: [ { code: 'code', value: 'foo' }, { code: '', value: '' } ] };
+        const expectedConfig: SelectConfig = {
+            options: [
+                { code: 'code', value: 'foo' },
+                { code: '', value: '' },
+            ],
+        };
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(expectedConfig);
@@ -52,13 +57,18 @@ describe('Text type', function () {
 
     test('Change code of row 1', function () {
         const onchange = jest.fn();
-        const config: SelectConfig = { options: [ { code: 'oldcode', value: 'value' } ] };
+        const config: SelectConfig = { options: [{ code: 'oldcode', value: 'value' }] };
         const renderedAttributeType = renderType(config, 'simple_select', onchange);
 
         const firstRowValueField = renderedAttributeType.find('tbody').find('input').at(0);
-        firstRowValueField.simulate('change', { target: { value: 'code' }});
+        firstRowValueField.simulate('change', { target: { value: 'code' } });
 
-        const expectedConfig: SelectConfig = { options: [ { code: 'code', value: 'value' }, { code: '', value: '' } ] };
+        const expectedConfig: SelectConfig = {
+            options: [
+                { code: 'code', value: 'value' },
+                { code: '', value: '' },
+            ],
+        };
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(expectedConfig);
@@ -71,17 +81,17 @@ describe('Text type', function () {
             options: [
                 {
                     code: 'code1',
-                    value: 'value2'
+                    value: 'value2',
                 },
                 {
                     code: 'deletecode',
-                    value: 'deletevalue'
+                    value: 'deletevalue',
                 },
                 {
                     code: 'code3',
-                    value: 'value3'
-                }
-            ]
+                    value: 'value3',
+                },
+            ],
         };
         const renderedAttributeType = renderType(config, 'simple_select', onchange);
 
@@ -92,13 +102,13 @@ describe('Text type', function () {
             options: [
                 {
                     code: 'code1',
-                    value: 'value2'
+                    value: 'value2',
                 },
                 {
                     code: 'code3',
-                    value: 'value3'
-                }
-            ]
+                    value: 'value3',
+                },
+            ],
         };
 
         expect(onchange.mock.calls.length).toBe(1);
@@ -112,17 +122,17 @@ describe('Text type', function () {
             options: [
                 {
                     code: '',
-                    value: ''
+                    value: '',
                 },
                 {
                     code: 'code',
-                    value: 'value'
+                    value: 'value',
                 },
                 {
                     code: '',
-                    value: ''
-                }
-            ]
+                    value: '',
+                },
+            ],
         };
         const renderedAttributeType = renderType(config, 'simple_select', onchange);
 
@@ -133,9 +143,9 @@ describe('Text type', function () {
             options: [
                 {
                     code: 'code',
-                    value: 'value'
-                }
-            ]
+                    value: 'value',
+                },
+            ],
         };
 
         expect(onchange.mock.calls.length).toBe(1);

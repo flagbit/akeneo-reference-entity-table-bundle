@@ -2,8 +2,8 @@ import {
     Type,
     RecordChangeState,
     TypeFactory,
-    FlagbitTableRecordTypes
-} from "../../../../../../src/Resources/public/reference-entity/record/table/type/type";
+    FlagbitTableRecordTypes,
+} from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 
 describe('TypeRegistry', function () {
@@ -12,17 +12,16 @@ describe('TypeRegistry', function () {
     });
 
     test('Render type output determined by tableRow type', function () {
-        const testType = new class implements TypeFactory
-        {
+        const testType = new (class implements TypeFactory {
             typeCode: string = 'test';
 
             create(): Type {
                 return {
                     typeCode: 'test',
-                    render: jest.fn(() => 'render')
+                    render: jest.fn(() => 'render'),
                 };
             }
-        };
+        })();
 
         FlagbitTableRecordTypes.typeRegistry.addFactory(testType);
 

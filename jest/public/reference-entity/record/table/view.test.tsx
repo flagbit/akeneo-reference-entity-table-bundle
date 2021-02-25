@@ -1,12 +1,9 @@
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import Value from 'akeneoreferenceentity/domain/model/record/value';
-import ChannelReference from "akeneoreferenceentity/domain/model/channel-reference";
-import {
-    ConcreteTableAttribute,
-    TableRow
-} from "../../../../../src/Resources/public/reference-entity/attribute/table/table";
-import {TableData, TableDataRow} from "../../../../../src/Resources/public/reference-entity/record/table/table";
-import {view} from "../../../../../src/Resources/public/reference-entity/record/table/view";
+import ChannelReference from 'akeneoreferenceentity/domain/model/channel-reference';
+import { ConcreteTableAttribute, TableRow } from '../../../../../src/Resources/public/reference-entity/attribute/table/table';
+import { TableData, TableDataRow } from '../../../../../src/Resources/public/reference-entity/record/table/table';
+import { view } from '../../../../../src/Resources/public/reference-entity/record/table/view';
 import * as React from 'react';
 import { shallow } from 'enzyme';
 
@@ -16,12 +13,12 @@ describe('Record view', function () {
         const ValueMock = jest.genMockFromModule('akeneoreferenceentity/domain/model/record/value').default;
         const value = new ValueMock();
 
-        value.data = new class {};
-        value.attribute = new class {};
+        value.data = new (class {})();
+        value.attribute = new (class {})();
 
-        const ViewContent = () => view({value: value, onChange: jest.fn(), locale: LocaleReference.create('de_DE')});
+        const ViewContent = () => view({ value: value, onChange: jest.fn(), locale: LocaleReference.create('de_DE') });
 
-        const renderedView = shallow(<ViewContent />)
+        const renderedView = shallow(<ViewContent />);
 
         expect(renderedView.exists('table')).toBeFalsy();
         expect(renderedView.exists('th')).toBeFalsy();
@@ -82,7 +79,7 @@ describe('Record view', function () {
 
         const input = renderedView.find('input').at(2);
 
-        input.simulate('change', { currentTarget: { value: 'foo' }});
+        input.simulate('change', { currentTarget: { value: 'foo' } });
 
         // Arguments of the call is tested in ValueUpdater
         expect(onchange.mock.calls.length).toBe(1);
@@ -104,42 +101,48 @@ describe('Record view', function () {
 });
 
 function renderView(onChange: (value: Value) => void) {
-    const ViewContent = () => view({value: createValue(), onChange: onChange, locale: LocaleReference.create('de_DE')});
+    const ViewContent = () => view({ value: createValue(), onChange: onChange, locale: LocaleReference.create('de_DE') });
 
     return shallow(<ViewContent />);
 }
 
 function createValue(): Value {
+    const tableRows: TableRow[] = [
+        {
+            code: 'txt',
+            labels: { de_DE: 'Wert', en_US: 'Value' },
+            type: 'text',
+            validations: [],
+            config: {},
+        },
+        {
+            code: 'int',
+            labels: { de_DE: 'Zahl', en_US: 'Number' },
+            type: 'text',
+            validations: [],
+            config: {},
+        },
+        {
+            code: 'empty',
+            labels: {},
+            type: 'text',
+            validations: [],
+            config: {},
+        },
+    ];
 
-    const tableRows: TableRow[] = [{
-        code: 'txt',
-        labels: {de_DE: 'Wert', en_US: 'Value'},
-        type: 'text',
-        validations: [],
-        config: {},
-    },{
-        code: 'int',
-        labels: {de_DE: 'Zahl', en_US: 'Number'},
-        type: 'text',
-        validations: [],
-        config: {},
-    },{
-        code: 'empty',
-        labels: {},
-        type: 'text',
-        validations: [],
-        config: {},
-    }];
-
-    const tableData: TableDataRow[] = [{
-        txt: 'value1',
-        int: '1',
-        empty: ''
-    },{
-        txt: 'value2',
-        int: '2',
-        empty: null
-    }];
+    const tableData: TableDataRow[] = [
+        {
+            txt: 'value1',
+            int: '1',
+            empty: '',
+        },
+        {
+            txt: 'value2',
+            int: '2',
+            empty: null,
+        },
+    ];
 
     const data = TableData.createFromNormalized(tableData);
     const attribute = ConcreteTableAttribute.createFromNormalized({
@@ -147,12 +150,12 @@ function createValue(): Value {
         reference_entity_identifier: 'refId',
         code: 'code',
         type: 'flagbit_table',
-        labels: {de_DE: 'Tabelle', en_US: 'Table'},
+        labels: { de_DE: 'Tabelle', en_US: 'Table' },
         value_per_locale: false,
         value_per_channel: false,
         order: 1,
         is_required: false,
-        table_property: tableRows
+        table_property: tableRows,
     });
 
     // @ts-ignore

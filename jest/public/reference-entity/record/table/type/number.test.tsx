@@ -1,7 +1,4 @@
-import {
-    RecordChangeState,
-    FlagbitTableRecordTypes
-} from "../../../../../../src/Resources/public/reference-entity/record/table/type/type";
+import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import { NumberConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/number';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
@@ -20,7 +17,7 @@ describe('Number type', function () {
     });
 
     test('Rendering with saved value', function () {
-        const renderedRecordType = renderType({int: 5.4}, jest.fn());
+        const renderedRecordType = renderType({ int: 5.4 }, jest.fn());
 
         const input = renderedRecordType.find('input');
 
@@ -28,7 +25,7 @@ describe('Number type', function () {
     });
 
     test('Configuration of decimal values', function () {
-        const renderedRecordType = renderType({}, jest.fn(), {decimal: 'true'});
+        const renderedRecordType = renderType({}, jest.fn(), { decimal: 'true' });
 
         const input = renderedRecordType.find('input');
 
@@ -37,11 +34,11 @@ describe('Number type', function () {
 
     test('onChange event', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType({code: 'test'}, onchange);
+        const renderedRecordType = renderType({ code: 'test' }, onchange);
 
         const input = renderedRecordType.find('input');
 
-        input.simulate('change', { currentTarget: { value: 42 }});
+        input.simulate('change', { currentTarget: { value: 42 } });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toBe('int');
@@ -51,16 +48,21 @@ describe('Number type', function () {
 });
 
 function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = {}) {
-    const RecordType = () => FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as NumberConfig));
+    const RecordType = () =>
+        FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as NumberConfig));
 
     return shallow(<RecordType />);
 }
 
-function createRecordChangeState(rowData, onchange: (code: string, value: any, index: number) => void, config: NumberConfig): RecordChangeState {
+function createRecordChangeState(
+    rowData,
+    onchange: (code: string, value: any, index: number) => void,
+    config: NumberConfig
+): RecordChangeState {
     return {
         tableRow: {
             code: 'int',
-            labels: {de_DE: 'DE'},
+            labels: { de_DE: 'DE' },
             type: 'number',
             validations: [],
             config: config,
