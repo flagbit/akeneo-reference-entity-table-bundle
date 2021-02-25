@@ -1,8 +1,8 @@
-import * as React from "react";
-import { shallow } from "enzyme";
+import * as React from 'react';
+import { shallow } from 'enzyme';
 import { tableRow } from '../../../../../src/Resources/public/reference-entity/attribute/table/row';
-import { createLocales, accessRightsTrue, accessRightsFalse } from "../../test-helper";
-import { createValidationError } from "akeneoreferenceentity/domain/model/validation-error";
+import { createLocales, accessRightsTrue, accessRightsFalse } from '../../test-helper';
+import { createValidationError } from 'akeneoreferenceentity/domain/model/validation-error';
 
 describe('Attribute modal row', function () {
     test('Default rendering', function () {
@@ -61,7 +61,7 @@ describe('Attribute modal row', function () {
                 type: 'text',
                 validations: [],
                 config: {},
-            }
+            },
         });
 
         expect(row.find('input[name="code"]').props().value).toBe('');
@@ -93,7 +93,7 @@ describe('Attribute modal row', function () {
             onTableEditionCodeUpdated: onChange,
         });
 
-        row.find('input[name="code"]').simulate('change', {currentTarget: {value: 'foo'}});
+        row.find('input[name="code"]').simulate('change', { currentTarget: { value: 'foo' } });
 
         expect(onChange.mock.calls.length).toBe(1);
         expect(onChange.mock.calls[0][0]).toBe('foo');
@@ -106,7 +106,7 @@ describe('Attribute modal row', function () {
             onTableEditionLabelUpdated: onChange,
         });
 
-        row.find('input[name="labels[de_DE]"]').simulate('change', {currentTarget: {value: 'foo'}});
+        row.find('input[name="labels[de_DE]"]').simulate('change', { currentTarget: { value: 'foo' } });
 
         expect(onChange.mock.calls.length).toBe(1);
         expect(onChange.mock.calls[0][0]).toBe('foo');
@@ -120,7 +120,7 @@ describe('Attribute modal row', function () {
             onTableEditionTypeUpdated: onChange,
         });
 
-        row.find('select[name="type"]').simulate('change', {target: {value: 'foo'}});
+        row.find('select[name="type"]').simulate('change', { target: { value: 'foo' } });
 
         expect(onChange.mock.calls.length).toBe(1);
         expect(onChange.mock.calls[0][0]).toBe('foo');
@@ -145,8 +145,8 @@ describe('Attribute modal row', function () {
             onTableEditionDelete: onChange,
         });
 
-        row.find('.AknOptionEditor-remove').simulate('keypress', {key: 'Enter'});
-        row.find('.AknOptionEditor-remove').simulate('keypress', {key: ' '});
+        row.find('.AknOptionEditor-remove').simulate('keypress', { key: 'Enter' });
+        row.find('.AknOptionEditor-remove').simulate('keypress', { key: ' ' });
 
         expect(onChange.mock.calls.length).toBe(1);
         expect(onChange.mock.calls[0][0]).toBe(1);
@@ -156,36 +156,43 @@ describe('Attribute modal row', function () {
 function createValidationTest(fieldSelector: string, propertyPath: string) {
     const error = createValidationError(
         // @ts-ignore A ts invalid type is given by validation API
-        {"messageTemplate":"error message.", "parameters":{"{{ value }}":"\"foo\""}, "message":"error message.", "propertyPath": propertyPath, "invalidValue":"foo"}
+        {
+            messageTemplate: 'error message.',
+            parameters: { '{{ value }}': '"foo"' },
+            message: 'error message.',
+            propertyPath: propertyPath,
+            invalidValue: 'foo',
+        }
     );
 
-    const row = createRow({errors: [error]});
+    const row = createRow({ errors: [error] });
 
     expect(row.find(fieldSelector).parents('td').find('.error-message').text()).toBe('error message.');
 }
 
 function createRow(options = {}) {
-    const Row = () => tableRow({
-        row: {
-            code: 'my_code',
-            labels: {de_DE: 'DE', en_US: 'US'},
-            type: 'text',
-            validations: [],
-            config: {},
-        },
-        index: 1,
-        isLastRow: false,
-        numberOfLockedRows: 3,
-        locales: createLocales(),
-        errors: [],
-        rights: accessRightsTrue,
-        onTableEditionCodeUpdated: jest.fn(),
-        onTableEditionLabelUpdated: jest.fn(),
-        onTableEditionTypeUpdated: jest.fn(),
-        onTableEditionConfigUpdated: jest.fn(),
-        onTableEditionDelete: jest.fn(),
-        ...options
-    });
+    const Row = () =>
+        tableRow({
+            row: {
+                code: 'my_code',
+                labels: { de_DE: 'DE', en_US: 'US' },
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+            index: 1,
+            isLastRow: false,
+            numberOfLockedRows: 3,
+            locales: createLocales(),
+            errors: [],
+            rights: accessRightsTrue,
+            onTableEditionCodeUpdated: jest.fn(),
+            onTableEditionLabelUpdated: jest.fn(),
+            onTableEditionTypeUpdated: jest.fn(),
+            onTableEditionConfigUpdated: jest.fn(),
+            onTableEditionDelete: jest.fn(),
+            ...options,
+        });
 
     return shallow(<Row />);
 }

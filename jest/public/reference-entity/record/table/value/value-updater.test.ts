@@ -1,12 +1,9 @@
 import Value from 'akeneoreferenceentity/domain/model/record/value';
 import ChannelReference from 'akeneoreferenceentity/domain/model/channel-reference';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
-import {
-    ConcreteTableAttribute,
-    TableRow
-} from '../../../../../../src/Resources/public/reference-entity/attribute/table/table';
-import {TableDataRow, TableData} from "../../../../../../src/Resources/public/reference-entity/record/table/table";
-import ValueUpdater from "../../../../../../src/Resources/public/reference-entity/record/table/value/value-updater";
+import { ConcreteTableAttribute, TableRow } from '../../../../../../src/Resources/public/reference-entity/attribute/table/table';
+import { TableDataRow, TableData } from '../../../../../../src/Resources/public/reference-entity/record/table/table';
+import ValueUpdater from '../../../../../../src/Resources/public/reference-entity/record/table/value/value-updater';
 
 describe('ValueUpdater', function () {
     test('Appends automatically empty row', function () {
@@ -24,38 +21,40 @@ describe('ValueUpdater', function () {
                 type: 'text',
                 validations: [],
                 config: {},
-            }
+            },
         ];
 
         const emptyTableData: TableDataRow[] = [];
 
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, emptyTableData),
-            jest.fn()
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, emptyTableData), jest.fn());
 
-        const expected = [{
-            my_code1: null,
-            my_code2: null,
-        }];
+        const expected = [
+            {
+                my_code1: null,
+                my_code2: null,
+            },
+        ];
 
         expect(valueUpdater.tableDataRows).toStrictEqual(expected);
     });
 
     test('Filters automatically empty rows in between', function () {
-        const tableRows: TableRow[] = [{
-            code: 'my_code1',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }, {
-            code: 'my_code2',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }];
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+            {
+                code: 'my_code2',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
 
         const dirtyTableData: TableDataRow[] = [
             {
@@ -84,10 +83,7 @@ describe('ValueUpdater', function () {
             },
         ];
 
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, dirtyTableData),
-            jest.fn()
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, dirtyTableData), jest.fn());
 
         const expected = [
             {
@@ -116,13 +112,15 @@ describe('ValueUpdater', function () {
     });
 
     test('Removes a row and provides correct tableDataRows for further processing', function () {
-        const tableRows: TableRow[] = [{
-            code: 'my_code1',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }];
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
 
         const tableData: TableDataRow[] = [
             {
@@ -139,10 +137,7 @@ describe('ValueUpdater', function () {
             },
         ];
 
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, tableData),
-            jest.fn()
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, tableData), jest.fn());
 
         // User clicks ok on confirm window
         global.confirm = (message: string) => {
@@ -168,13 +163,15 @@ describe('ValueUpdater', function () {
     });
 
     test('Removes a row by its index and changes tableDataRows to the correct react state', function () {
-        const tableRows: TableRow[] = [{
-            code: 'my_code1',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }];
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
 
         const tableData: TableDataRow[] = [
             {
@@ -192,10 +189,7 @@ describe('ValueUpdater', function () {
         ];
 
         const onchange = jest.fn();
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, tableData),
-            onchange
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, tableData), onchange);
 
         // User clicks ok on confirm window
         global.confirm = (message: string) => {
@@ -219,14 +213,16 @@ describe('ValueUpdater', function () {
         expect(onchange.mock.calls[0][0]).toStrictEqual(createValue(tableRows, expected));
     });
 
-    test('Keeps a row and tableDataRows when user doesn\'t confirm', function () {
-        const tableRows: TableRow[] = [{
-            code: 'my_code1',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }];
+    test("Keeps a row and tableDataRows when user doesn't confirm", function () {
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
 
         const tableData: TableDataRow[] = [
             {
@@ -241,10 +237,7 @@ describe('ValueUpdater', function () {
         ];
 
         const onchange = jest.fn();
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, tableData),
-            onchange
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, tableData), onchange);
 
         // User clicks abort on confirm window
         global.confirm = () => false;
@@ -272,13 +265,15 @@ describe('ValueUpdater', function () {
     });
 
     test('Updating a row will update tableDataRows', function () {
-        const tableRows: TableRow[] = [{
-            code: 'my_code1',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }];
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
 
         const tableData: TableDataRow[] = [
             {
@@ -289,10 +284,7 @@ describe('ValueUpdater', function () {
             },
         ];
 
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, tableData),
-            jest.fn()
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, tableData), jest.fn());
 
         valueUpdater.updateValue('my_code1', 'value2a', 1);
 
@@ -312,13 +304,15 @@ describe('ValueUpdater', function () {
     });
 
     test('Updating a row will update the react state', function () {
-        const tableRows: TableRow[] = [{
-            code: 'my_code1',
-            labels: {},
-            type: 'text',
-            validations: [],
-            config: {},
-        }];
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
 
         const tableData: TableDataRow[] = [
             {
@@ -330,10 +324,7 @@ describe('ValueUpdater', function () {
         ];
 
         const onchange = jest.fn();
-        const valueUpdater = new ValueUpdater(
-            createValue(tableRows, tableData),
-            onchange
-        );
+        const valueUpdater = new ValueUpdater(createValue(tableRows, tableData), onchange);
 
         valueUpdater.updateValue('my_code1', 'value2a', 1);
 
@@ -343,7 +334,7 @@ describe('ValueUpdater', function () {
             },
             {
                 my_code1: 'value2a',
-            }
+            },
         ];
 
         expect(onchange.mock.calls.length).toBe(1);
@@ -365,7 +356,7 @@ function createValue(tableRows: TableRow[], tableData: TableDataRow[]): Value {
         value_per_channel: false,
         order: 1,
         is_required: false,
-        table_property: tableRows
+        table_property: tableRows,
     });
 
     return Value.create(attribute, channel, locale, data);

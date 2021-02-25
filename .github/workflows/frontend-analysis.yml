@@ -44,4 +44,4 @@ jobs:
         run: "yarn tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
 
       - name: "Coding Style"
-        run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
+        run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx jest/**/*.ts jest/**/*.tsx"

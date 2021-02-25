@@ -1,7 +1,4 @@
-import {
-    RecordChangeState,
-    FlagbitTableRecordTypes
-} from "../../../../../../src/Resources/public/reference-entity/record/table/type/type";
+import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/localized-select';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
@@ -21,12 +18,12 @@ describe('Localized Simple Select type', function () {
     test('Rendering with options', function () {
         const options = {
             options: [
-                {code: 'foo', values: {de_DE: 'Das A', en_US: 'The A'}},
-                {code: 'bar', values: {de_DE: 'Das B', en_US: 'The B'}},
-                {code: 'baz', values: {de_DE: 'Das C', en_US: 'The C'}},
-            ]
-        }
-        const renderedRecordType = renderType({selection: 'foo'}, jest.fn(), options);
+                { code: 'foo', values: { de_DE: 'Das A', en_US: 'The A' } },
+                { code: 'bar', values: { de_DE: 'Das B', en_US: 'The B' } },
+                { code: 'baz', values: { de_DE: 'Das C', en_US: 'The C' } },
+            ],
+        };
+        const renderedRecordType = renderType({ selection: 'foo' }, jest.fn(), options);
 
         const optionList = renderedRecordType.find('select').find('option');
 
@@ -44,11 +41,9 @@ describe('Localized Simple Select type', function () {
 
     test('Show code in option if no value is given', function () {
         const options = {
-            options: [
-                {code: 'foo', values: {de_DE: '', en_US: 'The A'}},
-            ]
-        }
-        const renderedRecordType = renderType({selection: 'foo'}, jest.fn(), options);
+            options: [{ code: 'foo', values: { de_DE: '', en_US: 'The A' } }],
+        };
+        const renderedRecordType = renderType({ selection: 'foo' }, jest.fn(), options);
 
         const optionList = renderedRecordType.find('select').find('option');
 
@@ -59,7 +54,7 @@ describe('Localized Simple Select type', function () {
     });
 
     test('Rendering with saved value', function () {
-        const renderedRecordType = renderType({selection: 'foo'}, jest.fn());
+        const renderedRecordType = renderType({ selection: 'foo' }, jest.fn());
 
         const select = renderedRecordType.find('select');
 
@@ -68,11 +63,11 @@ describe('Localized Simple Select type', function () {
 
     test('onChange event', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType({code: 'test'}, onchange);
+        const renderedRecordType = renderType({ code: 'test' }, onchange);
 
         const select = renderedRecordType.find('select');
 
-        select.simulate('change', { currentTarget: { value: 'foo' }});
+        select.simulate('change', { currentTarget: { value: 'foo' } });
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toBe('selection');
@@ -81,17 +76,22 @@ describe('Localized Simple Select type', function () {
     });
 });
 
-function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = {options: []}) {
-    const RecordType = () => FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as SelectConfig));
+function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = { options: [] }) {
+    const RecordType = () =>
+        FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as SelectConfig));
 
     return shallow(<RecordType />);
 }
 
-function createRecordChangeState(rowData, onchange: (code: string, value: any, index: number) => void, config: SelectConfig): RecordChangeState {
+function createRecordChangeState(
+    rowData,
+    onchange: (code: string, value: any, index: number) => void,
+    config: SelectConfig
+): RecordChangeState {
     return {
         tableRow: {
             code: 'selection',
-            labels: {de_DE: 'DE'},
+            labels: { de_DE: 'DE' },
             type: 'simple_select_localized',
             validations: [],
             config: config,

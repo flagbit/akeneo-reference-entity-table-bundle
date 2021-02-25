@@ -1,5 +1,5 @@
 import * as React from 'react';
-import renderType from "./test-helper";
+import renderType from './test-helper';
 
 jest.mock('akeneoreferenceentity/tools/translator');
 
