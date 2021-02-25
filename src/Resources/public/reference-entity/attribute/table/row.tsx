@@ -7,6 +7,7 @@ import Close from 'akeneoreferenceentity/application/component/app/icon/close';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import { FlagbitTableTypes } from './type/type';
 import { TableRow } from './table';
+import { RightsType } from './view';
 
 export const tableRow = ({
     row,
@@ -28,16 +29,7 @@ export const tableRow = ({
     numberOfLockedRows: number;
     locales: Locale[];
     errors: ValidationError[];
-    rights: {
-        locale: {
-            edit: boolean;
-        };
-        attribute: {
-            create: boolean;
-            edit: boolean;
-            delete: boolean;
-        };
-    };
+    rights: RightsType;
     onTableEditionCodeUpdated: (code: string, id: any) => void;
     onTableEditionLabelUpdated: (label: string, locale: string, id: any) => void;
     onTableEditionTypeUpdated: (value: string, id: number) => void;
@@ -98,9 +90,8 @@ export const tableRow = ({
                                             readOnly={!canEditLabel}
                                         />
                                     </div>
-                                    {!isLastRow ? getErrorsView(errors, `table_property.${index}`) : null}
                                 </div>
-                                {getErrorsView(errors, `tableProperty[${index}][${currentLocale.code}]`)}
+                                {getErrorsView(errors, `tableProperty[${index}][labels]`)}
                             </td>
                         );
                     })}
@@ -114,7 +105,7 @@ export const tableRow = ({
                                             (index <= numberOfLockedRows - 1 && !rights.attribute.edit ? ' AknSelectField--disabled' : '')
                                         }
                                         tabIndex={index <= numberOfLockedRows - 1 ? -1 : 0}
-                                        id={`pim_reference_entity.attribute.edit.input.${code}_${index}.code`}
+                                        id={`pim_reference_entity.attribute.edit.type.${code}_${index}.code`}
                                         name="type"
                                         value={undefined === type ? '' : type}
                                         onChange={(event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -6,6 +6,17 @@ import TableAttributeModal from './modal';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
+export type RightsType = {
+    locale: {
+        edit: boolean;
+    };
+    attribute: {
+        create: boolean;
+        edit: boolean;
+        delete: boolean;
+    };
+};
+
 const tableAttributeView = ({
     onTableEditionStart,
     attribute,
@@ -17,16 +28,7 @@ const tableAttributeView = ({
     attribute: TableAttribute;
     onAdditionalPropertyUpdated: (property: string, value: TableProperty) => void;
     errors: ValidationError[];
-    rights: {
-        locale: {
-            edit: boolean;
-        };
-        attribute: {
-            create: boolean;
-            edit: boolean;
-            delete: boolean;
-        };
-    };
+    rights: RightsType;
 }) => {
     const save = (tableRows: TableRow[]) => {
         onAdditionalPropertyUpdated('table_property', new TableProperty(tableRows));

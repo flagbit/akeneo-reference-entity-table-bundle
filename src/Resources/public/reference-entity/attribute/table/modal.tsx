@@ -5,21 +5,13 @@ import __ from 'akeneoreferenceentity/tools/translator';
 import ValidationError from 'akeneoreferenceentity/domain/model/validation-error';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import lodash from 'lodash';
+import { RightsType } from './view';
 
 import { TableAttribute, TableRow, TableProperty } from './table';
 import { tableRow } from './row';
 
 type OwnProps = {
-    rights: {
-        locale: {
-            edit: boolean;
-        };
-        attribute: {
-            create: boolean;
-            edit: boolean;
-            delete: boolean;
-        };
-    };
+    rights: RightsType;
 };
 
 interface TableProp extends OwnProps {
@@ -42,6 +34,7 @@ class TableAttributeModal extends React.Component<TableProp> {
         const message = __('pim_enrich.confirmation.discard_changes', {
             entity: 'table_property',
         });
+        // todo implement isDirty check. This one doesn't work yet.
         if (this.props.isDirty) {
             if (confirm(message)) {
                 this.closeModal();
@@ -250,6 +243,7 @@ class TableAttributeModal extends React.Component<TableProp> {
                             </button>
                         ) : null}
                         <div
+                            role="button"
                             title={__('pim_reference_entity.attribute.create.cancel')}
                             className="AknFullPage-cancel cancel"
                             onClick={this.cancelManageTableAttribute.bind(this)}
