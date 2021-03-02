@@ -81,6 +81,40 @@ describe('Record view', function () {
         expect(dragAndDrop.at(1).html()).toBe(expectedHtml);
     });
 
+    test('Drag and Drop of rows', function () {
+        const onchange = jest.fn();
+        const renderedView = renderView(onchange);
+
+        const tr = renderedView.find('tbody tr');
+
+        const preventDefaultOnDrop = jest.fn();
+        const preventDefaultOnDragOver = jest.fn();
+
+        tr.at(1).simulate('dragStart');
+        tr.at(0).simulate('dragOver', { preventDefault: preventDefaultOnDragOver });
+        tr.at(0).simulate('drop', { preventDefault: preventDefaultOnDrop });
+
+        expect(preventDefaultOnDragOver.mock.calls.length).toBe(1);
+        expect(preventDefaultOnDrop.mock.calls.length).toBe(1);
+
+        const data = TableData.createFromNormalized([
+            {
+                txt: 'value2',
+                int: '2',
+                empty: null,
+            },
+            {
+                txt: 'value1',
+                int: '1',
+                empty: '',
+            },
+        ]);
+        const expected = Value.create(createAttribute(), ChannelReference.create(null), LocaleReference.create(null), data);
+
+        expect(onchange.mock.calls.length).toBe(1);
+        expect(onchange.mock.calls[0][0]).toStrictEqual(expected);
+    });
+
     test('ValueUpdater binding for changing data works', function () {
         const onchange = jest.fn();
         const renderedView = renderView(onchange);
@@ -115,6 +149,25 @@ function renderView(onChange: (value: Value) => void) {
 }
 
 function createValue(): Value {
+    const tableData: TableDataRow[] = [
+        {
+            txt: 'value1',
+            int: '1',
+            empty: '',
+        },
+        {
+            txt: 'value2',
+            int: '2',
+            empty: null,
+        },
+    ];
+
+    const data = TableData.createFromNormalized(tableData);
+
+    return Value.create(createAttribute(), ChannelReference.create(null), LocaleReference.create(null), data);
+}
+
+function createAttribute(): ConcreteTableAttribute {
     const tableRows: TableRow[] = [
         {
             code: 'txt',
@@ -139,21 +192,7 @@ function createValue(): Value {
         },
     ];
 
-    const tableData: TableDataRow[] = [
-        {
-            txt: 'value1',
-            int: '1',
-            empty: '',
-        },
-        {
-            txt: 'value2',
-            int: '2',
-            empty: null,
-        },
-    ];
-
-    const data = TableData.createFromNormalized(tableData);
-    const attribute = ConcreteTableAttribute.createFromNormalized({
+    return ConcreteTableAttribute.createFromNormalized({
         identifier: 'id',
         reference_entity_identifier: 'refId',
         code: 'code',
@@ -165,13 +204,4 @@ function createValue(): Value {
         is_required: false,
         table_property: tableRows,
     });
-
-    // @ts-ignore
-    const ValueMock = jest.genMockFromModule('akeneoreferenceentity/domain/model/record/value').default;
-    const value = new ValueMock();
-
-    value.data = data;
-    value.attribute = attribute;
-
-    return value;
 }

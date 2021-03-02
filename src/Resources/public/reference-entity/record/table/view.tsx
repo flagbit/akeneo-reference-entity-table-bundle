@@ -36,26 +36,16 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
                 </thead>
                 <tbody>
                     {valueUpdater.tableDataRows.map((rowData: TableDataRow, index: number) => {
-                        const onDragOver = (event: any) => {
-                            event.preventDefault();
-                        };
-                        const onDragStart = (event: any) => {
-                            event.preventDefault();
-                        };
-                        const onDrop = (event: any) => {
-                            event.preventDefault();
-                        };
-
                         return (
                             <tr
                                 className="AknOptionEditor-row"
                                 key={`row_${attributeCode}_${index}`}
                                 id={`row_${attributeCode}_${index}`}
                                 data-position={index}
-                                draggable="true"
-                                onDragOver={onDragOver}
-                                onDragStart={onDragStart}
-                                onDrop={onDrop}
+                                draggable={valueUpdater.tableDataRows.length - 1 !== index ? 'true' : 'false'}
+                                onDragOver={valueUpdater.createDragOver()}
+                                onDragStart={valueUpdater.createDragStart(index)}
+                                onDrop={valueUpdater.createDrop(index)}
                             >
                                 <td style={{ paddingTop: '12px' }}>
                                     {valueUpdater.tableDataRows.length - 1 !== index ? (
