@@ -42,7 +42,7 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
                                 key={`row_${attributeCode}_${index}`}
                                 id={`row_${attributeCode}_${index}`}
                                 data-position={index}
-                                draggable={valueUpdater.tableDataRows.length - 1 !== index ? 'true' : 'false'}
+                                draggable={valueUpdater.tableDataRows.length - 1 !== index}
                                 onDragOver={valueUpdater.createDragOver()}
                                 onDragStart={valueUpdater.createDragStart(index)}
                                 onDrop={valueUpdater.createDrop(index)}

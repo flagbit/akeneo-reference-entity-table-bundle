@@ -53,13 +53,14 @@ export default class ValueUpdater {
         return (event: React.DragEvent<HTMLTableRowElement>) => {
             event.preventDefault();
 
-            const row: TableDataRow | undefined = this.internalDataRows.splice(this.dragPosition, 1).shift();
-            if (row === undefined) {
-                return;
-            }
+            const internalDataRows = this.internalDataRows;
 
-            this.internalDataRows.splice(index, 0, row);
-            this.updateDataRows(this.internalDataRows);
+            const row: TableDataRow | undefined = internalDataRows.splice(this.dragPosition, 1).shift();
+            if (!row) return;
+
+            internalDataRows.splice(index, 0, row);
+
+            this.updateDataRows(internalDataRows);
         };
     }
 
