@@ -340,6 +340,16 @@ describe('ValueUpdater', function () {
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual(createValue(tableRows, expected));
     });
+
+    test('Throws Error if Value has no TableData or TableAttribute', function () {
+        // @ts-ignore
+        const ValueMock = jest.genMockFromModule('akeneoreferenceentity/domain/model/record/value').default;
+        const value = new ValueMock();
+
+        const createInstance = () => new ValueUpdater(value, jest.fn());
+
+        expect(createInstance).toThrow(Error);
+    });
 });
 
 function createValue(tableRows: TableRow[], tableData: TableDataRow[]): Value {

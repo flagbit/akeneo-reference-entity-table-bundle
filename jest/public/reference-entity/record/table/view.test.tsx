@@ -39,11 +39,6 @@ describe('Record view', function () {
     test('td pre-set values from tabledata', function () {
         const renderedView = renderView(jest.fn());
 
-        const td = renderedView.find('td');
-
-        // form fields + delete row fields
-        expect(td.length).toBe(12);
-
         const input = renderedView.find('input');
 
         // form fields with extra empty row for additional table data
@@ -62,15 +57,62 @@ describe('Record view', function () {
         expect(input.at(8).props().value).toBe('');
     });
 
-    test('Renders delete-row buttons', function () {
+    test('Renders delete-row buttons at the end of rows', function () {
         const renderedView = renderView(jest.fn());
 
-        const closeButton = renderedView.find('td');
+        const closeButton = renderedView.find('tr td:last-child');
 
-        expect(closeButton.at(3).children().html()).toMatch(/^<svg /);
-        expect(closeButton.at(7).children().html()).toMatch(/^<svg /);
+        expect(closeButton.at(0).children().html()).toMatch(/^<svg /);
+        expect(closeButton.at(1).children().html()).toMatch(/^<svg /);
         // Empty row doesn't need a delete button
-        expect(closeButton.at(11).html()).not.toContain('<svg ');
+        expect(closeButton.at(2).html()).not.toContain('<svg ');
+    });
+
+    test('Renders drag and drop symbol at the start of rows', function () {
+        const renderedView = renderView(jest.fn());
+
+        const dragAndDrop = renderedView.find('tr td:first-child i.icon-reorder');
+
+        expect(dragAndDrop.length).toBe(2);
+
+        const expectedHtml = '<i class="icon-reorder"></i>';
+
+        expect(dragAndDrop.at(0).html()).toBe(expectedHtml);
+        expect(dragAndDrop.at(1).html()).toBe(expectedHtml);
+    });
+
+    test('Drag and Drop of rows', function () {
+        const onchange = jest.fn();
+        const renderedView = renderView(onchange);
+
+        const tr = renderedView.find('tbody tr');
+
+        const preventDefaultOnDrop = jest.fn();
+        const preventDefaultOnDragOver = jest.fn();
+
+        tr.at(1).simulate('dragStart');
+        tr.at(0).simulate('dragOver', { preventDefault: preventDefaultOnDragOver });
+        tr.at(0).simulate('drop', { preventDefault: preventDefaultOnDrop });
+
+        expect(preventDefaultOnDragOver.mock.calls.length).toBe(1);
+        expect(preventDefaultOnDrop.mock.calls.length).toBe(1);
+
+        const data = TableData.createFromNormalized([
+            {
+                txt: 'value2',
+                int: '2',
+                empty: null,
+            },
+            {
+                txt: 'value1',
+                int: '1',
+                empty: '',
+            },
+        ]);
+        const expected = Value.create(createAttribute(), ChannelReference.create(null), LocaleReference.create(null), data);
+
+        expect(onchange.mock.calls.length).toBe(1);
+        expect(onchange.mock.calls[0][0]).toStrictEqual(expected);
     });
 
     test('ValueUpdater binding for changing data works', function () {
@@ -89,7 +131,7 @@ describe('Record view', function () {
         const onchange = jest.fn();
         const renderedView = renderView(onchange);
 
-        const removeButton = renderedView.find('td').at(3).children();
+        const removeButton = renderedView.find('tr td:last-child').at(0).children();
 
         global.confirm = () => true;
 
@@ -107,6 +149,25 @@ function renderView(onChange: (value: Value) => void) {
 }
 
 function createValue(): Value {
+    const tableData: TableDataRow[] = [
+        {
+            txt: 'value1',
+            int: '1',
+            empty: '',
+        },
+        {
+            txt: 'value2',
+            int: '2',
+            empty: null,
+        },
+    ];
+
+    const data = TableData.createFromNormalized(tableData);
+
+    return Value.create(createAttribute(), ChannelReference.create(null), LocaleReference.create(null), data);
+}
+
+function createAttribute(): ConcreteTableAttribute {
     const tableRows: TableRow[] = [
         {
             code: 'txt',
@@ -131,21 +192,7 @@ function createValue(): Value {
         },
     ];
 
-    const tableData: TableDataRow[] = [
-        {
-            txt: 'value1',
-            int: '1',
-            empty: '',
-        },
-        {
-            txt: 'value2',
-            int: '2',
-            empty: null,
-        },
-    ];
-
-    const data = TableData.createFromNormalized(tableData);
-    const attribute = ConcreteTableAttribute.createFromNormalized({
+    return ConcreteTableAttribute.createFromNormalized({
         identifier: 'id',
         reference_entity_identifier: 'refId',
         code: 'code',
@@ -157,13 +204,4 @@ function createValue(): Value {
         is_required: false,
         table_property: tableRows,
     });
-
-    // @ts-ignore
-    const ValueMock = jest.genMockFromModule('akeneoreferenceentity/domain/model/record/value').default;
-    const value = new ValueMock();
-
-    value.data = data;
-    value.attribute = attribute;
-
-    return value;
 }

@@ -37,7 +37,23 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
                 <tbody>
                     {valueUpdater.tableDataRows.map((rowData: TableDataRow, index: number) => {
                         return (
-                            <tr className="AknOptionEditor-row" key={`row_${attributeCode}_${index}`}>
+                            <tr
+                                className="AknOptionEditor-row"
+                                key={`row_${attributeCode}_${index}`}
+                                id={`row_${attributeCode}_${index}`}
+                                data-position={index}
+                                draggable={valueUpdater.tableDataRows.length - 1 !== index}
+                                onDragOver={valueUpdater.createDragOver()}
+                                onDragStart={valueUpdater.createDragStart(index)}
+                                onDrop={valueUpdater.createDrop(index)}
+                            >
+                                <td style={{ paddingTop: '12px' }}>
+                                    {valueUpdater.tableDataRows.length - 1 !== index ? (
+                                        <span className="ui-sortable-handle">
+                                            <i className="icon-reorder"></i>
+                                        </span>
+                                    ) : null}
+                                </td>
                                 {tableRows.map((tableRow: TableRow) => {
                                     const recordChangeState: RecordChangeState = {
                                         index: index,

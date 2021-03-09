@@ -1,11 +1,14 @@
 import { ConcreteTableAttribute, TableRow } from '../../../attribute/table/table';
 import { denormalize, TableData, TableDataRow } from '../table';
 import Value from 'akeneoreferenceentity/domain/model/record/value';
+import * as React from 'react';
 
 export default class ValueUpdater {
     private readonly internalDataRows: TableDataRow[];
 
     private readonly tableRows: TableRow[];
+
+    private dragPosition: number;
 
     constructor(private readonly value: Value, private readonly onChange: (value: Value) => void) {
         if (!(value.data instanceof TableData && value.attribute instanceof ConcreteTableAttribute)) {
@@ -32,6 +35,33 @@ export default class ValueUpdater {
             this.internalDataRows.splice(index, 1);
             this.updateDataRows(this.internalDataRows);
         }
+    }
+
+    public createDragOver(): (event: React.DragEvent<HTMLTableRowElement>) => void {
+        return (event: React.DragEvent<HTMLTableRowElement>) => {
+            event.preventDefault();
+        };
+    }
+
+    public createDragStart(index: number): (event: React.DragEvent<HTMLTableRowElement>) => void {
+        return () => {
+            this.dragPosition = index;
+        };
+    }
+
+    public createDrop(index: number): (event: React.DragEvent<HTMLTableRowElement>) => void {
+        return (event: React.DragEvent<HTMLTableRowElement>) => {
+            event.preventDefault();
+
+            const internalDataRows = this.internalDataRows;
+
+            const row: TableDataRow | undefined = internalDataRows.splice(this.dragPosition, 1).shift();
+            if (!row) return;
+
+            internalDataRows.splice(index, 0, row);
+
+            this.updateDataRows(internalDataRows);
+        };
     }
 
     // Remove all rows that became empty.
