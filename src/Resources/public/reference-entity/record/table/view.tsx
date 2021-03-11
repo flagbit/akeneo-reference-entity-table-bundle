@@ -23,6 +23,7 @@ const recordView = ({ value, onChange, locale }: { value: Value; onChange: (valu
             <table className="AknOptionEditor-table" style={{ marginTop: '20px' }}>
                 <thead>
                     <tr>
+                        <th className="AknOptionEditor-headCell" />
                         {tableRows.map((tableRow: TableRow) => {
                             return (
                                 <th className="AknOptionEditor-headCell" key={`title_${attributeCode}_${tableRow.code}`}>
