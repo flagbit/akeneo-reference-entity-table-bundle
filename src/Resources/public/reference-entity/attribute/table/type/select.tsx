@@ -1,6 +1,6 @@
 import { Type, ConfigChangeState } from './type';
 import __ from 'akeneoreferenceentity/tools/translator';
-import Close from 'akeneoreferenceentity/application/component/app/icon/close';
+import Close from './../../../close';
 import React from 'react';
 import $ from 'jquery';
 
