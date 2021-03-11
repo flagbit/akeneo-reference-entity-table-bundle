@@ -30,10 +30,10 @@ describe('Record view', function () {
 
         const th = renderedView.find('th');
 
-        expect(th.length).toBe(3);
-        expect(th.at(0).text()).toBe('Wert');
-        expect(th.at(1).text()).toBe('Zahl');
-        expect(th.at(2).text()).toBe('[empty]');
+        expect(th.length).toBe(4);
+        expect(th.at(1).text()).toBe('Wert');
+        expect(th.at(2).text()).toBe('Zahl');
+        expect(th.at(3).text()).toBe('[empty]');
     });
 
     test('td pre-set values from tabledata', function () {
