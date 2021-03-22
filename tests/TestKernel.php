@@ -62,6 +62,7 @@ class TestKernel extends \Kernel
             'akeneo_referenceentity.infrastructure.persistence.attribute.hydrator.attribute_hydrator_registry',
             'akeneo_referenceentity.infrastructure.connector.api.create.attribute_creation_validator',
             'akeneo_referenceentity.infrastructure.connector.api.edit.attribute_edition_validator',
+            'akeneo_referenceentity.job.array_converter.standard_to_flat.reference_entity_record',
         ];
         $container->addCompilerPass(new PublicServiceCompilerPass($serviceIds));
 
