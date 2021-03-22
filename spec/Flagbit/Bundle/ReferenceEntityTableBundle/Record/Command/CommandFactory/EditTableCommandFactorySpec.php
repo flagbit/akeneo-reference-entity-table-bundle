@@ -18,16 +18,18 @@ class EditTableCommandFactorySpec extends ObjectBehavior
     public function it_does_support_command(TableAttribute $attribute): void
     {
         $this->supports($attribute, ['data' => ['data']])->shouldReturn(true);
+        $this->supports($attribute, ['data' => 'data'])->shouldReturn(true);
     }
 
     public function it_does_not_support_command(TableAttribute $attribute, AbstractAttribute $abstractAttribute): void
     {
-        $this->supports($attribute, ['data' => ''])->shouldReturn(false);
+        $this->supports($abstractAttribute, ['data' => ''])->shouldReturn(false);
         $this->supports($abstractAttribute, ['data' => 'data'])->shouldReturn(false);
-        $this->supports($abstractAttribute, ['data' => null])->shouldReturn(false);
+        $this->supports($abstractAttribute, ['data' => ['data']])->shouldReturn(false);
+        $this->supports($attribute, ['data' => null])->shouldReturn(false);
     }
 
-    public function it_creates_command(TableAttribute $attribute): void
+    public function it_creates_command_with_data_array(TableAttribute $attribute): void
     {
         $command = new EditTableValueCommand(
             $attribute->getWrappedObject(),
@@ -40,6 +42,24 @@ class EditTableCommandFactorySpec extends ObjectBehavior
             'channel' => 'channel',
             'locale' => 'locale',
             'data' => ['data'],
+        ];
+
+        $this->create($attribute, $normalizedValue)->shouldBeLike($command);
+    }
+
+    public function it_creates_command_with_data_string(TableAttribute $attribute): void
+    {
+        $command = new EditTableValueCommand(
+            $attribute->getWrappedObject(),
+            'channel',
+            'locale',
+            ['data']
+        );
+
+        $normalizedValue = [
+            'channel' => 'channel',
+            'locale' => 'locale',
+            'data' => '["data"]',
         ];
 
         $this->create($attribute, $normalizedValue)->shouldBeLike($command);
