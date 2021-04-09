@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Value from 'akeneoreferenceentity/domain/model/record/value';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
-import Close from 'akeneoreferenceentity/application/component/app/icon/close';
+import Close from './../../close';
 import __ from 'akeneoreferenceentity/tools/translator';
 import { ConcreteTableAttribute, TableRow } from '../../attribute/table/table';
 import { TableData, TableDataRow } from './table';

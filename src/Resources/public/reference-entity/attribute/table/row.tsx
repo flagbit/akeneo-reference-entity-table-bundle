@@ -3,7 +3,7 @@ import ValidationError from 'akeneoreferenceentity/domain/model/validation-error
 import Key from 'akeneoreferenceentity/tools/key';
 import __ from 'akeneoreferenceentity/tools/translator';
 import { getErrorsView } from 'akeneoreferenceentity/application/component/app/validation-error';
-import Close from 'akeneoreferenceentity/application/component/app/icon/close';
+import Close from './../../close';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 import { FlagbitTableTypes } from './type/type';
 import { TableRow } from './table';

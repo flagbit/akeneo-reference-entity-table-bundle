@@ -50,6 +50,19 @@ class TestKernel extends \Kernel
         $serviceIds = [
             'akeneo_referenceentity.infrastructure.persistence.repository.attribute',
             'akeneo.referencentity.infrastructure.persistence.query.get_attribute_identifier',
+            'akeneo_referenceentity.infrastructure.persistence.record.transformer.connector_value_registry',
+            'akeneo_referenceentity.infrastructure.connector.api.record_value_validator_registry',
+            'akeneo_referenceentity.infrastructure.persistence.record.hydrator.data_hydrator_registry',
+            'akeneo_referenceentity.application.registry.edit_record.record_value_updater.record_value_updater_registry',
+            'akeneo_referenceentity.application.registry.record.edit_record_value_command_factory_registry',
+            'akeneo_referenceentity.application.registry.create_attribute_command_factory_registry',
+            'akeneo_referenceentity.application.registry.edit_attribute_command_factory_registry',
+            'akeneo_referenceentity.application.edit_attribute.attribute_updater.attribute_updater_registry',
+            'akeneo_referenceentity.application.registry.attribute_factory',
+            'akeneo_referenceentity.infrastructure.persistence.attribute.hydrator.attribute_hydrator_registry',
+            'akeneo_referenceentity.infrastructure.connector.api.create.attribute_creation_validator',
+            'akeneo_referenceentity.infrastructure.connector.api.edit.attribute_edition_validator',
+            'akeneo_referenceentity.job.array_converter.standard_to_flat.reference_entity_record',
         ];
         $container->addCompilerPass(new PublicServiceCompilerPass($serviceIds));
 

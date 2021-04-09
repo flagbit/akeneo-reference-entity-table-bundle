@@ -67,5 +67,11 @@
                  class="Flagbit\Bundle\ReferenceEntityTableBundle\Record\TableConnectorValueTransformer">
             <tag name="akeneo_referenceentity.connector_value_transformer"/>
         </service>
+
+        <!-- Export -->
+        <service id="akeneo_referenceentity.job.array_converter.standard_to_flat.reference_entity_record"
+                 class="Flagbit\Bundle\ReferenceEntityTableBundle\Connector\ArrayConverter\StandardToFlat\Record">
+            <argument type="service" id="akeneo_referenceentity.infrastructure.persistence.repository.attribute" />
+        </service>
     </services>
 </container>
