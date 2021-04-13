@@ -2,6 +2,7 @@ import { Type, ConfigChangeState } from './type';
 import referenceEntityFetcher from 'akeneoreferenceentity/infrastructure/fetcher/reference-entity';
 import ReferenceEntityListItem from 'akeneoreferenceentity/domain/model/reference-entity/list';
 import React from 'react';
+const userContext = require('pim/user-context');
 
 interface RefEntitySelectProp {
     ref_entity_code: string;
@@ -19,7 +20,7 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
             refEntities.map((option) => {
                 options.push({
                     code: option.getIdentifier().stringValue(),
-                    name: option.getIdentifier().stringValue(),
+                    name: option.getLabel(userContext.get('catalogLocale')),
                 });
             });
 

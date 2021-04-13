@@ -2,8 +2,9 @@ import { Type, RecordChangeState } from './type';
 import React from 'react';
 import { RefEntityConfig } from '../../../attribute/table/type/single-reference-entity';
 import recordFetcher from 'akeneoreferenceentity/infrastructure/fetcher/record';
-import { Query } from "akeneoreferenceentity/domain/fetcher/fetcher";
-
+import { Query, SearchResult } from "akeneoreferenceentity/domain/fetcher/fetcher";
+import { NormalizedItemRecord } from 'akeneoreferenceentity/domain/model/record/record';
+const userContext = require('pim/user-context');
 
 interface RefEntitySelectProp {
     ref_entity_code: string;
@@ -24,13 +25,20 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
                 value: this.props.ref_entity_code,
             }
         ];
-        const query: Query = {channel: 'ecommerce', filters: filter, locale: 'en_US', page: 0, size: 1000};
-        recordFetcher.search(query).then((refEntities) => {
+        const query: Query = {
+            channel: userContext.get('catalogScope'),
+            filters: filter,
+            locale: userContext.get('catalogLocale'),
+            page: 0,
+            size: 1000
+        };
+
+        recordFetcher.search(query).then((refEntities: SearchResult<NormalizedItemRecord>) => {
             const options: { code: string; name: string }[] = [];
             refEntities.items.map((option) => {
                 options.push({
                     code: option.code,
-                    name: option.code,
+                    name: option.labels[userContext.get('catalogLocale')] || `[${option.code}]`,
                 });
             });
 
