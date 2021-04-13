@@ -62,6 +62,11 @@
                 <target>Einfachauswahl (mehrsprachig)</target>
             </trans-unit>
 
+            <trans-unit id="flagbit_reference_entity_table_attribute_column_type_single_reference_entity">
+                <source>flagbit_reference_entity_table.attribute.column_type.single_reference_entity</source>
+                <target>Einfachauswahl Reference Entity</target>
+            </trans-unit>
+
             <trans-unit id="flagbit_reference_entity_table_attribute_column_type_number_label_decimal">
                 <source>flagbit_reference_entity_table.attribute.column_type.number.label.decimal</source>
                 <target>Dezimal</target>
