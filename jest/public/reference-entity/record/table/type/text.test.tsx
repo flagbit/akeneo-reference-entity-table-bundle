@@ -1,4 +1,5 @@
-import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
+import TextType from '../../../../../../src/Resources/public/reference-entity/record/table/type/text';
+import { RecordChangeState } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
 import { shallow } from 'enzyme';
@@ -38,7 +39,7 @@ describe('Text type', function () {
 });
 
 function renderType(rowData, onchange: (code: string, value: any, index: number) => void) {
-    const RecordType = () => FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange));
+    const RecordType = () => new TextType('text').render(createRecordChangeState(rowData, onchange));
 
     return shallow(<RecordType />);
 }

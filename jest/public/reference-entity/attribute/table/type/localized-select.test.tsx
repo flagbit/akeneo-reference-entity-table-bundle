@@ -1,4 +1,6 @@
-import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/localized-select';
+import LocalizedSelect, {
+    SelectConfig,
+} from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/localized-select';
 import Locale, { ConcreteLocale } from 'akeneoreferenceentity/domain/model/locale';
 import renderType from './test-helper';
 import * as React from 'react';
@@ -9,7 +11,7 @@ describe('Localized Simple Select type', function () {
     test('Default rendering', function () {
         const onchange = jest.fn();
 
-        const renderedRecordType = renderType({} as SelectConfig, 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType({} as SelectConfig, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual({ options: [] });
@@ -33,7 +35,7 @@ describe('Localized Simple Select type', function () {
     });
 
     test('Render options', function () {
-        const renderedRecordType = renderType(getOptions(), 'simple_select_localized', jest.fn(), createLocales());
+        const renderedRecordType = renderType(getOptions(), new LocalizedSelect('simple_select_localized'), jest.fn(), createLocales());
 
         const tr = renderedRecordType.find('tbody').find('tr');
         expect(tr.length).toBe(2);
@@ -52,7 +54,7 @@ describe('Localized Simple Select type', function () {
 
     test('Change option value', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType(getOptions(), 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType(getOptions(), new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         const tr = renderedRecordType.find('tbody').find('tr');
         const input = tr.find('input');
@@ -74,7 +76,7 @@ describe('Localized Simple Select type', function () {
         // @ts-ignore PHP encodes an empty array instead of object
         options.options[1].values = [];
 
-        const renderedRecordType = renderType(options, 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType(options, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         const tr = renderedRecordType.find('tbody').find('tr');
         const input = tr.find('input');
@@ -92,7 +94,7 @@ describe('Localized Simple Select type', function () {
 
     test('Change option code', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType(getOptions(), 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType(getOptions(), new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         const tr = renderedRecordType.find('tbody').find('tr');
         const input = tr.find('input');
@@ -111,7 +113,7 @@ describe('Localized Simple Select type', function () {
     test('Open modal', function () {
         const onchange = jest.fn();
 
-        const renderedRecordType = renderType({} as SelectConfig, 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType({} as SelectConfig, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         const buttons = renderedRecordType.find('button');
         buttons.first().simulate('click');
@@ -124,7 +126,7 @@ describe('Localized Simple Select type', function () {
     test('Close modal', function () {
         const onchange = jest.fn();
 
-        const renderedRecordType = renderType({} as SelectConfig, 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType({} as SelectConfig, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         const buttons = renderedRecordType.find('button');
         buttons.first().simulate('click'); // open modal
@@ -137,7 +139,7 @@ describe('Localized Simple Select type', function () {
 
     test('Remove row', function () {
         const onchange = jest.fn();
-        const renderedRecordType = renderType(getOptions(), 'simple_select_localized', onchange, createLocales());
+        const renderedRecordType = renderType(getOptions(), new LocalizedSelect('simple_select_localized'), onchange, createLocales());
 
         const removeButton = renderedRecordType.find('.AknOptionEditor-remove');
         removeButton.at(0).simulate('click');
