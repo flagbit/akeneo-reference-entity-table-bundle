@@ -4,12 +4,7 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import { Type } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/type';
 
-function renderType(
-    config,
-    type: Type,
-    onchange: (config: object, index: number) => void,
-    supportedLocales: Locale[] = []
-) {
+function renderType(config, type: Type, onchange: (config: object, index: number) => void, supportedLocales: Locale[] = []) {
     const configChangeState: ConfigChangeState = {
         typeCode: type.typeCode,
         updateConfig: onchange,

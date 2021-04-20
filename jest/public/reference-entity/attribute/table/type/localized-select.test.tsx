@@ -11,7 +11,12 @@ describe('Localized Simple Select type', function () {
     test('Default rendering', function () {
         const onchange = jest.fn();
 
-        const renderedRecordType = renderType({} as SelectConfig, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
+        const renderedRecordType = renderType(
+            {} as SelectConfig,
+            new LocalizedSelect('simple_select_localized'),
+            onchange,
+            createLocales()
+        );
 
         expect(onchange.mock.calls.length).toBe(1);
         expect(onchange.mock.calls[0][0]).toStrictEqual({ options: [] });
@@ -113,7 +118,12 @@ describe('Localized Simple Select type', function () {
     test('Open modal', function () {
         const onchange = jest.fn();
 
-        const renderedRecordType = renderType({} as SelectConfig, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
+        const renderedRecordType = renderType(
+            {} as SelectConfig,
+            new LocalizedSelect('simple_select_localized'),
+            onchange,
+            createLocales()
+        );
 
         const buttons = renderedRecordType.find('button');
         buttons.first().simulate('click');
@@ -126,7 +136,12 @@ describe('Localized Simple Select type', function () {
     test('Close modal', function () {
         const onchange = jest.fn();
 
-        const renderedRecordType = renderType({} as SelectConfig, new LocalizedSelect('simple_select_localized'), onchange, createLocales());
+        const renderedRecordType = renderType(
+            {} as SelectConfig,
+            new LocalizedSelect('simple_select_localized'),
+            onchange,
+            createLocales()
+        );
 
         const buttons = renderedRecordType.find('button');
         buttons.first().simulate('click'); // open modal

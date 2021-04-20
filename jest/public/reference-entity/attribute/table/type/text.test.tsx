@@ -1,6 +1,6 @@
 import * as React from 'react';
 import renderType from './test-helper';
-import TextType from "../../../../../../src/Resources/public/reference-entity/attribute/table/type/text";
+import TextType from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/text';
 
 jest.mock('akeneoreferenceentity/tools/translator');
 
