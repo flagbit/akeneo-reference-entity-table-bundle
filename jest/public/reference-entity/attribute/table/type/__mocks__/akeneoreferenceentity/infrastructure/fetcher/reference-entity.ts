@@ -1,13 +1,5 @@
 import ReferenceEntityListItem from 'akeneoreferenceentity/domain/model/reference-entity/list';
 import Identifier from 'akeneoreferenceentity/domain/model/reference-entity/identifier';
-// import ReferenceEntityListItem, {
-//     denormalizeReferenceEntityListItem,
-//     NormalizedReferenceEntityListItem
-// } from "akeneoreferenceentity/domain/model/reference-entity/list";
-// import Identifier
-//     from "akeneoreferenceentity/domain/model/identifier";
-// import File
-//     from "akeneoreferenceentity/domain/model/file";
 
 class ReferenceEntityListItemImpl {
     constructor(readonly code: string, readonly labels: object) {}
@@ -20,14 +12,12 @@ class ReferenceEntityListItemImpl {
         return this.labels[locale];
     }
 
-    // File
     getImage(): any {}
 
     equals(referenceEntityListItem: ReferenceEntityListItem): boolean {
         return true;
     }
 
-    // NormalizedReferenceEntityListItem
     normalize(): any {}
 }
 

@@ -4,7 +4,6 @@ import { RefEntityConfig } from '../../../../../../src/Resources/public/referenc
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 const userContent = { catalogLocale: 'de_DE', catalogScope: 'ecommerce' };
 jest.mock(

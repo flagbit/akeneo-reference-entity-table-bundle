@@ -3,8 +3,7 @@ import SingleReferenceEntityType, {
     RefEntityConfig,
 } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/single-reference-entity';
 import * as React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 const userContent = { catalogLocale: 'de_DE', catalogScope: 'ecommerce' };
 jest.mock(
