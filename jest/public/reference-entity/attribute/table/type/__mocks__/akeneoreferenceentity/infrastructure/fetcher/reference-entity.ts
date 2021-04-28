@@ -1,4 +1,5 @@
 import ReferenceEntityListItem from 'akeneoreferenceentity/domain/model/reference-entity/list';
+import Identifier from 'akeneoreferenceentity/domain/model/reference-entity/identifier';
 // import ReferenceEntityListItem, {
 //     denormalizeReferenceEntityListItem,
 //     NormalizedReferenceEntityListItem
@@ -9,11 +10,14 @@ import ReferenceEntityListItem from 'akeneoreferenceentity/domain/model/referenc
 //     from "akeneoreferenceentity/domain/model/file";
 
 class ReferenceEntityListItemImpl {
-    // Identifier
-    getIdentifier(): any {}
+    constructor(readonly code: string, readonly labels: object) {}
+
+    getIdentifier(): Identifier {
+        return Identifier.create(this.code);
+    }
 
     getLabel(locale: string, fallbackOnCode?: boolean): string {
-        return 'label';
+        return this.labels[locale];
     }
 
     // File
@@ -27,10 +31,13 @@ class ReferenceEntityListItemImpl {
     normalize(): any {}
 }
 
-class Foo {
+class referenceEntityFetcher {
     async fetchAll(): Promise<ReferenceEntityListItem[]> {
-        return [new ReferenceEntityListItemImpl(), new ReferenceEntityListItemImpl()];
+        return [
+            new ReferenceEntityListItemImpl('code1', { de_DE: 'label1', en_US: 'label11' }),
+            new ReferenceEntityListItemImpl('code2', { de_DE: 'label2', en_US: 'label22' }),
+        ];
     }
 }
 
-export default new Foo();
+export default new referenceEntityFetcher();

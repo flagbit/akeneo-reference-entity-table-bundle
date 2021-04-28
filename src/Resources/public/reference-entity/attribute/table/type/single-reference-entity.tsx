@@ -2,7 +2,6 @@ import { Type, ConfigChangeState } from './type';
 import referenceEntityFetcher from 'akeneoreferenceentity/infrastructure/fetcher/reference-entity';
 import ReferenceEntityListItem from 'akeneoreferenceentity/domain/model/reference-entity/list';
 import React from 'react';
-const userContext = require('pim/user-context');
 
 interface RefEntitySelectProp {
     ref_entity_code: string;
@@ -15,6 +14,8 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
     };
 
     componentDidMount() {
+        const userContext = require('pim/user-context');
+
         referenceEntityFetcher.fetchAll().then((refEntities: ReferenceEntityListItem[]) => {
             const options: { code: string; name: string }[] = [];
             refEntities.map((option) => {

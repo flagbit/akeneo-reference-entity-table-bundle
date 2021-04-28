@@ -4,7 +4,6 @@ import { RefEntityConfig } from '../../../attribute/table/type/single-reference-
 import recordFetcher from 'akeneoreferenceentity/infrastructure/fetcher/record';
 import { Query, SearchResult } from "akeneoreferenceentity/domain/fetcher/fetcher";
 import { NormalizedItemRecord } from 'akeneoreferenceentity/domain/model/record/record';
-const userContext = require('pim/user-context');
 
 interface RefEntitySelectProp {
     ref_entity_code: string;
@@ -18,6 +17,8 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
     };
 
     componentDidMount() {
+        const userContext = require('pim/user-context');
+
         const filter = [
             {
                 field: 'reference_entity',
@@ -35,7 +36,7 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
 
         recordFetcher.search(query).then((refEntities: SearchResult<NormalizedItemRecord>) => {
             const options: { code: string; name: string }[] = [];
-            refEntities.items.map((option) => {
+            refEntities.items.map((option: NormalizedItemRecord) => {
                 options.push({
                     code: option.code,
                     name: option.labels[userContext.get('catalogLocale')] || `[${option.code}]`,
