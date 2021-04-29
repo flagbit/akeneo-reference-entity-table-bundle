@@ -31,16 +31,16 @@ describe('Single Reference Entity type', function () {
 
         const optionList = await waitFor(() => container.getElementsByTagName('option'));
 
-        expect(optionList.length).toBe(3);
+        expect(optionList.length).toBe(4);
 
-        expect(optionList[0].value).toBe('foo');
-        expect(optionList[0].textContent).toBe('A');
+        expect(optionList[1].value).toBe('foo');
+        expect(optionList[1].textContent).toBe('A');
 
-        expect(optionList[1].value).toBe('bar');
-        expect(optionList[1].textContent).toBe('B');
+        expect(optionList[2].value).toBe('bar');
+        expect(optionList[2].textContent).toBe('B');
 
-        expect(optionList[2].value).toBe('baz');
-        expect(optionList[2].textContent).toBe('C');
+        expect(optionList[3].value).toBe('baz');
+        expect(optionList[3].textContent).toBe('C');
     });
 
     test('Rendering with saved value', async function () {

@@ -34,9 +34,10 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
     render() {
         return (
             <select value={this.props.ref_entity_code} onChange={this.props.update_state}>
+                {this.state.options.length !== 0 ? (<option>{''}</option>) : ''}
                 {this.state.options.map((refEntity: { code: string; name: string }, index: number) => {
                     return (
-                        <option key={`test_${refEntity.code}_${index}`} value={refEntity.code}>
+                        <option key={`single_reference_entity_${refEntity.code}_${index}`} value={refEntity.code}>
                             {refEntity.name}
                         </option>
                     );

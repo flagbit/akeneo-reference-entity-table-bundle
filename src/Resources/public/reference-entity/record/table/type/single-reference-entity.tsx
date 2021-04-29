@@ -46,12 +46,17 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
             this.setState({
                 options: options,
             });
+        }).catch(() => {
+            this.setState({
+                options: [],
+            });
         });
     }
 
     render() {
         return (
             <select value={this.props.record} onChange={this.props.update_state}>
+                {this.state.options.length !== 0 ? (<option>{''}</option>) : ''}
                 {this.state.options.map((refEntity: { code: string; name: string }, index: number) => {
                     return (
                         <option key={`test_${refEntity.code}_${index}`} value={refEntity.code}>
