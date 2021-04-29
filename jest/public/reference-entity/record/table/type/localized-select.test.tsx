@@ -28,16 +28,16 @@ describe('Localized Simple Select type', function () {
 
         const optionList = renderedRecordType.find('select').find('option');
 
-        expect(optionList.length).toBe(3);
+        expect(optionList.length).toBe(4);
 
-        expect(optionList.at(0).props().value).toBe('foo');
-        expect(optionList.at(0).text()).toBe('Das A');
+        expect(optionList.at(1).props().value).toBe('foo');
+        expect(optionList.at(1).text()).toBe('Das A');
 
-        expect(optionList.at(1).props().value).toBe('bar');
-        expect(optionList.at(1).text()).toBe('Das B');
+        expect(optionList.at(2).props().value).toBe('bar');
+        expect(optionList.at(2).text()).toBe('Das B');
 
-        expect(optionList.at(2).props().value).toBe('baz');
-        expect(optionList.at(2).text()).toBe('Das C');
+        expect(optionList.at(3).props().value).toBe('baz');
+        expect(optionList.at(3).text()).toBe('Das C');
     });
 
     test('Show code in option if no value is given', function () {
@@ -48,10 +48,10 @@ describe('Localized Simple Select type', function () {
 
         const optionList = renderedRecordType.find('select').find('option');
 
-        expect(optionList.length).toBe(1);
+        expect(optionList.length).toBe(2);
 
-        expect(optionList.at(0).props().value).toBe('foo');
-        expect(optionList.at(0).text()).toBe('[foo]');
+        expect(optionList.at(1).props().value).toBe('foo');
+        expect(optionList.at(1).text()).toBe('[foo]');
     });
 
     test('Rendering with saved value', function () {
