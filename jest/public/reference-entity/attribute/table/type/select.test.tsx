@@ -1,12 +1,12 @@
 import * as React from 'react';
 import renderType from './test-helper';
-import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/select';
+import SelectType, { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/select';
 
 jest.mock('akeneoreferenceentity/tools/translator');
 
 describe('Text type', function () {
     test('Default rendering', function () {
-        const renderedAttributeType = renderType({}, 'simple_select', jest.fn());
+        const renderedAttributeType = renderType({}, new SelectType('simple_select'), jest.fn());
 
         const emptyOptionFields = renderedAttributeType.find('tbody').find('td').find('input');
 
@@ -23,7 +23,7 @@ describe('Text type', function () {
 
     test('Add empty option row on open modal and add them to React state', function () {
         const onchange = jest.fn();
-        const renderedAttributeType = renderType({}, 'simple_select', onchange);
+        const renderedAttributeType = renderType({}, new SelectType('simple_select'), onchange);
 
         const modalButton = renderedAttributeType.find('button').at(0);
         modalButton.simulate('click');
@@ -38,7 +38,7 @@ describe('Text type', function () {
     test('Change value of row 1', function () {
         const onchange = jest.fn();
         const config: SelectConfig = { options: [{ code: 'code', value: 'oldvalue' }] };
-        const renderedAttributeType = renderType(config, 'simple_select', onchange);
+        const renderedAttributeType = renderType(config, new SelectType('simple_select'), onchange);
 
         const firstRowValueField = renderedAttributeType.find('tbody').find('input').at(1);
         firstRowValueField.simulate('change', { target: { value: 'foo' } });
@@ -58,7 +58,7 @@ describe('Text type', function () {
     test('Change code of row 1', function () {
         const onchange = jest.fn();
         const config: SelectConfig = { options: [{ code: 'oldcode', value: 'value' }] };
-        const renderedAttributeType = renderType(config, 'simple_select', onchange);
+        const renderedAttributeType = renderType(config, new SelectType('simple_select'), onchange);
 
         const firstRowValueField = renderedAttributeType.find('tbody').find('input').at(0);
         firstRowValueField.simulate('change', { target: { value: 'code' } });
@@ -93,7 +93,7 @@ describe('Text type', function () {
                 },
             ],
         };
-        const renderedAttributeType = renderType(config, 'simple_select', onchange);
+        const renderedAttributeType = renderType(config, new SelectType('simple_select'), onchange);
 
         const closeButton = renderedAttributeType.find('tbody').find('Close').at(1);
         closeButton.simulate('click');
@@ -134,7 +134,7 @@ describe('Text type', function () {
                 },
             ],
         };
-        const renderedAttributeType = renderType(config, 'simple_select', onchange);
+        const renderedAttributeType = renderType(config, new SelectType('simple_select'), onchange);
 
         const confirmChanges = renderedAttributeType.find('button.ok');
         confirmChanges.simulate('click');

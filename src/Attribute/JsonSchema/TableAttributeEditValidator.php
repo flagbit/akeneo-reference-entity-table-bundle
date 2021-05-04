@@ -75,7 +75,13 @@ class TableAttributeEditValidator implements AttributeValidatorInterface
                             ],
                             'type' => [
                                 'type' => ['string'],
-                                'enum' => ['text', 'number', 'simple_select', 'simple_select_localized'],
+                                'enum' => [
+                                    'text',
+                                    'number',
+                                    'simple_select',
+                                    'simple_select_localized',
+                                    'single_reference_entity'
+                                ],
                             ],
                             'validations' => [
                                 'minItems' => 0,

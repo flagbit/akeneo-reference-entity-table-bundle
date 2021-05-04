@@ -1,4 +1,5 @@
-import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
+import NumberType from '../../../../../../src/Resources/public/reference-entity/record/table/type/number';
+import { RecordChangeState } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import { NumberConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/number';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
@@ -48,8 +49,7 @@ describe('Number type', function () {
 });
 
 function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = {}) {
-    const RecordType = () =>
-        FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as NumberConfig));
+    const RecordType = () => new NumberType('number').render(createRecordChangeState(rowData, onchange, config as NumberConfig));
 
     return shallow(<RecordType />);
 }

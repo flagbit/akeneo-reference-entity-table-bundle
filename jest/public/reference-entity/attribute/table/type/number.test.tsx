@@ -1,12 +1,12 @@
 import * as React from 'react';
 import renderType from './test-helper';
-import { NumberConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/number';
+import NumberType, { NumberConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/number';
 
 jest.mock('akeneoreferenceentity/tools/translator');
 
 describe('Text type', function () {
     test('Default rendering', function () {
-        const renderedAttributeType = renderType({}, 'number', jest.fn());
+        const renderedAttributeType = renderType({}, new NumberType('number'), jest.fn());
 
         const select = renderedAttributeType.find('select');
         const optionList = select.find('option');
@@ -18,7 +18,7 @@ describe('Text type', function () {
     });
 
     test('Pre-set config', function () {
-        const renderedAttributeType = renderType({ decimal: 'true' }, 'number', jest.fn());
+        const renderedAttributeType = renderType({ decimal: 'true' }, new NumberType('number'), jest.fn());
 
         const select = renderedAttributeType.find('select');
 
@@ -27,7 +27,7 @@ describe('Text type', function () {
 
     test('Change decimal config', function () {
         const onchange = jest.fn();
-        const renderedAttributeType = renderType({}, 'number', onchange);
+        const renderedAttributeType = renderType({}, new NumberType('number'), onchange);
 
         const select = renderedAttributeType.find('select');
 

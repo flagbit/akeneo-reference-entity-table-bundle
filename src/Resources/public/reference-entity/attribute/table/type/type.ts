@@ -2,6 +2,7 @@ import Text from './text';
 import Number from './number';
 import Select from './select';
 import LocalizedSelect from './localized-select';
+import SingleReferenceEntity from './single-reference-entity';
 import Locale from 'akeneoreferenceentity/domain/model/locale';
 
 // Export for custom implementations
@@ -76,5 +77,6 @@ export namespace FlagbitTableTypes {
         new SimpleTypeFactory('number', Number),
         new SimpleTypeFactory('simple_select', Select),
         new SimpleTypeFactory('simple_select_localized', LocalizedSelect),
+        new SimpleTypeFactory('single_reference_entity', SingleReferenceEntity),
     ]);
 }

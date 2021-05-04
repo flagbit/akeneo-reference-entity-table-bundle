@@ -41,7 +41,7 @@ jobs:
         run: "yarn ts-unused-exports tsconfig.json $(find src/Resources/public -name '*.ts*') --showLineNumber"
 
       - name: "Typescript linting"
-        run: "yarn tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx"
+        run: "yarn tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx src/Resources/public/**/**/*.tsx"
 
       - name: "Coding Style"
         run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx jest/**/*.ts jest/**/*.tsx"

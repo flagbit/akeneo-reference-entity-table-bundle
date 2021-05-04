@@ -11,7 +11,13 @@ describe('TypeRegistry', function () {
     });
 
     test('getSelectValues()', function () {
-        const expected = [{ code: 'text' }, { code: 'number' }, { code: 'simple_select' }, { code: 'simple_select_localized' }];
+        const expected = [
+            { code: 'text' },
+            { code: 'number' },
+            { code: 'simple_select' },
+            { code: 'simple_select_localized' },
+            { code: 'single_reference_entity' },
+        ];
 
         expect(FlagbitTableTypes.typeRegistry.getSelectValues()).toStrictEqual(expected);
     });

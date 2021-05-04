@@ -10,5 +10,8 @@ module.exports = {
     transform: {
         "^.+\\.(ts|tsx)$": "ts-jest"
     },
-    setupFiles: [`<rootDir>/vendor/akeneo/pim-community-dev/tests/front/unit/jest/enzyme.js`],
+    setupFiles: [
+        `<rootDir>/vendor/akeneo/pim-community-dev/tests/front/unit/jest/enzyme.js`,
+        `<rootDir>/jest/mock-fix.ts`
+    ],
 };

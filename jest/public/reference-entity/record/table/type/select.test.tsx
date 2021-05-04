@@ -1,4 +1,5 @@
-import { RecordChangeState, FlagbitTableRecordTypes } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
+import SelectType from '../../../../../../src/Resources/public/reference-entity/record/table/type/select';
+import { RecordChangeState } from '../../../../../../src/Resources/public/reference-entity/record/table/type/type';
 import { SelectConfig } from '../../../../../../src/Resources/public/reference-entity/attribute/table/type/select';
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
@@ -63,8 +64,7 @@ describe('Simple Select type', function () {
 });
 
 function renderType(rowData, onchange: (code: string, value: any, index: number) => void, config = { options: [] }) {
-    const RecordType = () =>
-        FlagbitTableRecordTypes.typeRegistry.render(createRecordChangeState(rowData, onchange, config as SelectConfig));
+    const RecordType = () => new SelectType('selection').render(createRecordChangeState(rowData, onchange, config as SelectConfig));
 
     return shallow(<RecordType />);
 }
