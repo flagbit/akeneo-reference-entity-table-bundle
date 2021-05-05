@@ -5,3 +5,4 @@ imports:
     - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/services/pim_parameters.yml' }
     - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/packages/monolog.yml' }
     - { resource: '../../../vendor/akeneo/pim-enterprise-dev/config/packages/test/messenger.yml' }
+    - { resource: '../../../vendor/symfony/framework-bundle/Resources/config/test.xml' }

@@ -7,6 +7,7 @@ use Akeneo\ReferenceEntity\Domain\Model\Attribute\AttributeIdentifier;
 use Akeneo\ReferenceEntity\Domain\Model\ReferenceEntity\ReferenceEntityIdentifier;
 use Akeneo\ReferenceEntity\Domain\Query\Attribute\GetAttributeIdentifierInterface;
 use Akeneo\ReferenceEntity\Domain\Repository\AttributeRepositoryInterface;
+use Akeneo\ReferenceEntity\Infrastructure\Connector\Api\Attribute\JsonSchema\Edit\AttributeEditionValidator;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CommandFactory\CreateTableAttributeCommandFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CommandFactory\EditTableAttributeCommandFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Command\CreateTableAttributeCommand;
@@ -16,6 +17,7 @@ use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeFactory;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\TableAttributeHydrator;
 use Flagbit\Bundle\ReferenceEntityTableBundle\Attribute\Updater\TableAttributeUpdater;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\Container;
 
 class AttributeTagsTest extends KernelTestCase
 {
@@ -98,26 +100,35 @@ class AttributeTagsTest extends KernelTestCase
         $referenceEntityId = ReferenceEntityIdentifier::fromString('ref');
         $attributeCode = AttributeCode::fromString('code');
 
-        $this->mockAttributeEditionValidatorDependencyServices();
-
         $registry = self::$container->get('akeneo_referenceentity.infrastructure.connector.api.edit.attribute_edition_validator');
+
+        $this->mockAttributeEditionValidatorDependencyServices($registry);
 
         self::assertCount(0, $registry->validate($referenceEntityId, $attributeCode, $normalizedAttribute));
     }
 
-    private function mockAttributeEditionValidatorDependencyServices()
+    private function mockAttributeEditionValidatorDependencyServices(AttributeEditionValidator $registry)
     {
+        // Current reflection workaround since $container->set() results in an Exception
+        $registryRef = new \ReflectionObject($registry);
+
         $attributeIdentifier = $this->createMock(AttributeIdentifier::class);
 
         $repository = $this->createMock(AttributeRepositoryInterface::class);
         $repository->method('getByIdentifier')
             ->with($attributeIdentifier)
             ->willReturn($this->createMock(TableAttribute::class));
-        self::$container->set('akeneo_referenceentity.infrastructure.persistence.repository.attribute', $repository);
+
+        $attributeRepositoryRef = $registryRef->getProperty('attributeRepository');
+        $attributeRepositoryRef->setAccessible(true);
+        $attributeRepositoryRef->setValue($registry, $repository);
 
         $repository = $this->createMock(GetAttributeIdentifierInterface::class);
         $repository->method('withReferenceEntityAndCode')
             ->willReturn($attributeIdentifier);
-        self::$container->set('akeneo.referencentity.infrastructure.persistence.query.get_attribute_identifier', $repository);
+
+        $attributeIdentifierRef = $registryRef->getProperty('getAttributeIdentifier');
+        $attributeIdentifierRef->setAccessible(true);
+        $attributeIdentifierRef->setValue($registry, $repository);
     }
 }
