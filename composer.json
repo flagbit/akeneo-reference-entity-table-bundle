@@ -12,7 +12,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Flagbit\\Bundle\\ReferenceEntityTableBundle\\Tests\\": "tests/"
+            "Flagbit\\Bundle\\ReferenceEntityTableBundle\\Tests\\": "tests/",
+            "AkeneoTest\\": "vendor/akeneo/pim-community-dev/tests/back"
         }
     },
     "require": {
