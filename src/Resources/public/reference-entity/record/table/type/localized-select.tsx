@@ -16,6 +16,7 @@ export default class LocalizedSelect implements Type {
                     }}
                     value={recordRowData.rowData[recordRowData.tableRow.code] || ''}
                 >
+                    {config.options.length !== 0 ? (<option>{''}</option>) : ''}
                     {config.options.map((option, index: number) => {
                         let value: string = option.code.length === 0 ? '' : '[' + option.code + ']';
                         const locale: string = recordRowData.locale.stringValue();

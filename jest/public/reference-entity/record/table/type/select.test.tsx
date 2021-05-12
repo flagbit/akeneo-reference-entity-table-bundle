@@ -28,16 +28,16 @@ describe('Simple Select type', function () {
 
         const optionList = renderedRecordType.find('select').find('option');
 
-        expect(optionList.length).toBe(3);
+        expect(optionList.length).toBe(4);
 
-        expect(optionList.at(0).props().value).toBe('foo');
-        expect(optionList.at(0).text()).toBe('A');
+        expect(optionList.at(1).props().value).toBe('foo');
+        expect(optionList.at(1).text()).toBe('A');
 
-        expect(optionList.at(1).props().value).toBe('bar');
-        expect(optionList.at(1).text()).toBe('B');
+        expect(optionList.at(2).props().value).toBe('bar');
+        expect(optionList.at(2).text()).toBe('B');
 
-        expect(optionList.at(2).props().value).toBe('baz');
-        expect(optionList.at(2).text()).toBe('C');
+        expect(optionList.at(3).props().value).toBe('baz');
+        expect(optionList.at(3).text()).toBe('C');
     });
 
     test('Rendering with saved value', function () {
