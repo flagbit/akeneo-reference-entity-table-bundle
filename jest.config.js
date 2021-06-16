@@ -12,6 +12,7 @@ module.exports = {
     },
     setupFiles: [
         `<rootDir>/vendor/akeneo/pim-community-dev/tests/front/unit/jest/enzyme.js`,
-        `<rootDir>/jest/mock-fix.ts`
+        `<rootDir>/jest/mock-fix.ts`,
+        `<rootDir>/vendor/akeneo/pim-community-dev/src/Akeneo/Platform/Bundle/UIBundle/Resources/public/lib/select2/select2.js`
     ],
 };

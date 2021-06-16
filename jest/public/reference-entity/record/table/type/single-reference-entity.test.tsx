@@ -15,51 +15,39 @@ jest.mock(
 );
 
 describe('Single Reference Entity type', function () {
-    test('Default rendering', function () {
-        const { container } = renderType({}, jest.fn());
+    test('Default HTML rendering', async function () {
+        const { container } = renderType({ selection: 'foo' }, jest.fn());
 
-        const select = container.getElementsByTagName('select');
-        const options = container.getElementsByTagName('option');
+        const input = container.querySelector('#mycode_1_select');
 
-        expect(select.length).toBe(1);
-        expect(options.length).toBe(0);
-        expect(select.item(0).value).toBe('');
+        expect(input.getAttribute('value')).toBe('foo');
     });
 
     test('Rendering with options', async function () {
         const { container } = renderType({ selection: 'foo' }, jest.fn());
 
-        const optionList = await waitFor(() => container.getElementsByTagName('option'));
+        const asyncContainer = await waitFor(() => container);
+        const a = await waitFor(() => asyncContainer.getElementsByTagName('a').item(0));
 
-        expect(optionList.length).toBe(4);
+        fireEvent.mouseDown(a);
 
-        expect(optionList[1].value).toBe('foo');
-        expect(optionList[1].textContent).toBe('A');
+        const optionList = window.document.querySelectorAll('.select2-results li');
 
-        expect(optionList[2].value).toBe('bar');
-        expect(optionList[2].textContent).toBe('B');
-
-        expect(optionList[3].value).toBe('baz');
-        expect(optionList[3].textContent).toBe('C');
-    });
-
-    test('Rendering with saved value', async function () {
-        const { container } = renderType({ selection: 'foo' }, jest.fn());
-
-        const select = await waitFor(() => container.getElementsByTagName('select'));
-
-        expect(select[0].value).toBe('foo');
+        expect(optionList.length).toBe(3);
+        expect(optionList[0].textContent).toBe('A');
+        expect(optionList[1].textContent).toBe('B');
+        expect(optionList[2].textContent).toBe('C');
     });
 
     test('onChange event', async function () {
         const onchange = jest.fn();
         const { container } = renderType({ code: 'test' }, onchange);
 
-        const select = await waitFor(() => container.getElementsByTagName('select'));
+        const input = await waitFor(() => container.querySelector('#mycode_1_select'));
 
-        fireEvent.change(select[0], { target: { value: 'foo' } });
+        fireEvent.change(input, { target: { value: 'foo' } });
 
-        expect(onchange.mock.calls.length).toBe(1);
+        expect(onchange.mock.calls.length).toBeGreaterThanOrEqual(1);
         expect(onchange.mock.calls[0][0]).toBe('selection');
         expect(onchange.mock.calls[0][1]).toBe('foo');
         expect(onchange.mock.calls[0][2]).toBe(1);
@@ -69,7 +57,7 @@ describe('Single Reference Entity type', function () {
 function renderType(
     rowData,
     onchange: (code: string, value: any, index: number) => void,
-    config: RefEntityConfig = { ref_entity_code: '' }
+    config: RefEntityConfig = { ref_entity_code: 'mycode' }
 ) {
     const RecordType = () =>
         new SingleReferenceEntityType('single_reference_entity').render(
