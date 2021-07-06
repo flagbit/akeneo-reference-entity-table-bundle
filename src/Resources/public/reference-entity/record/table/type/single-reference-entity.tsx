@@ -16,6 +16,10 @@ interface RefEntitySelectProp {
 class RefEntitySelect extends React.Component<RefEntitySelectProp> {
     rendered = false;
 
+    componentDidUpdate() {
+        $(`#${this.props.id}`).trigger('change.select2');
+    }
+
     componentDidMount() {
         const userContext = require('pim/user-context');
 
@@ -75,7 +79,7 @@ export default class SingleReferenceEntity implements Type {
         };
 
         return (
-            <React.Fragment key={this.typeCode + recordRowData.index}>
+            <React.Fragment key={this.typeCode + config.ref_entity_code + recordRowData.index}>
                 <RefEntitySelect ref_entity_code={config.ref_entity_code}
                                  update_state={update}
                                  record={recordRowData.rowData[recordRowData.tableRow.code] || ''}
