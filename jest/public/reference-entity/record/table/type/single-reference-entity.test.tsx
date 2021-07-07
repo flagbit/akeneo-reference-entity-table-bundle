@@ -4,6 +4,7 @@ import { RefEntityConfig } from '../../../../../../src/Resources/public/referenc
 import LocaleReference from 'akeneoreferenceentity/domain/model/locale-reference';
 import * as React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import $ from 'jquery';
 
 const userContent = { catalogLocale: 'de_DE', catalogScope: 'ecommerce' };
 jest.mock(
@@ -51,6 +52,16 @@ describe('Single Reference Entity type', function () {
         expect(onchange.mock.calls[0][0]).toBe('selection');
         expect(onchange.mock.calls[0][1]).toBe('foo');
         expect(onchange.mock.calls[0][2]).toBe(1);
+    });
+
+    test('onChange event sets label value', async function () {
+        const { container } = renderType({ code: 'test' }, jest.fn());
+
+        const input = await waitFor(() => container.querySelector('#mycode_1_select'));
+
+        fireEvent.change(input, { target: { value: 'foo' } });
+
+        expect(container.textContent.trim()).toBe('A');
     });
 });
 
