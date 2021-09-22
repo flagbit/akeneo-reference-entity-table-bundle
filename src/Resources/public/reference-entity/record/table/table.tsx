@@ -1,7 +1,5 @@
 import ValueData from 'akeneoreferenceentity/domain/model/record/data';
 
-class InvalidTypeError extends Error {}
-
 export type TableDataRow = {
     [key: string]: any;
 };
@@ -9,10 +7,6 @@ export type TableDataRow = {
 export class TableData extends ValueData {
     private constructor(private tableData: TableDataRow[]) {
         super();
-
-        if ('object' !== typeof tableData) {
-            throw new InvalidTypeError('TableData expects an array as parameter to be created');
-        }
 
         Object.freeze(this);
     }

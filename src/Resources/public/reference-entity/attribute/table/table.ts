@@ -77,10 +77,6 @@ export class ConcreteTableAttribute extends ConcreteAttribute implements TableAt
             is_required
         );
 
-        if (!(table_property instanceof TableProperty)) {
-            throw new Error('Attribute expect a TableProperty as tableProperty');
-        }
-
         Object.freeze(this);
     }
 
