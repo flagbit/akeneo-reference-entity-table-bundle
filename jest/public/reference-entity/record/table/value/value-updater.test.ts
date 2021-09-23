@@ -350,6 +350,44 @@ describe('ValueUpdater', function () {
 
         expect(createInstance).toThrow(Error);
     });
+
+    test('Drag and Drop out of bounds', function () {
+        const tableRows: TableRow[] = [
+            {
+                code: 'my_code1',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+            {
+                code: 'my_code2',
+                labels: {},
+                type: 'text',
+                validations: [],
+                config: {},
+            },
+        ];
+
+        const emptyTableData: TableDataRow[] = [];
+
+        const valueUpdater = new ValueUpdater(createValue(tableRows, emptyTableData), jest.fn());
+
+        const eventDrop = { preventDefault: jest.fn() };
+
+        valueUpdater.createDragStart(300)(null);
+        // @ts-ignore
+        valueUpdater.createDrop(301)(eventDrop);
+
+        const expected = [
+            {
+                my_code1: null,
+                my_code2: null,
+            },
+        ];
+
+        expect(valueUpdater.tableDataRows).toStrictEqual(expected);
+    });
 });
 
 function createValue(tableRows: TableRow[], tableData: TableDataRow[]): Value {

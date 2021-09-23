@@ -48,11 +48,7 @@ class TypeRegistry {
             throw Error('Unknown type code ' + recordRowData.tableRow.type);
         }
 
-        const selectedFactory: TypeFactory | undefined = filteredTypes.pop();
-
-        if (selectedFactory === undefined) {
-            throw Error('"undefined" for type code ' + recordRowData.tableRow.type);
-        }
+        const selectedFactory: TypeFactory = filteredTypes.pop();
 
         return selectedFactory.create().render(recordRowData);
     }
