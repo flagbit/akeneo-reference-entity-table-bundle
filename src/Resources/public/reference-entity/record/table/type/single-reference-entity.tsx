@@ -8,7 +8,7 @@ import { NormalizedItemRecord } from 'akeneoreferenceentity/domain/model/record/
 
 interface RefEntitySelectProp {
     ref_entity_code: string;
-    update_state: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    recordRowData: RecordChangeState
     record: string;
     id: string;
 }
@@ -54,7 +54,7 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
                 data: options,
             });
             // @ts-ignore
-            select2Instance.on('change', this.props.update_state);
+            select2Instance.on('change', this.getOnChangeFunction());
             this.rendered = true;
             if (this.props.record !== '' && this.props.record !== undefined) {
                 select2Instance.val(this.props.record);
@@ -63,8 +63,14 @@ class RefEntitySelect extends React.Component<RefEntitySelectProp> {
         });
     }
 
+    private getOnChangeFunction(): (event: React.ChangeEvent<HTMLInputElement>) => void {
+        return (event: React.ChangeEvent<HTMLInputElement>): void => {
+            this.props.recordRowData.updateValue(this.props.recordRowData.tableRow.code, event.currentTarget.value, this.props.recordRowData.index);
+        };
+    }
+
     render() {
-        return (<input id={this.props.id} value={this.props.record} onChange={this.props.update_state} />);
+        return (<input id={this.props.id} value={this.props.record} onChange={this.getOnChangeFunction()} />);
     }
 }
 
@@ -74,14 +80,10 @@ export default class SingleReferenceEntity implements Type {
     render(recordRowData: RecordChangeState) {
         const config: RefEntityConfig = recordRowData.tableRow.config as RefEntityConfig;
 
-        const update = (event: React.ChangeEvent<HTMLInputElement>): void => {
-            recordRowData.updateValue(recordRowData.tableRow.code, event.currentTarget.value, recordRowData.index);
-        };
-
         return (
             <React.Fragment key={this.typeCode + config.ref_entity_code + recordRowData.index}>
                 <RefEntitySelect ref_entity_code={config.ref_entity_code}
-                                 update_state={update}
+                                 recordRowData={recordRowData}
                                  record={recordRowData.rowData[recordRowData.tableRow.code] || ''}
                                  id={`${config.ref_entity_code}_${recordRowData.index}_select`}
                 />
