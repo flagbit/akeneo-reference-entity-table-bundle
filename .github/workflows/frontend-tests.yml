@@ -35,7 +35,7 @@ jobs:
         run: "composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress"
 
       - name: "yarn install"
-        uses: "borales/actions-yarn@v2.0.0"
+        uses: "borales/actions-yarn@v3.0.0"
         with:
           cmd: "install"
 
