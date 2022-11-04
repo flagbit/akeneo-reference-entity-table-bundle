@@ -33,7 +33,7 @@ jobs:
         run: "composer install --prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress"
 
       - name: "yarn install"
-        uses: "borales/actions-yarn@v2.0.0"
+        uses: "borales/actions-yarn@v3.0.0"
         with:
           cmd: "install"
 
@@ -41,7 +41,7 @@ jobs:
         run: "yarn ts-unused-exports tsconfig.json $(find src/Resources/public -name '*.ts*') --showLineNumber"
 
       - name: "Typescript linting"
-        run: "yarn tslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx src/Resources/public/**/**/*.tsx"
+        run: "yarn eslint src/Resources/public/**/*.ts src/Resources/public/**/*.tsx src/Resources/public/**/**/*.tsx"
 
       - name: "Coding Style"
         run: "yarn prettier --config .prettierrc.json --check src/Resources/public/**/*.ts src/Resources/public/**/*.tsx jest/**/*.ts jest/**/*.tsx"
